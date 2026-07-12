@@ -28,7 +28,7 @@ export function SiteNav() {
   return (
     <header className="sticky top-0 z-50 px-3 md:px-6 pt-4 md:pt-5">
       <div className="mx-auto max-w-7xl">
-        <div className="flex items-center justify-between gap-3 rounded-full bg-nav text-nav-foreground pl-2 pr-2 py-2 shadow-[0_12px_40px_-16px_rgba(0,0,0,0.55)]">
+        <div className="flex items-center justify-between gap-3 rounded-full bg-nav text-nav-foreground pl-2 pr-2 py-2 ring-1 ring-primary-foreground/25 shadow-[0_12px_40px_-16px_rgba(0,0,0,0.7)]">
           <Link to="/" className="flex items-center gap-2 rounded-full pl-2 pr-3 py-1 hover:opacity-90 transition-opacity shrink-0">
             <img src={logoAsset.url} alt="Gotham Halal" className="h-9 md:h-10 w-auto" />
           </Link>
