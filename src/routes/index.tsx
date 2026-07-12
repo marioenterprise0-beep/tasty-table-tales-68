@@ -22,30 +22,30 @@ function Home() {
       <section className="relative">
         <div className="mx-auto max-w-7xl px-5 md:px-8 pt-6 md:pt-10 pb-16 md:pb-24 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-center">
           <div className="md:col-span-7">
-            <div className="text-[11px] md:text-xs font-black uppercase tracking-[0.28em] text-foreground">
-              Halal Smashed Burgers, Loaded Fries, and Dirty Sodas
+            <div className="text-[11px] md:text-xs font-bold uppercase tracking-[0.28em] text-primary-foreground">
+              Halal Smash Burgers · Dirty Sodas · Loaded Fries
             </div>
             <h1 className="mt-8 font-display text-[22vw] md:text-[15rem] leading-[0.85] tracking-tight">
-              <span className="block">Fresh.</span>
-              <span className="block">Pure.</span>
               <span className="block">Halal.</span>
+              <span className="block">Smashed.</span>
+              <span className="block text-primary-foreground">Gotham.</span>
             </h1>
-            <div className="mt-10 max-w-lg space-y-3 text-lg md:text-xl font-bold text-foreground leading-tight uppercase tracking-tight">
-              <p>Smashed burgers, loaded fries, and dirty sodas.</p>
-              <p>Crafted the same way in every kitchen we open.</p>
+            <div className="mt-10 max-w-lg space-y-3 text-lg md:text-xl font-semibold text-foreground/85 leading-snug">
+              <p>Halal beef. Lace-edge smash. House Gotham Sauce.</p>
+              <p>Built for late shifts, long trains, and city nights.</p>
             </div>
             <div className="mt-9 flex flex-wrap gap-3">
               <a
                 href={ORDER_URL}
                 target="_blank"
                 rel="noreferrer"
-                className="rounded-full bg-nav text-nav-foreground px-8 py-4 text-[12px] font-black uppercase tracking-[0.22em] hover:brightness-110 transition"
+                className="rounded-full bg-primary-foreground text-primary px-8 py-4 text-[12px] font-black uppercase tracking-[0.22em] hover:brightness-95 transition"
               >
                 Order Online
               </a>
               <Link
                 to="/menu"
-                className="rounded-full border-2 border-foreground text-foreground px-8 py-4 text-[12px] font-black uppercase tracking-[0.22em] hover:bg-foreground hover:text-background transition"
+                className="rounded-full border-2 border-foreground/70 text-foreground px-8 py-4 text-[12px] font-black uppercase tracking-[0.22em] hover:bg-foreground hover:text-background transition"
               >
                 See the Menu
               </Link>
@@ -53,7 +53,7 @@ function Home() {
           </div>
 
           <div className="md:col-span-5">
-            <MediaSlot label="Burger Stack — swap in hero photo" ratio="portrait" icon="🍔" />
+            <MediaSlot label="Gotham Burger Stack — hero photo" ratio="portrait" icon="🍔" />
           </div>
         </div>
       </section>
