@@ -77,8 +77,9 @@ function Home() {
 
 
       {/* HIGHLIGHTS */}
-      <section className="mx-auto max-w-7xl px-5 md:px-8 pt-8 pb-8 md:pb-16">
+      <section className="mx-auto max-w-7xl px-5 md:px-8 py-20 md:py-28">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+
           {[
             { icon: "🍔", title: "Gotham Burgers", desc: "Smashed lace-edge patties, American cheese, house Gotham Sauce.", to: "/menu" },
             { icon: "🍟", title: "Loaded Fries", desc: "Cheese, seasoned beef, jalapeños, crunch. Built to be shared — or not.", to: "/menu" },
@@ -101,7 +102,8 @@ function Home() {
       </section>
 
       {/* CTA STRIP */}
-      <section className="mx-auto max-w-7xl px-5 md:px-8 pt-4 pb-4">
+      <section className="mx-auto max-w-7xl px-5 md:px-8 pb-6">
+
         <div className="rounded-[2rem] md:rounded-[2.5rem] bg-nav text-nav-foreground p-10 md:p-16 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
           <div>
             <div className="text-[11px] font-black uppercase tracking-[0.3em] text-primary-foreground/70">Skip The Line</div>
