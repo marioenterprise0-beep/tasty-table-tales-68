@@ -1,26 +1,35 @@
-import type { ReactNode } from "react";
+type Ratio = "square" | "wide" | "portrait";
 
-type MediaSlotProps = {
-  label: string;
-  ratio?: "square" | "portrait" | "wide";
-  icon?: ReactNode;
-  className?: string;
-};
+export function MediaSlot({
+  label,
+  ratio = "square",
+  icon = "🍔",
+  tone = "yellow",
+}: {
+  label?: string;
+  ratio?: Ratio;
+  icon?: string;
+  tone?: "yellow" | "dark";
+}) {
+  const aspect =
+    ratio === "wide" ? "aspect-[16/10]" : ratio === "portrait" ? "aspect-[3/4]" : "aspect-square";
 
-const RATIO: Record<NonNullable<MediaSlotProps["ratio"]>, string> = {
-  square: "aspect-square",
-  portrait: "aspect-[3/4]",
-  wide: "aspect-[16/10]",
-};
+  const toneClasses =
+    tone === "dark"
+      ? "bg-nav/95 text-nav-foreground border-nav-foreground/25"
+      : "bg-background text-foreground border-foreground/25";
 
-export function MediaSlot({ label, ratio = "square", icon, className = "" }: MediaSlotProps) {
   return (
     <div
-      className={`${RATIO[ratio]} w-full rounded-md border border-dashed border-primary/40 bg-secondary/40 flex flex-col items-center justify-center gap-3 text-primary/70 ${className}`}
+      className={`relative w-full ${aspect} rounded-3xl border-2 border-dashed ${toneClasses} overflow-hidden flex items-center justify-center`}
     >
-      <div className="text-3xl opacity-80">{icon ?? "▲"}</div>
-      <div className="text-[10px] font-semibold uppercase tracking-[0.3em] text-primary/60">
-        {label}
+      <div className="flex flex-col items-center gap-2 opacity-80">
+        <span className="text-5xl md:text-6xl leading-none">{icon}</span>
+        {label && (
+          <span className="text-[10px] md:text-xs font-black uppercase tracking-[0.25em] text-center px-4">
+            {label}
+          </span>
+        )}
       </div>
     </div>
   );
