@@ -62,45 +62,45 @@
 }
 
 :root {
-  --radius: 9999px;
-  /* Gotham Halal brand: bold yellow, deep espresso-brown ink, jet black */
-  --background: oklch(0.86 0.17 92);
-  --foreground: oklch(0.28 0.08 55);
-  --card: oklch(0.92 0.13 92);
-  --card-foreground: oklch(0.28 0.08 55);
-  --popover: oklch(0.98 0.02 92);
-  --popover-foreground: oklch(0.2 0.03 55);
-  --primary: oklch(0.16 0.02 60);
-  --primary-foreground: oklch(0.9 0.17 92);
-  --secondary: oklch(0.35 0.09 55);
-  --secondary-foreground: oklch(0.95 0.09 92);
-  --muted: oklch(0.82 0.14 92);
-  --muted-foreground: oklch(0.4 0.09 55);
-  --accent: oklch(0.75 0.2 55);
-  --accent-foreground: oklch(0.16 0.02 60);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.28 0.08 55 / 20%);
-  --input: oklch(0.28 0.08 55 / 20%);
-  --ring: oklch(0.28 0.08 55);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
+  --radius: 0.375rem;
+  /* Gotham Halal: jet black, antique gold, off-white ink */
+  --background: oklch(0.14 0.005 60);
+  --foreground: oklch(0.94 0.01 85);
+  --card: oklch(0.19 0.008 70);
+  --card-foreground: oklch(0.94 0.01 85);
+  --popover: oklch(0.19 0.008 70);
+  --popover-foreground: oklch(0.94 0.01 85);
+  --primary: oklch(0.72 0.13 82);
+  --primary-foreground: oklch(0.12 0.005 60);
+  --secondary: oklch(0.24 0.01 70);
+  --secondary-foreground: oklch(0.94 0.01 85);
+  --muted: oklch(0.22 0.008 70);
+  --muted-foreground: oklch(0.68 0.02 85);
+  --accent: oklch(0.72 0.13 82);
+  --accent-foreground: oklch(0.12 0.005 60);
+  --destructive: oklch(0.6 0.22 25);
+  --destructive-foreground: oklch(0.98 0.005 85);
+  --border: oklch(0.72 0.13 82 / 22%);
+  --input: oklch(0.72 0.13 82 / 22%);
+  --ring: oklch(0.72 0.13 82);
+  --chart-1: oklch(0.72 0.13 82);
+  --chart-2: oklch(0.6 0.22 25);
+  --chart-3: oklch(0.55 0.12 60);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.16 0.02 60);
-  --sidebar-foreground: oklch(0.9 0.17 92);
-  --sidebar-primary: oklch(0.9 0.17 92);
-  --sidebar-primary-foreground: oklch(0.16 0.02 60);
-  --sidebar-accent: oklch(0.28 0.08 55);
-  --sidebar-accent-foreground: oklch(0.9 0.17 92);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.9 0.17 92);
+  --sidebar: oklch(0.12 0.005 60);
+  --sidebar-foreground: oklch(0.94 0.01 85);
+  --sidebar-primary: oklch(0.72 0.13 82);
+  --sidebar-primary-foreground: oklch(0.12 0.005 60);
+  --sidebar-accent: oklch(0.24 0.01 70);
+  --sidebar-accent-foreground: oklch(0.94 0.01 85);
+  --sidebar-border: oklch(0.72 0.13 82 / 15%);
+  --sidebar-ring: oklch(0.72 0.13 82);
 }
 
 @theme inline {
-  --font-display: "Bagel Fat One", "Titan One", system-ui, sans-serif;
-  --font-body: "Space Grotesk", system-ui, sans-serif;
+  --font-display: "Anton", "Bebas Neue", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
 }
 
 .dark {
