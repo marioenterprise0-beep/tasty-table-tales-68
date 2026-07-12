@@ -1,5 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useState } from "react";
+import { Instagram, Facebook, Apple, PlayCircle } from "lucide-react";
 import logoAsset from "@/assets/gotham-logo.png.asset.json";
 
 const ORDER_URL = "https://ordergothamhalal.com";
@@ -12,6 +13,14 @@ const NAV = [
   { label: "Contact", to: "/contact" },
 ] as const;
 
+const SOCIALS = [
+  { label: "Instagram", href: "https://instagram.com/gothamhalal", Icon: Instagram },
+  { label: "Facebook", href: "https://facebook.com/gothamhalal", Icon: Facebook },
+  { label: "iOS App", href: "#", Icon: Apple },
+  { label: "Android App", href: "#", Icon: PlayCircle },
+] as const;
+
+
 export function SiteNav() {
   const [open, setOpen] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
@@ -20,11 +29,11 @@ export function SiteNav() {
     <header className="sticky top-0 z-50 px-3 md:px-6 pt-4 md:pt-5">
       <div className="mx-auto max-w-7xl">
         <div className="flex items-center justify-between gap-3 rounded-full bg-nav text-nav-foreground pl-2 pr-2 py-2 shadow-[0_12px_40px_-16px_rgba(0,0,0,0.55)]">
-          <Link to="/" className="flex items-center gap-2 rounded-full px-2 py-1 hover:opacity-90 transition-opacity">
-            <img src={logoAsset.url} alt="Gotham Halal" className="h-9 md:h-11 w-auto" />
+          <Link to="/" className="flex items-center gap-2 rounded-full pl-2 pr-3 py-1 hover:opacity-90 transition-opacity shrink-0">
+            <img src={logoAsset.url} alt="Gotham Halal" className="h-9 md:h-10 w-auto" />
           </Link>
 
-          <nav className="hidden lg:flex items-center gap-7 text-[13px] font-bold uppercase tracking-[0.18em]">
+          <nav className="hidden lg:flex items-center gap-5 xl:gap-7 text-[12px] font-bold uppercase tracking-[0.16em]">
             {NAV.map((n) => {
               const active = n.to === "/" ? pathname === "/" : pathname.startsWith(n.to);
               return (
@@ -39,7 +48,28 @@ export function SiteNav() {
             })}
           </nav>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 md:gap-2">
+            <div className="hidden xl:flex items-center gap-1 pr-1 border-r border-nav-foreground/15 mr-1">
+              {SOCIALS.map(({ label, href, Icon }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={label}
+                  className="inline-flex items-center justify-center w-9 h-9 rounded-full text-nav-foreground/75 hover:text-primary-foreground hover:bg-nav-foreground/10 transition-colors"
+                >
+                  <Icon className="w-4 h-4" />
+                </a>
+              ))}
+              <span
+                aria-label="Halal Certified"
+                title="Halal Certified"
+                className="ml-1 inline-flex items-center justify-center h-8 px-2.5 rounded-full bg-primary-foreground text-primary text-[10px] font-black tracking-[0.15em]"
+              >
+                حلال
+              </span>
+            </div>
             <a
               href={ORDER_URL}
               target="_blank"
@@ -48,6 +78,7 @@ export function SiteNav() {
             >
               Order Now
             </a>
+
             <button
               type="button"
               onClick={() => setOpen((v) => !v)}
