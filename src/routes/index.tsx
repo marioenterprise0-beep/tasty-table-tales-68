@@ -25,7 +25,7 @@ function Home() {
             <div className="text-[11px] md:text-xs font-bold uppercase tracking-[0.28em] text-primary-foreground">
               Halal Smash Burgers · Dirty Sodas · Loaded Fries
             </div>
-            <h1 className="mt-8 font-display text-[22vw] md:text-[15rem] leading-[0.85] tracking-tight">
+            <h1 className="mt-8 font-display text-[20vw] md:text-[11rem] lg:text-[13rem] leading-[0.85] tracking-tight">
               <span className="block">Halal.</span>
               <span className="block">Smashed.</span>
               <span className="block text-primary-foreground">Gotham.</span>
