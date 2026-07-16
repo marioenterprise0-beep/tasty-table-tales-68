@@ -28,6 +28,8 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-nav: var(--nav);
+  --color-nav-foreground: var(--nav-foreground);
 }
 
 :root {
@@ -36,8 +38,6 @@
   --foreground: oklch(0.15 0 0);
   --nav: oklch(0.15 0 0);
   --nav-foreground: oklch(0.98 0 0);
-  --color-nav: var(--nav);
-  --color-nav-foreground: var(--nav-foreground);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.15 0 0);
   --popover: oklch(1 0 0);
