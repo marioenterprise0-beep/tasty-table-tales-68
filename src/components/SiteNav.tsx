@@ -6,10 +6,11 @@ const ORDER_URL = "https://ordergothamhalal.com";
 
 const NAV = [
   { label: "Home", to: "/" },
-  { label: "Menu", to: "/menu" },
-  { label: "About", to: "/about" },
-  { label: "Locations", to: "/locations" },
   { label: "Contact", to: "/contact" },
+  { label: "Locations", to: "/locations" },
+  { label: "Media", to: "/media" },
+  { label: "Careers", to: "/careers" },
+  { label: "Franchise", to: "/franchise" },
 ] as const;
 
 const SOCIALS = [
