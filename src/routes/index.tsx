@@ -61,15 +61,11 @@ function Home() {
       {/* ---------------- HERO ---------------- */}
       <section id="home" className="relative isolate overflow-hidden bg-gold scroll-mt-24">
         {/* black right third + ragged transition */}
-        <div className="absolute inset-y-0 right-0 w-full lg:w-[34%] bg-ink" aria-hidden="true" />
-        <SpatterEdge
-          className="absolute inset-y-0 right-[33.5%] hidden lg:block h-full w-[130px] text-ink scale-x-[-1]"
-        />
-        {/* gold field over the left two-thirds (mobile: full black underneath) */}
-        <div className="absolute inset-y-0 left-0 w-full lg:w-[66.5%] bg-gold" aria-hidden="true" />
+        <div className="absolute inset-y-0 right-0 w-full bg-ink lg:w-[34%]" aria-hidden="true" />
+        <SpatterEdge className="absolute inset-y-0 right-[33.6%] hidden h-full w-[140px] scale-x-[-1] text-ink lg:block" />
 
         {/* thin gold bridge line-art, upper right over the black */}
-        <BridgeArch className="pointer-events-none absolute -top-2 right-0 z-10 hidden w-[30%] max-w-[420px] text-gold/70 lg:block" />
+        <BridgeArch className="pointer-events-none absolute right-[2%] top-4 z-10 hidden w-[26%] max-w-[380px] text-gold/75 lg:block" />
 
         <div className="relative z-20 mx-auto grid max-w-[1500px] items-center gap-8 px-5 py-12 md:px-8 lg:grid-cols-[minmax(0,44%)_minmax(0,56%)] lg:py-16">
           {/* ink slab with headline */}
