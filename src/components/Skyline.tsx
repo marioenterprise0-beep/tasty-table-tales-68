@@ -46,9 +46,8 @@ export function BridgeWatermark({ className = "" }: { className?: string }) {
  */
 export function SpatterEdge({ className = "" }: { className?: string }) {
   const dots: Array<[number, number, number]> = [
-    [72, 40, 5], [86, 96, 3], [60, 150, 7], [92, 190, 2.5], [70, 236, 4],
-    [96, 280, 3.5], [58, 322, 6], [88, 366, 2.5], [74, 410, 4.5], [64, 452, 3],
-    [100, 120, 2], [104, 300, 2], [82, 470, 2.5], [110, 220, 1.8], [50, 60, 3],
+    [96, 44, 3], [104, 118, 2], [92, 176, 4], [108, 232, 1.8], [98, 288, 3],
+    [110, 340, 2.2], [90, 396, 3.6], [106, 448, 2], [100, 486, 2.6],
   ];
   return (
     <svg
@@ -59,11 +58,12 @@ export function SpatterEdge({ className = "" }: { className?: string }) {
     >
       <path
         fill="currentColor"
-        d="M0 0h58l-6 18 12 14-9 22 14 10-4 26 10 12-12 20 8 16-14 18 12 14-6 22 10 16-13 18 9 16-11 20 12 14-7 22 10 16-12 18 8 16-10 20 11 14-6 18 8 14-10 16H0z"
+        d="M0 0h84l-8 26 10 18-12 24 9 20-11 22 12 18-9 24 11 20-13 22 10 20-8 22 11 18-12 24 9 20-11 22 12 20-9 22 10 18-8 20 9 20H0z"
       />
       {dots.map(([cx, cy, r], i) => (
-        <circle key={i} cx={cx} cy={cy} r={r} fill="currentColor" />
+        <ellipse key={i} cx={cx} cy={cy} rx={r * 0.6} ry={r} fill="currentColor" />
       ))}
     </svg>
   );
 }
+
