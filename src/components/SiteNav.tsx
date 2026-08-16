@@ -25,7 +25,7 @@ export function SiteNav() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   return (
-    <header className="sticky top-0 z-50 bg-nav text-nav-foreground border-b border-gold/20">
+    <header className="fixed inset-x-0 top-0 z-50 bg-nav/35 text-nav-foreground backdrop-blur-xl backdrop-saturate-150 border-b border-white/10">
       <div className="mx-auto max-w-[1600px] px-4 md:px-8">
         <div className="flex items-center gap-4 h-20 md:h-[88px]">
           <Link to="/" className="shrink-0" aria-label="Gotham Halal home">
@@ -71,11 +71,14 @@ export function SiteNav() {
               href={ORDER_URL}
               target="_blank"
               rel="noreferrer"
-              className="pill-ghost-dark hidden sm:inline-flex px-6 py-2.5 text-[11px]"
+              className="pill-gold hidden sm:inline-flex px-6 py-2.5 text-[11px]"
             >
               Order Now
             </a>
-            <Link to="/locations" className="pill-gold hidden sm:inline-flex px-6 py-2.5 text-[11px]">
+            <Link
+              to="/locations"
+              className="pill-outline hidden sm:inline-flex px-6 py-2.5 text-[11px]"
+            >
               Find a Location
             </Link>
 
@@ -96,7 +99,7 @@ export function SiteNav() {
 
         {open && (
           <div className="xl:hidden pb-4">
-            <ul className="flex flex-col rounded-2xl border border-gold/25 overflow-hidden">
+            <ul className="flex flex-col rounded-2xl border border-gold/25 overflow-hidden bg-nav/90 backdrop-blur-xl">
               {NAV.map((n) => {
                 const active = n.to === "/" ? pathname === "/" : pathname.startsWith(n.to);
                 return (
@@ -112,10 +115,10 @@ export function SiteNav() {
                 );
               })}
               <li className="p-3 flex gap-2">
-                <a href={ORDER_URL} target="_blank" rel="noreferrer" className="pill-ghost-dark flex-1 px-4 py-3 text-[11px]">
+                <a href={ORDER_URL} target="_blank" rel="noreferrer" className="pill-gold flex-1 px-4 py-3 text-[11px]">
                   Order Now
                 </a>
-                <Link to="/locations" onClick={() => setOpen(false)} className="pill-gold flex-1 px-4 py-3 text-[11px]">
+                <Link to="/locations" onClick={() => setOpen(false)} className="pill-outline flex-1 px-4 py-3 text-[11px]">
                   Find a Location
                 </Link>
               </li>
