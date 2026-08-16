@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { BadgeCheck, Leaf, Flame, Building2, Apple, Play } from "lucide-react";
 import { MediaSlot } from "@/components/MediaSlot";
-import { Skyline } from "@/components/Skyline";
 import heroBg from "@/assets/gotham-hero-bg.png.asset.json";
+import footerBand from "@/assets/gotham-footer-band.png.asset.json";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
