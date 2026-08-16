@@ -25,7 +25,7 @@ export function SiteNav() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 bg-nav/35 text-nav-foreground backdrop-blur-xl backdrop-saturate-150 border-b border-white/10">
+    <header className="absolute inset-x-0 top-0 z-50 bg-nav/35 text-nav-foreground backdrop-blur-xl backdrop-saturate-150 border-b border-white/10">
       <div className="mx-auto max-w-[1600px] px-4 md:px-8">
         <div className="flex items-center gap-4 h-20 md:h-[88px]">
           <Link to="/" className="shrink-0" aria-label="Gotham Halal home">
@@ -36,7 +36,7 @@ export function SiteNav() {
             />
           </Link>
 
-          <nav className="hidden xl:flex items-center gap-5 2xl:gap-7 flex-1 justify-center display text-[12px] tracking-[0.08em] whitespace-nowrap">
+          <nav className="hidden lg:flex items-center gap-4 xl:gap-6 flex-1 justify-center display text-[12px] tracking-[0.08em] whitespace-nowrap">
             {NAV.map((n) => {
               const active = n.to === "/" ? pathname === "/" : pathname.startsWith(n.to);
               return (
@@ -51,8 +51,8 @@ export function SiteNav() {
             })}
           </nav>
 
-          <div className="flex items-center gap-2 ml-auto xl:ml-0">
-            <div className="hidden lg:flex items-center gap-1 pr-3">
+          <div className="flex items-center gap-2 ml-auto lg:ml-0">
+            <div className="hidden md:flex items-center gap-1 pr-2">
               {SOCIALS.map(({ label, href, Icon }) => (
                 <a
                   key={label}
@@ -85,7 +85,7 @@ export function SiteNav() {
             <button
               type="button"
               onClick={() => setOpen((v) => !v)}
-              className="xl:hidden inline-flex items-center justify-center w-11 h-11 rounded-full text-gold hover:bg-gold/10"
+              className="lg:hidden inline-flex items-center justify-center w-11 h-11 rounded-full text-gold hover:bg-gold/10"
               aria-label="Toggle menu"
             >
               <span className="flex flex-col gap-1.5">
@@ -98,7 +98,7 @@ export function SiteNav() {
         </div>
 
         {open && (
-          <div className="xl:hidden pb-4">
+          <div className="lg:hidden pb-4">
             <ul className="flex flex-col rounded-2xl border border-gold/25 overflow-hidden bg-nav/90 backdrop-blur-xl">
               {NAV.map((n) => {
                 const active = n.to === "/" ? pathname === "/" : pathname.startsWith(n.to);
