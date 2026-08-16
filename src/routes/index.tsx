@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { BadgeCheck, Leaf, Flame, Building2, Apple, Play } from "lucide-react";
 import { MediaSlot } from "@/components/MediaSlot";
-import { Skyline, BridgeArch } from "@/components/Skyline";
+import { Skyline } from "@/components/Skyline";
+import heroBg from "@/assets/gotham-hero-bg.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -54,25 +55,13 @@ const HIGHLIGHTS = [
 function Home() {
   return (
     <>
-      {/* ---------------- HERO — black left, gold right, ragged edge ---------------- */}
-      <section id="home" className="relative isolate overflow-hidden bg-ink scroll-mt-24">
-        {/* gold panel on the right with a ragged paint edge biting into the black */}
-        <div
-          className="absolute inset-y-0 right-0 hidden w-[62%] bg-gold lg:block"
-          aria-hidden="true"
-          style={{
-            clipPath:
-              "polygon(100% 0%, 100% 100%, 6% 100%, 9% 96%, 5.5% 92%, 8% 88%, 4% 84%, 7% 80%, 3.5% 76%, 6.5% 72%, 3% 68%, 7.5% 64%, 4.5% 60%, 8% 56%, 4% 52%, 6% 48%, 3% 44%, 7% 40%, 4% 36%, 8.5% 32%, 5% 28%, 7.5% 24%, 3.5% 20%, 6.5% 16%, 4% 12%, 8% 8%, 5% 4%, 9% 0%)",
-          }}
-        />
-        {/* spatter flecks trailing into the black */}
-        <span className="absolute left-[36%] top-[18%] hidden size-2.5 rotate-45 bg-gold lg:block" aria-hidden="true" />
-        <span className="absolute left-[34%] top-[42%] hidden size-1.5 rounded-full bg-gold lg:block" aria-hidden="true" />
-        <span className="absolute left-[37%] top-[63%] hidden size-3 rounded-full bg-gold lg:block" aria-hidden="true" />
-        <span className="absolute left-[33.5%] top-[82%] hidden size-2 rounded-full bg-gold lg:block" aria-hidden="true" />
+      {/* ---------------- HERO — grunge black-to-gold artwork background ---------------- */}
+      <section
+        id="home"
+        className="relative isolate overflow-hidden bg-ink bg-[length:100%_100%] bg-center bg-no-repeat scroll-mt-24"
+        style={{ backgroundImage: `url(${heroBg.url})` }}
+      >
 
-        {/* bridge line-art watermark over the gold, upper right */}
-        <BridgeArch className="pointer-events-none absolute right-[8%] top-0 z-0 hidden h-full w-[34%] max-w-[520px] text-gold-foreground/15 lg:block" />
 
         <div className="relative z-20 mx-auto grid max-w-[1500px] items-center gap-8 px-5 py-10 md:px-10 lg:grid-cols-[minmax(0,40%)_minmax(0,60%)] lg:gap-4 lg:py-12">
           <div className="max-w-xl">
