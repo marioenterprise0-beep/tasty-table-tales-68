@@ -36,24 +36,16 @@ const VALUES = [
 const HIGHLIGHTS = [
   {
     name: "Gotham Single Smash",
-    copy: "Single smash patty, American cheese, Gotham Sauce, pickles, onions, lettuce.",
-    icon: "🍔",
-  },
+    copy: "Single smash patty, American cheese, Gotham Sauce, pickles, onions, lettuce.",  },
   {
     name: "Heatwave Double Smash",
-    copy: "Double smash patties, pepperjack cheese, spicy kick sauce, lettuce, jalapeños.",
-    icon: "🔥",
-  },
+    copy: "Double smash patties, pepperjack cheese, spicy kick sauce, lettuce, jalapeños.",  },
   {
     name: "Red Moon Smash Burger",
-    copy: "Double smash patties, Hot Cheetos crunch, jalapeños, Red Moon sauce, lettuce.",
-    icon: "🌙",
-  },
+    copy: "Double smash patties, Hot Cheetos crunch, jalapeños, Red Moon sauce, lettuce.",  },
   {
     name: "Crime Scene Fries",
-    copy: "Fries topped with beef bacon, jalapeños, drizzled Gotham Sauce.",
-    icon: "🍟",
-  },
+    copy: "Fries topped with beef bacon, jalapeños, drizzled Gotham Sauce.",  },
 ];
 
 function Home() {
@@ -98,7 +90,6 @@ function Home() {
               <MediaSlot
                 ratio="wide"
                 tone="gold"
-                icon="🍔"
                 label="Hero photo — smash burger lineup"
                 className="max-w-2xl"
               />
