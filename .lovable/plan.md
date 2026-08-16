@@ -1,47 +1,43 @@
-# Gotham Halal — Updated Plan
+# Gotham Halal — Build to the Mockups
 
-Two new inputs change direction from the earlier yellow/brown scheme:
-- **Logo:** gold bridge + burger mark on black → brand is **jet black + antique gold**, not yellow.
-- **Menu PDF:** full lineup of Gotham burgers, fries, and "dirty sodas" with real prices.
+Both reference mockups are the target. We build the layout, palette, and components exactly as shown, with styled placeholder tiles wherever your photography will go later.
 
-Images are still deferred — every food/photo slot uses a styled placeholder for now.
+## Visual system
+- **Palette:** true black (#0A0A0A) surfaces, Gotham gold (#F2A81D / #E8A020) accent, off-white text, deep charcoal card backgrounds with gold hairline borders.
+- **Type:** heavy condensed all-caps display (Anton-style) for headings, clean sans (DM Sans) for body. Body copy sentence-case, headings uppercase with tight tracking.
+- **Motifs:** Rochester skyline silhouette strip, arched bridge watermark behind the hero, torn/spatter diagonal edge between the black hero panel and the gold panel, pill-shaped outlined buttons.
+- **Buttons:** gold-filled pill (ORDER NOW), black pill with gold outline (FIND A LOCATION / VIEW MENU), small gold-outline pills on cards.
 
-## Visual direction (revised)
-- **Palette:** near-black background, off-white ink, antique gold accent (matches logo `#B8892E`-ish), muted crimson for spicy items.
-- **Typography:** heavy condensed display (Anton or Bebas Neue) for headings — reads like the arched wordmark; Inter/Space Grotesk for body.
-- **Feel:** moody, cinematic, comic-noir with gold trim — "Gotham nights" energy that echoes the sodas' naming.
-- **Motifs:** thin gold hairlines, arched section headers echoing the bridge, subtle grain, high-contrast cards.
+## Header (rework of current nav)
+Full-width black bar (not a floating pill), matching the mockup:
+- Logo left (existing SVG asset), larger and vertically centered.
+- Nav center, uppercase, gold on active: HOME · MENU · CATERING · LOCATIONS · OUR STORY · REWARDS · FRANCHISE.
+- Right: Instagram, TikTok, Facebook icons, then gold-outline ORDER NOW pill and gold-filled FIND A LOCATION pill.
+- Mobile: same bar collapses to logo + hamburger sheet.
 
-## Assets to wire up
-- Upload `gotham_logo.png` via Lovable Assets → import as CDN pointer; use in nav, hero, footer, and favicon.
-- No food photography this pass — placeholder tiles only.
+## Homepage sections (top to bottom)
+1. **Hero split** — left black panel: "BOLD. HALAL. GOTHAM." (white/white/gold), subline "Halal burgers, fried chicken & sandwiches made fresh daily. Built for flavor. Made for you.", ORDER NOW + VIEW MENU pills. Right gold panel with bridge + skyline watermark and a wide photo slot for your hero burger shot; spatter diagonal divider between panels.
+2. **Value bar** — black band, 4 columns divided by gold rules, each with a gold line-icon: 100% HALAL / FRESH INGREDIENTS / BOLD FLAVOR / ROC ROOTS, with the mockup's copy.
+3. **Menu Highlights** — gold background band, centered "MENU HIGHLIGHTS" between gold rules. 4 dark cards with rounded corners, each: image slot, item name in display caps, description, ORDER NOW pill. Items: Gotham Single Smash, Heatwave Double Smash, Red Moon Smash Burger, Crime Scene Fries.
+4. **App + Catering split** — black, two halves separated by a gold rule. Left: phone mockup slot, "GET THE GOTHAM HALAL APP", copy, App Store / Google Play badges. Right: "CATERING THAT HITS DIFFERENT", copy, CATER WITH US pill, catering trays photo slot.
+5. **Skyline footer band** — gold bar with Rochester skyline silhouette on the left, "BOLD FOOD. REAL VALUES. ROCHESTER PROUD." centered, OUR STORY outlined pill right.
+6. **Footer** — black, logo, nav column, socials, hours/location placeholders, © line.
 
-## Page structure (single route: `src/routes/index.tsx`)
-1. **Sticky top bar** — thin black bar with the logo left, nav links center (Menu / Combos / Specials / Visit), gold "Order Now" pill linking to `ordergothamhalal.com`.
-2. **Hero** — black background, oversized headline "SMASHED IN GOTHAM.", subline "100% halal · smashed to order · built for Gotham nights", gold CTA + secondary outline CTA. Right side: large logo mark inside a soft gold spotlight (placeholder for future hero photo).
-3. **Specials banner** — gold band: **"5 DOUBLE SMASH · $50   |   10 FOR $100"**.
-4. **Signature Burgers** — dark cards, each with placeholder image tile, burger name in display type, description, price. Heatwave / Red Moon flagged with a small "SPICY" chip. All 5 burgers from the menu.
-5. **Combos & Sides** — two-column: left "Burger Combos" (fries + dirty soda) with 5 rows and prices; right "Burgers + Fries" with 5 rows and prices. Below: **Gotham Fries** grid (Regular, Large, Signal Cheese, Crime Scene, Smashafel) with veggie chip on Smashafel.
-6. **Gotham Dirty Sodas** — full-width dark section, 7-item grid (Strawberry Siren, Watermelon Phantom, Peach District, Blue Nightfall, Pineapple Pulse, Mango Mirage, Green Voltage), each card gets a themed gold accent, all $6.
-7. **About / Story** — short brand statement (halal, smashed to order, Gotham-night attitude).
-8. **Order / Visit** — two cards: gold-on-black "Order Online" → ordergothamhalal.com; outlined "Hours & Location" with weekday hours placeholder + address placeholder.
-9. **Footer** — logo, social handles (Instagram / TikTok placeholders), tagline, © line.
+## Photography plan
+Every photo position becomes a `MediaSlot` tile styled in the dark/gold theme (subtle gold dashed border, icon, caption naming the shot). When you send photos we swap slot-for-slot with no layout change. Slots needed: hero burger group, 4 menu items, phone screen, catering trays.
 
-## Files touched
-- `src/styles.css` — replace tokens with black/gold palette; wire heading font (Anton) + body font (Inter) via `@theme`.
-- `src/routes/__root.tsx` — updated head (title, description, OG), Google Fonts link, logo favicon.
-- `src/routes/index.tsx` — full homepage rewrite around new palette and menu.
-- `src/components/MediaSlot.tsx` — reusable dashed-gold placeholder tile for future food photos.
-- `src/assets/gotham-logo.png.asset.json` — Lovable Assets pointer for the uploaded logo.
-- Delete: `src/assets/burger-stack.jpg`, `smash-burger.jpg`, `loaded-fries.jpg`, `shake.jpg` (unused generated placeholders from the previous pass).
+## Routes
+Nav needs pages that don't exist yet. This pass: build the header, footer, and full homepage; create stub pages for MENU, CATERING, OUR STORY, REWARDS (LOCATIONS, CAREERS/FRANCHISE, CONTACT already exist) so no link 404s. Full page builds come in later passes, one at a time.
 
-## Out of scope this pass
-- Real food photography — placeholder tiles only.
-- Online ordering integration (external link to `ordergothamhalal.com` for now).
-- Multi-route split (menu / about / contact stay as sections on home).
-- Real address, phone, hours, socials — placeholders until you send them.
+## Technical notes
+- `src/styles.css`: replace tokens with the black/gold set, add gold/hairline/card tokens; load Anton + DM Sans via `<link>` in `__root.tsx`.
+- `src/components/SiteNav.tsx`, `SiteFooter.tsx`: rebuilt to the mockup bar layout.
+- `src/routes/index.tsx`: full homepage; sections split into `src/components/home/*` for readability.
+- `src/components/MediaSlot.tsx`: restyled for the dark/gold theme.
+- Skyline and spatter rendered as inline SVG/CSS so they scale without extra image assets.
+- Per-route `head()` metadata with Gotham Halal titles/descriptions.
 
-## Open items I'll leave as placeholders (send later if you want them baked in now)
-- Address, phone, exact hours.
-- Instagram / TikTok handles.
-- Any allergen/nutrition notes to display on menu items.
+## Assumptions (tell me if wrong)
+- City is Rochester ("ROC ROOTS", "ROCHESTER PROUD") — the first mockup says NYC/Gotham instead; I'm going with Rochester.
+- ORDER NOW links to ordergothamhalal.com; app store badges are non-functional placeholders for now.
+- Address, hours, and social handles stay placeholders until you send them.
