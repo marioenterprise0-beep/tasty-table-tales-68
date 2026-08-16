@@ -203,7 +203,7 @@ function Home() {
           aria-hidden="true"
         />
         <Skyline className="absolute bottom-0 left-0 w-[20%] h-full text-gold/70 z-10" />
-        <div className="relative z-20 mx-auto max-w-[1500px] pl-[26%] pr-6 md:pr-10 py-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div className="relative z-20 mx-auto max-w-[1500px] pl-[26%] pr-6 md:pr-52 py-4 flex flex-col sm:flex-row items-center justify-center gap-4">
           <p className="display text-gold-foreground text-lg md:text-2xl text-center tracking-[0.01em]">
 
             Bold Food. Real Values. Rochester Proud.
