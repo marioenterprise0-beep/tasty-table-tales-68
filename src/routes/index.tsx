@@ -1,9 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { BadgeCheck, Leaf, Flame, Building2 } from "lucide-react";
+import { BadgeCheck, Leaf, Flame, Building2, Apple, Play } from "lucide-react";
 import { MediaSlot } from "@/components/MediaSlot";
-import { Skyline, BridgeWatermark, SpatterEdge } from "@/components/Skyline";
-
-const ORDER_URL = "https://ordergothamhalal.com";
+import { Skyline, BridgeArch, SpatterEdge } from "@/components/Skyline";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -12,12 +10,13 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Halal smash burgers, fried chicken and wraps made fresh daily in Rochester, NY. Hand-zabihah halal, built for flavor.",
+          "Halal burgers, fried chicken & sandwiches made fresh daily in Rochester, NY. Built for flavor. Made for you.",
       },
       { property: "og:title", content: "Gotham Halal — Bold. Halal. Gotham." },
       {
         property: "og:description",
-        content: "Halal smash burgers, fried chicken and wraps made fresh daily in Rochester, NY.",
+        content:
+          "Halal smash burgers, fried chicken and sandwiches made fresh daily in Rochester, NY.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -26,195 +25,204 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-const VALUES = [
-  { Icon: BadgeCheck, title: "100% Halal", copy: "Hand-zabihah halal meats. Always." },
-  { Icon: Leaf, title: "Fresh Ingredients", copy: "Locally sourced. Cooked to order." },
-  { Icon: Flame, title: "Bold Flavor", copy: "Big taste. No shortcuts. Ever." },
-  { Icon: Building2, title: "ROC Roots", copy: "Rochester born. Community driven." },
+const PILLARS = [
+  { Icon: BadgeCheck, title: "100% Halal", copy: "Premium hand-cut halal meats. Always." },
+  { Icon: Leaf, title: "Fresh Ingredients", copy: "Never frozen. Made to order." },
+  { Icon: Flame, title: "Bold Flavor", copy: "Big flavor. No shortcuts. Ever." },
+  { Icon: Building2, title: "ROC Roots", copy: "Born in Rochester. Community driven." },
 ];
 
 const HIGHLIGHTS = [
   {
     name: "Gotham Single Smash",
-    copy: "Single smash patty, American cheese, Gotham Sauce, pickles, onions, lettuce.",
+    copy: "Single beef patty, American cheese, caramelized onions, pickles, Gotham Sauce, sesame bun.",
   },
   {
     name: "Heatwave Double Smash",
-    copy: "Double smash patties, pepperjack cheese, spicy kick sauce, lettuce, jalapeños.",
+    copy: "Double smash patties, pepper jack cheese, jalapeños, spicy aioli, pickles, sesame bun.",
   },
   {
     name: "Red Moon Smash Burger",
-    copy: "Double smash patties, Hot Cheetos crunch, jalapeños, Red Moon sauce, lettuce.",
+    copy: "Double smash patties, hot Cheeto crunch, pepper jack cheese, pickled jalapeños, Red Moon sauce, sesame bun.",
   },
   {
     name: "Crime Scene Fries",
-    copy: "Fries topped with beef bacon, jalapeños, drizzled Gotham Sauce.",
+    copy: "Fries loaded with beef bacon, jalapeños, cheese sauce, ranch drizzle, chopped Gotham Sauce.",
   },
 ];
+
+function Diamond() {
+  return <span className="inline-block size-2 rotate-45 bg-gold" aria-hidden="true" />;
+}
 
 function Home() {
   return (
     <>
-      {/* HERO */}
-      <section className="relative bg-ink overflow-hidden">
-        <div className="grid lg:grid-cols-[44%_56%] min-h-[380px] lg:min-h-[460px]">
-          {/* Left black panel */}
-          <div className="relative z-20 flex items-center px-6 md:px-10 lg:pl-14 py-12 lg:py-0">
-            <div className="max-w-[34rem]">
-              <h1 className="display text-[3.25rem] sm:text-6xl lg:text-[4.5rem] xl:text-[5.25rem] leading-[0.92] tracking-[-0.02em]">
-                <span className="block">Bold.</span>
-                <span className="block">Halal.</span>
-                <span className="block text-gold">Gotham.</span>
-              </h1>
-              <p className="mt-5 text-sm md:text-[15px] text-nav-foreground/85 leading-snug max-w-sm">
-                Halal burgers, fried chicken &amp; sandwiches
-                <br className="hidden sm:block" /> made fresh daily. Built for flavor. Made for you.
-              </p>
-              <div className="mt-6 flex flex-wrap gap-3">
-                <a
-                  href={ORDER_URL}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="pill-gold px-7 py-2.5 text-[11px]"
-                >
-                  Order Now
-                </a>
-                <Link to="/menu" className="pill-outline px-7 py-2.5 text-[11px] border-nav-foreground text-nav-foreground hover:bg-nav-foreground hover:text-ink">
-                  View Menu
-                </Link>
-              </div>
-            </div>
+      {/* ---------------- HERO ---------------- */}
+      <section id="home" className="relative isolate overflow-hidden bg-gold scroll-mt-24">
+        {/* black right third + ragged transition */}
+        <div className="absolute inset-y-0 right-0 w-full lg:w-[34%] bg-ink" aria-hidden="true" />
+        <SpatterEdge
+          className="absolute inset-y-0 right-[33.5%] hidden lg:block h-full w-[130px] text-ink scale-x-[-1]"
+        />
+        {/* gold field over the left two-thirds (mobile: full black underneath) */}
+        <div className="absolute inset-y-0 left-0 w-full lg:w-[66.5%] bg-gold" aria-hidden="true" />
+
+        {/* thin gold bridge line-art, upper right over the black */}
+        <BridgeArch className="pointer-events-none absolute -top-2 right-0 z-10 hidden w-[30%] max-w-[420px] text-gold/70 lg:block" />
+
+        <div className="relative z-20 mx-auto grid max-w-[1500px] items-center gap-8 px-5 py-12 md:px-8 lg:grid-cols-[minmax(0,44%)_minmax(0,56%)] lg:py-16">
+          {/* ink slab with headline */}
+          <div className="rounded-[2rem] bg-ink px-7 py-9 shadow-[0_24px_60px_-24px_rgba(0,0,0,0.85)] md:px-10 md:py-11">
+            <h1 className="display text-[3.25rem] leading-[0.88] tracking-[-0.03em] text-white sm:text-[4rem] lg:text-[4.75rem] xl:text-[5.5rem]">
+              <span className="block">Bold.</span>
+              <span className="block text-gold">Halal.</span>
+              <span className="block">Gotham.</span>
+            </h1>
+            <p className="mt-5 max-w-md text-[15px] leading-snug text-white/85">
+              Halal burgers, fried chicken &amp; sandwiches made fresh daily. Built for flavor. Made
+              for you.
+            </p>
+            <Link
+              to="/menu"
+              className="pill-ghost-dark mt-7 px-9 py-3 text-[12px]"
+            >
+              View Menu
+            </Link>
           </div>
 
-          {/* Right gold panel */}
-          <div className="relative bg-gold min-h-[300px] lg:min-h-0">
-            <BridgeWatermark className="absolute inset-x-0 bottom-0 top-[6%] w-full h-[94%] text-gold-foreground/20 pointer-events-none" />
-            <Skyline className="absolute bottom-0 right-0 w-2/3 h-16 text-gold-foreground/15 pointer-events-none" />
-            <div className="relative h-full flex items-end justify-center px-6 lg:px-10 pt-8">
-              <MediaSlot
-                fill
-                tone="gold"
-                label="Hero photo — smash burger lineup (transparent PNG)"
-                className="border-0"
-              />
-            </div>
-            {/* ragged ink edge into the gold panel */}
-            <SpatterEdge className="hidden lg:block absolute inset-y-0 -left-[1px] h-full w-[110px] text-ink z-10 pointer-events-none" />
+          {/* hero food photography */}
+          <div className="h-56 sm:h-72 lg:h-[22rem]">
+            <MediaSlot
+              fill
+              tone="gold"
+              label="Hero photo — three smash burgers (transparent PNG)"
+            />
           </div>
         </div>
       </section>
 
-      {/* VALUE BAR */}
-      <section className="bg-ink border-y-2 border-gold/40">
-        <div className="mx-auto max-w-[1500px] grid sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-gold/30">
-          {VALUES.map(({ Icon, title, copy }) => (
-            <div key={title} className="flex items-center gap-4 px-8 py-5">
-              <Icon className="w-8 h-8 shrink-0 text-gold" strokeWidth={1.4} />
-              <div>
-                <h3 className="display text-gold text-[13px] tracking-[0.08em]">{title}</h3>
-                <p className="mt-0.5 text-[13px] text-nav-foreground/80 leading-snug">{copy}</p>
-              </div>
+      {/* ---------------- FOUR PILLARS ---------------- */}
+      <section className="bg-ink">
+        <div className="mx-auto grid max-w-[1500px] grid-cols-2 gap-x-6 gap-y-9 px-5 py-10 md:px-8 lg:grid-cols-4 lg:py-12">
+          {PILLARS.map(({ Icon, title, copy }) => (
+            <div key={title} className="flex flex-col items-center gap-3 text-center">
+              <Icon className="size-9 shrink-0 text-gold" strokeWidth={1.5} />
+              <h3 className="display text-[13px] tracking-[0.14em] text-white">{title}</h3>
+              <p className="max-w-[16rem] text-[13px] leading-snug text-white/65">{copy}</p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* MENU HIGHLIGHTS */}
-      <section className="bg-gold py-8 md:py-10">
+      {/* ---------------- MENU HIGHLIGHTS ---------------- */}
+      <section id="menu-highlights" className="scroll-mt-24 bg-ink pb-16 pt-6">
         <div className="mx-auto max-w-[1500px] px-5 md:px-8">
-          <div className="flex items-center gap-4 justify-center mb-6">
-            <span className="h-px w-16 sm:w-40 bg-gold-foreground/50" />
-            <h2 className="display text-gold-foreground text-2xl md:text-[28px] tracking-[0.02em] text-center whitespace-nowrap">
-              • Menu Highlights •
+          <div className="mb-10 flex items-center justify-center gap-4">
+            <Diamond />
+            <h2 className="display text-center text-2xl tracking-[0.06em] text-gold md:text-[34px]">
+              Menu Highlights
             </h2>
-            <span className="h-px w-16 sm:w-40 bg-gold-foreground/50" />
+            <Diamond />
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {HIGHLIGHTS.map((item) => (
-              <article
-                key={item.name}
-                className="rounded-xl bg-ink overflow-hidden flex flex-col shadow-[0_10px_30px_-12px_rgba(0,0,0,0.7)]"
-              >
-                <div className="aspect-[4/3] w-full">
-                  <MediaSlot fill label={item.name} className="border-0" />
+              <article key={item.name} className="flex flex-col">
+                <div className="overflow-hidden rounded-2xl border-2 border-gold/70 bg-black/40 p-1.5">
+                  <div className="aspect-[4/3] overflow-hidden rounded-xl">
+                    <MediaSlot fill label={item.name} className="border-0" />
+                  </div>
                 </div>
-                <div className="px-4 pb-5 pt-1 text-center">
-                  <h3 className="display text-gold text-base md:text-lg leading-tight">
-                    {item.name}
-                  </h3>
-                  <p className="mt-1.5 text-[13px] text-nav-foreground/80 leading-snug">
-                    {item.copy}
-                  </p>
-                </div>
+                <h3 className="display mt-4 text-[15px] leading-tight tracking-[0.04em] text-white">
+                  {item.name}
+                </h3>
+                <p className="mt-2 text-[13px] leading-snug text-white/60">{item.copy}</p>
               </article>
             ))}
           </div>
+
+          <div className="mt-10 text-center">
+            <Link to="/menu" className="pill-gold px-9 py-3 text-[12px]">
+              See Full Menu
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* APP + CATERING */}
-      <section className="bg-ink border-t-2 border-gold/40">
-        <div className="mx-auto max-w-[1500px] grid lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-gold/30">
-          <div className="flex items-center gap-6 px-8 md:px-12 py-7">
-            <div className="hidden sm:block w-20 shrink-0">
-              <MediaSlot ratio="phone" label="App" />
-            </div>
-            <div>
-              <h2 className="display text-gold text-xl md:text-2xl">Get the Gotham Halal App</h2>
-              <p className="mt-1.5 text-[13px] text-nav-foreground/80 max-w-sm leading-snug">
-                Order ahead, skip the line, earn rewards every time you eat with us.
-              </p>
-              <div className="mt-4 flex flex-wrap gap-3">
-                {["App Store", "Google Play"].map((s) => (
-                  <span
-                    key={s}
-                    className="inline-flex items-center rounded-md border border-gold/40 px-4 py-2 text-[11px] text-nav-foreground/85"
-                  >
-                    {s}
+      {/* ---------------- APP PROMO ---------------- */}
+      <section id="app" className="scroll-mt-24 border-t border-gold/20 bg-ink">
+        <div className="mx-auto grid max-w-[1500px] items-center gap-10 px-5 py-14 md:px-8 lg:grid-cols-2">
+          <div>
+            <img src="/gotham-halal-logo.svg" alt="Gotham Halal" className="h-16 w-auto" />
+            <h2 className="display mt-5 text-3xl leading-[0.95] text-gold md:text-[42px]">
+              Get the Gotham Halal App
+            </h2>
+            <p className="mt-3 max-w-md text-[15px] text-white/70">
+              Order ahead, earn rewards, and get it delivered.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              {[
+                { Icon: Apple, top: "Download on the", bottom: "App Store" },
+                { Icon: Play, top: "Get it on", bottom: "Google Play" },
+              ].map(({ Icon, top, bottom }) => (
+                <a
+                  key={bottom}
+                  href="#app"
+                  className="inline-flex items-center gap-3 rounded-xl border border-gold/50 px-5 py-2.5 text-white transition hover:bg-gold hover:text-gold-foreground"
+                >
+                  <Icon className="size-6 shrink-0" />
+                  <span className="text-left leading-tight">
+                    <span className="block text-[9px] uppercase tracking-[0.18em] opacity-70">
+                      {top}
+                    </span>
+                    <span className="display block text-[13px] tracking-[0.04em]">{bottom}</span>
                   </span>
-                ))}
-              </div>
+                </a>
+              ))}
             </div>
           </div>
 
-          <div className="flex items-center gap-6 px-8 md:px-12 py-7">
-            <div>
-              <h2 className="display text-gold text-xl md:text-2xl">Catering That Hits Different</h2>
-              <p className="mt-1.5 text-[13px] text-nav-foreground/80 max-w-sm leading-snug">
-                From office lunches to events, we've got you covered.
-              </p>
-              <Link to="/catering" className="pill-outline mt-4 px-6 py-2.5 text-[11px]">
-                Cater With Us
-              </Link>
-            </div>
-            <div className="hidden md:block w-52 shrink-0 ml-auto">
-              <MediaSlot ratio="card" label="Catering trays" />
-            </div>
+          <div className="mx-auto w-full max-w-[240px]">
+            <MediaSlot ratio="phone" label="App screen mockup" />
           </div>
         </div>
       </section>
 
-      {/* SKYLINE BAND */}
-      <section className="relative bg-gold overflow-hidden">
-        <div
-          className="absolute inset-y-0 left-0 w-[24%] bg-ink"
-          style={{ clipPath: "polygon(0 0, 78% 0, 100% 100%, 0 100%)" }}
-          aria-hidden="true"
-        />
-        <Skyline className="absolute bottom-0 left-0 w-[20%] h-full text-gold/70 z-10" />
-        <div className="relative z-20 mx-auto max-w-[1500px] pl-[26%] pr-6 md:pr-52 py-4 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <p className="display text-gold-foreground text-lg md:text-2xl text-center tracking-[0.01em]">
+      {/* ---------------- CATERING ---------------- */}
+      <section id="catering" className="scroll-mt-24 border-t border-gold/20 bg-ink">
+        <div className="mx-auto grid max-w-[1500px] items-center gap-10 px-5 py-14 md:px-8 lg:grid-cols-2">
+          <div>
+            <h2 className="display text-3xl leading-[0.95] text-gold md:text-[42px]">
+              Catering That Hits Different
+            </h2>
+            <p className="mt-3 max-w-md text-[15px] text-white/70">
+              Feed the crew without the stress. We&apos;ve got you covered.
+            </p>
+            <Link to="/catering" className="pill-gold mt-6 px-9 py-3 text-[12px]">
+              Catering
+            </Link>
+          </div>
+          <div className="h-60 md:h-72">
+            <MediaSlot fill label="Catering platter — loaded fries & burgers" />
+          </div>
+        </div>
+      </section>
 
+      {/* ---------------- GOLD SLOGAN / SKYLINE BAND ---------------- */}
+      <section className="relative overflow-hidden bg-gold pb-20 pt-10">
+        <div className="relative z-10 mx-auto flex max-w-[1500px] flex-col items-center gap-5 px-5 md:px-8 lg:flex-row lg:justify-between">
+          <p className="display flex-1 text-center text-xl leading-tight tracking-[0.02em] text-gold-foreground md:text-[30px] lg:text-left">
             Bold Food. Real Values. Rochester Proud.
           </p>
           <Link
             to="/our-story"
-            className="sm:absolute sm:right-10 inline-flex items-center rounded-full border-[1.5px] border-gold-foreground px-6 py-2 display text-[10px] tracking-[0.16em] text-gold-foreground hover:bg-gold-foreground hover:text-gold transition"
+            className="display inline-flex shrink-0 items-center rounded-full bg-gold-foreground px-8 py-3 text-[11px] tracking-[0.16em] text-gold transition hover:brightness-125"
           >
             Our Story
           </Link>
         </div>
+        <Skyline className="pointer-events-none absolute inset-x-0 bottom-0 h-16 w-full text-gold-foreground md:h-20" />
       </section>
     </>
   );
