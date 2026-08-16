@@ -1,34 +1,39 @@
-type Ratio = "square" | "wide" | "portrait";
+import { ImageIcon } from "lucide-react";
+
+type Ratio = "square" | "wide" | "portrait" | "card" | "phone";
+
+const RATIOS: Record<Ratio, string> = {
+  square: "aspect-square",
+  wide: "aspect-[16/9]",
+  portrait: "aspect-[3/4]",
+  card: "aspect-[4/3]",
+  phone: "aspect-[9/19]",
+};
 
 export function MediaSlot({
   label,
-  ratio = "square",
-  icon = "🍔",
-  tone = "yellow",
+  ratio = "card",
+  tone = "dark",
+  className = "",
 }: {
   label?: string;
   ratio?: Ratio;
-  icon?: string;
-  tone?: "yellow" | "dark";
+  tone?: "dark" | "gold";
+  className?: string;
 }) {
-  const aspect =
-    ratio === "wide" ? "aspect-[16/10]" : ratio === "portrait" ? "aspect-[3/4]" : "aspect-square";
-
   const toneClasses =
-    tone === "dark"
-      ? "bg-nav/95 text-nav-foreground border-nav-foreground/25"
-      : "bg-background text-foreground border-foreground/25";
+    tone === "gold"
+      ? "bg-gold/15 border-gold-foreground/35 text-gold-foreground"
+      : "bg-ink/70 border-gold/35 text-gold";
 
   return (
     <div
-      className={`relative w-full ${aspect} rounded-3xl border-2 border-dashed ${toneClasses} overflow-hidden flex items-center justify-center`}
+      className={`relative w-full ${RATIOS[ratio]} rounded-2xl border border-dashed ${toneClasses} overflow-hidden flex items-center justify-center ${className}`}
     >
-      <div className="flex flex-col items-center gap-2 opacity-80">
-        <span className="text-5xl md:text-6xl leading-none">{icon}</span>
+      <div className="flex flex-col items-center gap-3 opacity-70 px-4 text-center">
+        <ImageIcon className="w-9 h-9 md:w-10 md:h-10" strokeWidth={1.25} />
         {label && (
-          <span className="text-[10px] md:text-xs font-black uppercase tracking-[0.25em] text-center px-4">
-            {label}
-          </span>
+          <span className="display text-[10px] md:text-[11px] tracking-[0.28em]">{label}</span>
         )}
       </div>
     </div>
