@@ -58,7 +58,7 @@ function Home() {
       {/* ---------------- HERO — grunge black-to-gold artwork background ---------------- */}
       <section
         id="home"
-        className="relative isolate overflow-hidden bg-ink bg-[length:100%_100%] bg-center bg-no-repeat scroll-mt-24"
+        className="relative isolate overflow-hidden bg-ink bg-cover bg-center bg-no-repeat scroll-mt-24"
         style={{ backgroundImage: `url(${heroBg.url})` }}
       >
 
