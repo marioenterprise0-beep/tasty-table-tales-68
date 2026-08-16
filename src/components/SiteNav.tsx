@@ -1,23 +1,23 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useState } from "react";
-import { Instagram, Facebook, Apple, PlayCircle } from "lucide-react";
+import { Instagram, Facebook, Music2 } from "lucide-react";
 
 const ORDER_URL = "https://ordergothamhalal.com";
 
 const NAV = [
   { label: "Home", to: "/" },
-  { label: "Contact", to: "/contact" },
+  { label: "Menu", to: "/menu" },
+  { label: "Catering", to: "/catering" },
   { label: "Locations", to: "/locations" },
-  { label: "Media", to: "/media" },
-  { label: "Careers", to: "/careers" },
+  { label: "Our Story", to: "/our-story" },
+  { label: "Rewards", to: "/rewards" },
   { label: "Franchise", to: "/franchise" },
 ] as const;
 
 const SOCIALS = [
   { label: "Instagram", href: "https://instagram.com", Icon: Instagram },
+  { label: "TikTok", href: "https://tiktok.com", Icon: Music2 },
   { label: "Facebook", href: "https://facebook.com", Icon: Facebook },
-  { label: "iOS App", href: "#", Icon: Apple },
-  { label: "Android App", href: "#", Icon: PlayCircle },
 ] as const;
 
 export function SiteNav() {
@@ -25,28 +25,25 @@ export function SiteNav() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   return (
-    <header className="px-3 md:px-6 pt-4 md:pt-5">
-      <div className="mx-auto max-w-[1400px]">
-        <div className="flex items-center gap-3 rounded-full bg-nav text-nav-foreground pl-5 pr-2 py-2">
-          {/* Logo */}
-          <Link to="/" className="shrink-0 pr-4 md:pr-6" aria-label="Gotham Halal home">
+    <header className="sticky top-0 z-50 bg-nav text-nav-foreground border-b border-gold/20">
+      <div className="mx-auto max-w-[1600px] px-4 md:px-8">
+        <div className="flex items-center gap-4 h-20 md:h-24">
+          <Link to="/" className="shrink-0" aria-label="Gotham Halal home">
             <img
               src="/gotham-halal-logo.svg"
               alt="Gotham Halal"
-              className="h-9 md:h-11 w-auto"
+              className="h-14 md:h-16 w-auto"
             />
           </Link>
 
-
-          {/* Center nav */}
-          <nav className="hidden lg:flex items-center gap-7 xl:gap-9 flex-1 justify-center text-[12px] font-bold uppercase tracking-[0.2em]">
+          <nav className="hidden xl:flex items-center gap-7 2xl:gap-9 flex-1 justify-center display text-[13px] tracking-[0.14em]">
             {NAV.map((n) => {
               const active = n.to === "/" ? pathname === "/" : pathname.startsWith(n.to);
               return (
                 <Link
                   key={n.to}
                   to={n.to}
-                  className={active ? "text-nav-foreground" : "text-nav-foreground/85 hover:text-nav-foreground"}
+                  className={active ? "text-gold" : "text-nav-foreground/90 hover:text-gold transition"}
                 >
                   {n.label}
                 </Link>
@@ -54,9 +51,8 @@ export function SiteNav() {
             })}
           </nav>
 
-          {/* Right cluster */}
-          <div className="flex items-center gap-2 ml-auto lg:ml-0">
-            <div className="hidden xl:flex items-center gap-1 pr-2">
+          <div className="flex items-center gap-2 ml-auto xl:ml-0">
+            <div className="hidden lg:flex items-center gap-1 pr-3">
               {SOCIALS.map(({ label, href, Icon }) => (
                 <a
                   key={label}
@@ -64,47 +60,43 @@ export function SiteNav() {
                   target="_blank"
                   rel="noreferrer"
                   aria-label={label}
-                  className="inline-flex items-center justify-center w-8 h-8 text-nav-foreground/85 hover:text-nav-foreground"
+                  className="inline-flex items-center justify-center w-9 h-9 text-nav-foreground/90 hover:text-gold transition"
                 >
-                  <Icon className="w-[18px] h-[18px]" />
+                  <Icon className="w-5 h-5" />
                 </a>
               ))}
-              <span
-                aria-label="Halal Certified"
-                title="Halal Certified"
-                className="ml-1 inline-flex items-center justify-center h-8 px-1 text-nav-foreground text-base"
-              >
-                حلال
-              </span>
             </div>
 
             <a
               href={ORDER_URL}
               target="_blank"
               rel="noreferrer"
-              className="hidden sm:inline-flex rounded-full bg-background text-foreground px-6 py-3 text-[12px] font-black uppercase tracking-[0.2em] hover:brightness-95 transition"
+              className="pill-outline hidden sm:inline-flex px-6 py-2.5 text-[11px]"
             >
               Order Now
             </a>
+            <Link to="/locations" className="pill-gold hidden sm:inline-flex px-6 py-2.5 text-[11px]">
+              Find a Location
+            </Link>
 
             <button
               type="button"
               onClick={() => setOpen((v) => !v)}
-              className="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-full text-nav-foreground hover:bg-nav-foreground/10"
+              className="xl:hidden inline-flex items-center justify-center w-11 h-11 rounded-full text-gold hover:bg-gold/10"
               aria-label="Toggle menu"
             >
               <span className="flex flex-col gap-1.5">
-                <span className="block h-0.5 w-5 bg-current" />
-                <span className="block h-0.5 w-5 bg-current" />
-                <span className="block h-0.5 w-5 bg-current" />
+                <span className="block h-0.5 w-6 bg-current" />
+                <span className="block h-0.5 w-6 bg-current" />
+                <span className="block h-0.5 w-6 bg-current" />
               </span>
             </button>
           </div>
         </div>
 
         {open && (
-          <div className="lg:hidden mt-2 rounded-3xl bg-nav text-nav-foreground p-3">
-            <ul className="flex flex-col">
+          <div className="xl:hidden pb-4">
+            <ul className="flex flex-col rounded-2xl border border-gold/25 overflow-hidden">
               {NAV.map((n) => {
                 const active = n.to === "/" ? pathname === "/" : pathname.startsWith(n.to);
                 return (
@@ -112,13 +104,21 @@ export function SiteNav() {
                     <Link
                       to={n.to}
                       onClick={() => setOpen(false)}
-                      className={`block rounded-2xl px-5 py-3 text-sm font-bold uppercase tracking-[0.2em] ${active ? "bg-nav-foreground/10" : "text-nav-foreground/85"}`}
+                      className={`block px-5 py-3.5 display text-[13px] tracking-[0.18em] border-b border-gold/10 ${active ? "text-gold bg-gold/10" : "text-nav-foreground/90"}`}
                     >
                       {n.label}
                     </Link>
                   </li>
                 );
               })}
+              <li className="p-3 flex gap-2">
+                <a href={ORDER_URL} target="_blank" rel="noreferrer" className="pill-gold flex-1 px-4 py-3 text-[11px]">
+                  Order Now
+                </a>
+                <Link to="/locations" onClick={() => setOpen(false)} className="pill-outline flex-1 px-4 py-3 text-[11px]">
+                  Find a Location
+                </Link>
+              </li>
             </ul>
           </div>
         )}
