@@ -39,3 +39,31 @@ export function BridgeWatermark({ className = "" }: { className?: string }) {
     </svg>
   );
 }
+
+/**
+ * Ragged, paint-spatter style vertical edge used where the black hero panel
+ * meets the gold panel. Rendered in `currentColor` (set it to the ink color).
+ */
+export function SpatterEdge({ className = "" }: { className?: string }) {
+  const dots: Array<[number, number, number]> = [
+    [96, 44, 3], [104, 118, 2], [92, 176, 4], [108, 232, 1.8], [98, 288, 3],
+    [110, 340, 2.2], [90, 396, 3.6], [106, 448, 2], [100, 486, 2.6],
+  ];
+  return (
+    <svg
+      viewBox="0 0 120 500"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+      className={className}
+    >
+      <path
+        fill="currentColor"
+        d="M0 0h84l-8 26 10 18-12 24 9 20-11 22 12 18-9 24 11 20-13 22 10 20-8 22 11 18-12 24 9 20-11 22 12 20-9 22 10 18-8 20 9 20H0z"
+      />
+      {dots.map(([cx, cy, r], i) => (
+        <ellipse key={i} cx={cx} cy={cy} rx={r * 0.6} ry={r} fill="currentColor" />
+      ))}
+    </svg>
+  );
+}
+

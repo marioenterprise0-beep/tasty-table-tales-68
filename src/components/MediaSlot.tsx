@@ -14,26 +14,31 @@ export function MediaSlot({
   label,
   ratio = "card",
   tone = "dark",
+  fill = false,
   className = "",
 }: {
   label?: string;
   ratio?: Ratio;
   tone?: "dark" | "gold";
+  /** Fill the parent instead of holding an aspect ratio. */
+  fill?: boolean;
   className?: string;
 }) {
   const toneClasses =
     tone === "gold"
-      ? "bg-gold/15 border-gold-foreground/35 text-gold-foreground"
-      : "bg-ink/70 border-gold/35 text-gold";
+      ? "border-gold-foreground/30 text-gold-foreground/70"
+      : "border-gold/30 text-gold/70";
 
   return (
     <div
-      className={`relative w-full ${RATIOS[ratio]} rounded-2xl border border-dashed ${toneClasses} overflow-hidden flex items-center justify-center ${className}`}
+      className={`relative flex items-center justify-center overflow-hidden border border-dashed ${toneClasses} ${
+        fill ? "w-full h-full" : `w-full ${RATIOS[ratio]}`
+      } ${className}`}
     >
-      <div className="flex flex-col items-center gap-3 opacity-70 px-4 text-center">
-        <ImageIcon className="w-9 h-9 md:w-10 md:h-10" strokeWidth={1.25} />
+      <div className="flex flex-col items-center gap-2 px-4 text-center">
+        <ImageIcon className="w-7 h-7" strokeWidth={1.25} />
         {label && (
-          <span className="display text-[10px] md:text-[11px] tracking-[0.28em]">{label}</span>
+          <span className="display text-[9px] tracking-[0.24em] leading-relaxed">{label}</span>
         )}
       </div>
     </div>
