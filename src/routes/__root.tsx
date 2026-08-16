@@ -98,7 +98,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <div className="min-h-screen flex flex-col">
         <SiteNav />
-        <main className="flex-1">
+        <main className="flex-1 pt-20 md:pt-[88px]">
           <Outlet />
         </main>
         <SiteFooter />

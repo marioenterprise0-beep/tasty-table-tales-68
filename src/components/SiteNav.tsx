@@ -99,7 +99,7 @@ export function SiteNav() {
 
         {open && (
           <div className="xl:hidden pb-4">
-            <ul className="flex flex-col rounded-2xl border border-gold/25 overflow-hidden">
+            <ul className="flex flex-col rounded-2xl border border-gold/25 overflow-hidden bg-nav/90 backdrop-blur-xl">
               {NAV.map((n) => {
                 const active = n.to === "/" ? pathname === "/" : pathname.startsWith(n.to);
                 return (
@@ -115,10 +115,10 @@ export function SiteNav() {
                 );
               })}
               <li className="p-3 flex gap-2">
-                <a href={ORDER_URL} target="_blank" rel="noreferrer" className="pill-ghost-dark flex-1 px-4 py-3 text-[11px]">
+                <a href={ORDER_URL} target="_blank" rel="noreferrer" className="pill-gold flex-1 px-4 py-3 text-[11px]">
                   Order Now
                 </a>
-                <Link to="/locations" onClick={() => setOpen(false)} className="pill-gold flex-1 px-4 py-3 text-[11px]">
+                <Link to="/locations" onClick={() => setOpen(false)} className="pill-outline flex-1 px-4 py-3 text-[11px]">
                   Find a Location
                 </Link>
               </li>
