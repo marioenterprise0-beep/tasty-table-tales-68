@@ -27,7 +27,7 @@ export function SiteNav() {
   return (
     <header className="sticky top-0 z-50 bg-nav text-nav-foreground border-b border-gold/20">
       <div className="mx-auto max-w-[1600px] px-4 md:px-8">
-        <div className="flex items-center gap-4 h-20 md:h-24">
+        <div className="flex items-center gap-4 h-20 md:h-[88px]">
           <Link to="/" className="shrink-0" aria-label="Gotham Halal home">
             <img
               src="/gotham-halal-logo.svg"
@@ -36,7 +36,7 @@ export function SiteNav() {
             />
           </Link>
 
-          <nav className="hidden xl:flex items-center gap-7 2xl:gap-9 flex-1 justify-center display text-[13px] tracking-[0.14em]">
+          <nav className="hidden xl:flex items-center gap-5 2xl:gap-7 flex-1 justify-center display text-[12px] tracking-[0.08em] whitespace-nowrap">
             {NAV.map((n) => {
               const active = n.to === "/" ? pathname === "/" : pathname.startsWith(n.to);
               return (
