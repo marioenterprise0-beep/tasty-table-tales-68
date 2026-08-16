@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { BadgeCheck, Leaf, Flame, Building2 } from "lucide-react";
 import { MediaSlot } from "@/components/MediaSlot";
-import { Skyline, BridgeWatermark } from "@/components/Skyline";
+import { Skyline, BridgeWatermark, SpatterEdge } from "@/components/Skyline";
 
 const ORDER_URL = "https://ordergothamhalal.com";
 
@@ -36,41 +36,50 @@ const VALUES = [
 const HIGHLIGHTS = [
   {
     name: "Gotham Single Smash",
-    copy: "Single smash patty, American cheese, Gotham Sauce, pickles, onions, lettuce.",  },
+    copy: "Single smash patty, American cheese, Gotham Sauce, pickles, onions, lettuce.",
+  },
   {
     name: "Heatwave Double Smash",
-    copy: "Double smash patties, pepperjack cheese, spicy kick sauce, lettuce, jalapeños.",  },
+    copy: "Double smash patties, pepperjack cheese, spicy kick sauce, lettuce, jalapeños.",
+  },
   {
     name: "Red Moon Smash Burger",
-    copy: "Double smash patties, Hot Cheetos crunch, jalapeños, Red Moon sauce, lettuce.",  },
+    copy: "Double smash patties, Hot Cheetos crunch, jalapeños, Red Moon sauce, lettuce.",
+  },
   {
     name: "Crime Scene Fries",
-    copy: "Fries topped with beef bacon, jalapeños, drizzled Gotham Sauce.",  },
+    copy: "Fries topped with beef bacon, jalapeños, drizzled Gotham Sauce.",
+  },
 ];
 
 function Home() {
   return (
     <>
       {/* HERO */}
-      <section className="relative bg-ink">
-        <div className="grid lg:grid-cols-[1fr_1.15fr] min-h-[560px]">
+      <section className="relative bg-ink overflow-hidden">
+        <div className="grid lg:grid-cols-[44%_56%] min-h-[380px] lg:min-h-[460px]">
           {/* Left black panel */}
-          <div className="relative z-10 flex items-center px-6 md:px-12 lg:pl-16 py-16 lg:py-24">
-            <div className="max-w-xl">
-              <h1 className="display text-6xl sm:text-7xl md:text-8xl leading-[0.85]">
+          <div className="relative z-20 flex items-center px-6 md:px-10 lg:pl-14 py-12 lg:py-0">
+            <div className="max-w-[34rem]">
+              <h1 className="display text-[3.25rem] sm:text-6xl lg:text-[4.5rem] xl:text-[5.25rem] leading-[0.92] tracking-[-0.02em]">
                 <span className="block">Bold.</span>
                 <span className="block">Halal.</span>
                 <span className="block text-gold">Gotham.</span>
               </h1>
-              <p className="mt-6 text-base md:text-lg text-nav-foreground/80 leading-relaxed max-w-md">
-                Halal burgers, fried chicken &amp; sandwiches made fresh daily. Built for flavor.
-                Made for you.
+              <p className="mt-5 text-sm md:text-[15px] text-nav-foreground/85 leading-snug max-w-sm">
+                Halal burgers, fried chicken &amp; sandwiches
+                <br className="hidden sm:block" /> made fresh daily. Built for flavor. Made for you.
               </p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <a href={ORDER_URL} target="_blank" rel="noreferrer" className="pill-gold px-8 py-3.5 text-xs">
+              <div className="mt-6 flex flex-wrap gap-3">
+                <a
+                  href={ORDER_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="pill-gold px-7 py-2.5 text-[11px]"
+                >
                   Order Now
                 </a>
-                <Link to="/menu" className="pill-outline px-8 py-3.5 text-xs">
+                <Link to="/menu" className="pill-outline px-7 py-2.5 text-[11px] border-nav-foreground text-nav-foreground hover:bg-nav-foreground hover:text-ink">
                   View Menu
                 </Link>
               </div>
@@ -78,35 +87,32 @@ function Home() {
           </div>
 
           {/* Right gold panel */}
-          <div className="relative bg-gold overflow-hidden min-h-[340px] lg:min-h-0">
-            {/* diagonal spatter edge */}
-            <div
-              className="hidden lg:block absolute inset-y-0 -left-24 w-40 bg-ink"
-              style={{ clipPath: "polygon(0 0, 100% 0, 35% 100%, 0% 100%)" }}
-              aria-hidden="true"
-            />
-            <BridgeWatermark className="absolute inset-0 w-full h-full text-gold-foreground/15 pointer-events-none" />
-            <div className="relative h-full flex items-center justify-center p-8 lg:p-12">
+          <div className="relative bg-gold min-h-[300px] lg:min-h-0">
+            <BridgeWatermark className="absolute inset-x-0 bottom-0 top-[6%] w-full h-[94%] text-gold-foreground/20 pointer-events-none" />
+            <Skyline className="absolute bottom-0 right-0 w-2/3 h-16 text-gold-foreground/15 pointer-events-none" />
+            <div className="relative h-full flex items-end justify-center px-6 lg:px-10 pt-8">
               <MediaSlot
-                ratio="wide"
+                fill
                 tone="gold"
-                label="Hero photo — smash burger lineup"
-                className="max-w-2xl"
+                label="Hero photo — smash burger lineup (transparent PNG)"
+                className="border-0"
               />
             </div>
+            {/* ragged ink edge into the gold panel */}
+            <SpatterEdge className="hidden lg:block absolute inset-y-0 -left-[1px] h-full w-[110px] text-ink z-10 pointer-events-none" />
           </div>
         </div>
       </section>
 
       {/* VALUE BAR */}
-      <section className="bg-ink border-y border-gold/25">
-        <div className="mx-auto max-w-[1500px] grid sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-gold/25">
+      <section className="bg-ink border-y-2 border-gold/40">
+        <div className="mx-auto max-w-[1500px] grid sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-gold/30">
           {VALUES.map(({ Icon, title, copy }) => (
-            <div key={title} className="flex items-start gap-4 px-8 py-8">
-              <Icon className="w-9 h-9 shrink-0 text-gold" strokeWidth={1.5} />
+            <div key={title} className="flex items-center gap-4 px-8 py-5">
+              <Icon className="w-8 h-8 shrink-0 text-gold" strokeWidth={1.4} />
               <div>
-                <h3 className="display text-gold text-base tracking-[0.12em]">{title}</h3>
-                <p className="mt-1 text-sm text-nav-foreground/75 leading-snug">{copy}</p>
+                <h3 className="display text-gold text-[13px] tracking-[0.08em]">{title}</h3>
+                <p className="mt-0.5 text-[13px] text-nav-foreground/80 leading-snug">{copy}</p>
               </div>
             </div>
           ))}
@@ -114,38 +120,32 @@ function Home() {
       </section>
 
       {/* MENU HIGHLIGHTS */}
-      <section className="bg-gold py-14 md:py-16">
-        <div className="mx-auto max-w-[1500px] px-6 md:px-10">
-          <div className="flex items-center gap-5 justify-center mb-10">
-            <span className="hidden sm:block h-px flex-1 bg-gold-foreground/40" />
-            <h2 className="display text-gold-foreground text-3xl md:text-4xl tracking-[0.06em] text-center">
+      <section className="bg-gold py-8 md:py-10">
+        <div className="mx-auto max-w-[1500px] px-5 md:px-8">
+          <div className="flex items-center gap-4 justify-center mb-6">
+            <span className="h-px w-16 sm:w-40 bg-gold-foreground/50" />
+            <h2 className="display text-gold-foreground text-2xl md:text-[28px] tracking-[0.02em] text-center whitespace-nowrap">
               • Menu Highlights •
             </h2>
-            <span className="hidden sm:block h-px flex-1 bg-gold-foreground/40" />
+            <span className="h-px w-16 sm:w-40 bg-gold-foreground/50" />
           </div>
 
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {HIGHLIGHTS.map((item) => (
               <article
                 key={item.name}
-                className="rounded-2xl bg-ink border border-gold/30 overflow-hidden flex flex-col"
+                className="rounded-xl bg-ink overflow-hidden flex flex-col shadow-[0_10px_30px_-12px_rgba(0,0,0,0.7)]"
               >
-                <div className="p-3 pb-0">
-                  <MediaSlot ratio="card" label={item.name} />
+                <div className="aspect-[4/3] w-full">
+                  <MediaSlot fill label={item.name} className="border-0" />
                 </div>
-                <div className="p-5 flex flex-col flex-1">
-                  <h3 className="display text-gold text-xl leading-tight">{item.name}</h3>
-                  <p className="mt-2 text-sm text-nav-foreground/75 leading-relaxed flex-1">
+                <div className="px-4 pb-5 pt-1 text-center">
+                  <h3 className="display text-gold text-base md:text-lg leading-tight">
+                    {item.name}
+                  </h3>
+                  <p className="mt-1.5 text-[13px] text-nav-foreground/80 leading-snug">
                     {item.copy}
                   </p>
-                  <a
-                    href={ORDER_URL}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="pill-outline mt-5 px-5 py-2.5 text-[10px] self-start"
-                  >
-                    Order Now
-                  </a>
                 </div>
               </article>
             ))}
@@ -154,22 +154,22 @@ function Home() {
       </section>
 
       {/* APP + CATERING */}
-      <section className="bg-ink border-y border-gold/25">
-        <div className="mx-auto max-w-[1500px] grid lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-gold/25">
-          <div className="flex items-center gap-8 px-8 md:px-12 py-12">
-            <div className="hidden sm:block w-32 shrink-0">
-              <MediaSlot ratio="phone" label="App screen" />
+      <section className="bg-ink border-t-2 border-gold/40">
+        <div className="mx-auto max-w-[1500px] grid lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-gold/30">
+          <div className="flex items-center gap-6 px-8 md:px-12 py-7">
+            <div className="hidden sm:block w-20 shrink-0">
+              <MediaSlot ratio="phone" label="App" />
             </div>
             <div>
-              <h2 className="display text-gold text-2xl md:text-3xl">Get the Gotham Halal App</h2>
-              <p className="mt-2 text-sm text-nav-foreground/75 max-w-sm leading-relaxed">
+              <h2 className="display text-gold text-xl md:text-2xl">Get the Gotham Halal App</h2>
+              <p className="mt-1.5 text-[13px] text-nav-foreground/80 max-w-sm leading-snug">
                 Order ahead, skip the line, earn rewards every time you eat with us.
               </p>
-              <div className="mt-5 flex flex-wrap gap-3">
+              <div className="mt-4 flex flex-wrap gap-3">
                 {["App Store", "Google Play"].map((s) => (
                   <span
                     key={s}
-                    className="inline-flex items-center rounded-lg border border-gold/40 px-4 py-2.5 text-xs text-nav-foreground/80"
+                    className="inline-flex items-center rounded-md border border-gold/40 px-4 py-2 text-[11px] text-nav-foreground/85"
                   >
                     {s}
                   </span>
@@ -178,17 +178,17 @@ function Home() {
             </div>
           </div>
 
-          <div className="flex items-center gap-8 px-8 md:px-12 py-12">
+          <div className="flex items-center gap-6 px-8 md:px-12 py-7">
             <div>
-              <h2 className="display text-gold text-2xl md:text-3xl">Catering That Hits Different</h2>
-              <p className="mt-2 text-sm text-nav-foreground/75 max-w-sm leading-relaxed">
+              <h2 className="display text-gold text-xl md:text-2xl">Catering That Hits Different</h2>
+              <p className="mt-1.5 text-[13px] text-nav-foreground/80 max-w-sm leading-snug">
                 From office lunches to events, we've got you covered.
               </p>
-              <Link to="/catering" className="pill-outline mt-5 px-6 py-3 text-[11px]">
+              <Link to="/catering" className="pill-outline mt-4 px-6 py-2.5 text-[11px]">
                 Cater With Us
               </Link>
             </div>
-            <div className="hidden md:block w-56 shrink-0">
+            <div className="hidden md:block w-52 shrink-0 ml-auto">
               <MediaSlot ratio="card" label="Catering trays" />
             </div>
           </div>
@@ -197,14 +197,19 @@ function Home() {
 
       {/* SKYLINE BAND */}
       <section className="relative bg-gold overflow-hidden">
-        <Skyline className="absolute bottom-0 left-0 w-[60%] h-16 text-gold-foreground/25" />
-        <div className="relative mx-auto max-w-[1500px] px-6 md:px-10 py-7 flex flex-col sm:flex-row items-center justify-center gap-5">
-          <p className="display text-gold-foreground text-xl md:text-3xl text-center tracking-[0.04em]">
+        <div
+          className="absolute inset-y-0 left-0 w-[30%] bg-ink"
+          style={{ clipPath: "polygon(0 0, 82% 0, 100% 100%, 0 100%)" }}
+          aria-hidden="true"
+        />
+        <Skyline className="absolute bottom-0 left-0 w-[26%] h-full text-gold/70 z-10" />
+        <div className="relative z-20 mx-auto max-w-[1500px] px-6 md:px-10 py-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <p className="display text-gold-foreground text-lg md:text-2xl text-center tracking-[0.01em]">
             Bold Food. Real Values. Rochester Proud.
           </p>
           <Link
             to="/our-story"
-            className="sm:absolute sm:right-10 inline-flex items-center rounded-full border-[1.5px] border-gold-foreground px-6 py-2.5 display text-[11px] tracking-[0.16em] text-gold-foreground hover:bg-gold-foreground hover:text-gold transition"
+            className="sm:absolute sm:right-10 inline-flex items-center rounded-full border-[1.5px] border-gold-foreground px-6 py-2 display text-[10px] tracking-[0.16em] text-gold-foreground hover:bg-gold-foreground hover:text-gold transition"
           >
             Our Story
           </Link>
