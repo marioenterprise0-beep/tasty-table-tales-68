@@ -78,8 +78,8 @@ function Home() {
           <div className="max-w-xl">
             <h1 className="display text-[3.5rem] leading-[0.86] tracking-[-0.035em] text-white sm:text-[4.5rem] lg:text-[5rem] xl:text-[5.75rem]">
               <span className="block">Bold.</span>
-              <span className="block">Halal.</span>
-              <span className="block text-gold">Gotham.</span>
+              <span className="block text-gold">Halal.</span>
+              <span className="block">Gotham.</span>
             </h1>
             <p className="mt-6 max-w-sm text-[17px] leading-snug text-white/90">
               Halal burgers, fried chicken &amp; sandwiches made fresh daily. Built for flavor. Made
