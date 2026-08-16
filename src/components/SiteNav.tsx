@@ -28,12 +28,15 @@ export function SiteNav() {
     <header className="px-3 md:px-6 pt-4 md:pt-5">
       <div className="mx-auto max-w-[1400px]">
         <div className="flex items-center gap-3 rounded-full bg-nav text-nav-foreground pl-5 pr-2 py-2">
-          {/* Wordmark */}
-          <Link to="/" className="shrink-0 pr-4 md:pr-6">
-            <span className="text-lg md:text-xl font-black tracking-tight uppercase">
-              Gotham<span className="text-[oklch(0.85_0.16_90)]">&amp;</span>Halal
-            </span>
+          {/* Logo */}
+          <Link to="/" className="shrink-0 pr-4 md:pr-6" aria-label="Gotham Halal home">
+            <img
+              src="/gotham-halal-logo.svg"
+              alt="Gotham Halal"
+              className="h-9 md:h-11 w-auto"
+            />
           </Link>
+
 
           {/* Center nav */}
           <nav className="hidden lg:flex items-center gap-7 xl:gap-9 flex-1 justify-center text-[12px] font-bold uppercase tracking-[0.2em]">
