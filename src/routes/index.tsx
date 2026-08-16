@@ -131,7 +131,7 @@ function Home() {
                 className="rounded-2xl bg-ink border border-gold/30 overflow-hidden flex flex-col"
               >
                 <div className="p-3 pb-0">
-                  <MediaSlot ratio="card" icon={item.icon} label={item.name} />
+                  <MediaSlot ratio="card" label={item.name} />
                 </div>
                 <div className="p-5 flex flex-col flex-1">
                   <h3 className="display text-gold text-xl leading-tight">{item.name}</h3>
@@ -158,7 +158,7 @@ function Home() {
         <div className="mx-auto max-w-[1500px] grid lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-gold/25">
           <div className="flex items-center gap-8 px-8 md:px-12 py-12">
             <div className="hidden sm:block w-32 shrink-0">
-              <MediaSlot ratio="phone" icon="📱" label="App screen" />
+              <MediaSlot ratio="phone" label="App screen" />
             </div>
             <div>
               <h2 className="display text-gold text-2xl md:text-3xl">Get the Gotham Halal App</h2>
@@ -189,7 +189,7 @@ function Home() {
               </Link>
             </div>
             <div className="hidden md:block w-56 shrink-0">
-              <MediaSlot ratio="card" icon="🥡" label="Catering trays" />
+              <MediaSlot ratio="card" label="Catering trays" />
             </div>
           </div>
         </div>
