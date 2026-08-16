@@ -230,8 +230,9 @@ function Home() {
 
       {/* ---------------- GOLD SLOGAN / SKYLINE BAND ---------------- */}
       <section className="relative overflow-hidden bg-gold">
-        <Skyline className="pointer-events-none absolute bottom-0 left-0 h-full w-[26%] text-gold-foreground opacity-90" />
-        <div className="relative z-10 mx-auto flex max-w-[1500px] flex-col items-center gap-4 px-5 py-5 md:px-10 lg:flex-row lg:justify-center lg:gap-10">
+        <Skyline className="pointer-events-none absolute bottom-0 left-0 h-full w-[20%] text-gold-foreground" />
+        <div className="relative z-10 mx-auto flex max-w-[1500px] flex-col items-center gap-4 px-5 py-5 md:px-10 lg:flex-row lg:justify-center lg:gap-10 lg:pl-[22%] lg:pr-[14%]">
+
           <p className="display text-center text-xl leading-none tracking-[0.01em] text-gold-foreground md:text-[30px]">
             Bold Food. Real Values. <span className="text-ink">Rochester Proud.</span>
           </p>
