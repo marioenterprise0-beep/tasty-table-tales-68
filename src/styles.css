@@ -35,7 +35,7 @@
   --color-gold-foreground: var(--gold-foreground);
   --color-ink: var(--ink);
   --color-hairline: var(--hairline);
-  --font-display: "Anton", "Arial Narrow", sans-serif;
+  --font-display: "Archivo Black", "Arial Black", sans-serif;
   --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
 }
 
@@ -85,7 +85,7 @@
   h2,
   h3 {
     font-family: var(--font-display);
-    letter-spacing: 0.01em;
+    letter-spacing: -0.01em;
   }
 }
 
