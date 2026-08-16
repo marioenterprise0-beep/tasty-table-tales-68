@@ -198,13 +198,14 @@ function Home() {
       {/* SKYLINE BAND */}
       <section className="relative bg-gold overflow-hidden">
         <div
-          className="absolute inset-y-0 left-0 w-[30%] bg-ink"
-          style={{ clipPath: "polygon(0 0, 82% 0, 100% 100%, 0 100%)" }}
+          className="absolute inset-y-0 left-0 w-[24%] bg-ink"
+          style={{ clipPath: "polygon(0 0, 78% 0, 100% 100%, 0 100%)" }}
           aria-hidden="true"
         />
-        <Skyline className="absolute bottom-0 left-0 w-[26%] h-full text-gold/70 z-10" />
-        <div className="relative z-20 mx-auto max-w-[1500px] px-6 md:px-10 py-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <Skyline className="absolute bottom-0 left-0 w-[20%] h-full text-gold/70 z-10" />
+        <div className="relative z-20 mx-auto max-w-[1500px] pl-[26%] pr-6 md:pr-10 py-4 flex flex-col sm:flex-row items-center justify-center gap-4">
           <p className="display text-gold-foreground text-lg md:text-2xl text-center tracking-[0.01em]">
+
             Bold Food. Real Values. Rochester Proud.
           </p>
           <Link
