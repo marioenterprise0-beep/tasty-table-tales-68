@@ -61,7 +61,7 @@ function Home() {
       {/* ---------------- HERO ---------------- */}
       <section id="home" className="relative isolate overflow-hidden bg-gold scroll-mt-24">
         {/* black right third + ragged transition */}
-        <div className="absolute inset-y-0 right-0 w-full bg-ink lg:w-[34%]" aria-hidden="true" />
+        <div className="absolute inset-0 bg-ink lg:hidden" aria-hidden="true" />
         <div
           className="absolute inset-y-0 right-0 hidden w-[42%] bg-ink lg:block"
           aria-hidden="true"
@@ -70,10 +70,10 @@ function Home() {
               "polygon(28% 0%, 100% 0%, 100% 100%, 26% 100%, 31% 94%, 22% 88%, 30% 82%, 21% 75%, 29% 69%, 20% 63%, 30% 57%, 22% 50%, 31% 44%, 21% 38%, 29% 31%, 20% 25%, 30% 18%, 23% 11%, 30% 6%)",
           }}
         />
-        <span className="absolute left-[62.5%] top-[22%] hidden size-3 rotate-45 bg-ink lg:block" aria-hidden="true" />
-        <span className="absolute left-[60%] top-[46%] hidden size-2 rounded-full bg-ink lg:block" aria-hidden="true" />
-        <span className="absolute left-[63%] top-[68%] hidden size-4 rounded-full bg-ink lg:block" aria-hidden="true" />
-        <span className="absolute left-[59%] top-[82%] hidden size-1.5 rounded-full bg-ink lg:block" aria-hidden="true" />
+        <span className="absolute left-[66.5%] top-[20%] hidden size-3 rotate-45 bg-ink lg:block" aria-hidden="true" />
+        <span className="absolute left-[64.5%] top-[45%] hidden size-2 rounded-full bg-ink lg:block" aria-hidden="true" />
+        <span className="absolute left-[67%] top-[66%] hidden size-4 rounded-full bg-ink lg:block" aria-hidden="true" />
+        <span className="absolute left-[64%] top-[84%] hidden size-1.5 rounded-full bg-ink lg:block" aria-hidden="true" />
 
         {/* thin gold bridge line-art, upper right over the black */}
         <BridgeArch className="pointer-events-none absolute right-[2%] top-4 z-10 hidden w-[26%] max-w-[380px] text-gold/75 lg:block" />
