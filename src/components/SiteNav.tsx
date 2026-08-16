@@ -71,7 +71,7 @@ export function SiteNav() {
               href={ORDER_URL}
               target="_blank"
               rel="noreferrer"
-              className="pill-outline hidden sm:inline-flex px-6 py-2.5 text-[11px]"
+              className="pill-ghost-dark hidden sm:inline-flex px-6 py-2.5 text-[11px]"
             >
               Order Now
             </a>
@@ -112,10 +112,10 @@ export function SiteNav() {
                 );
               })}
               <li className="p-3 flex gap-2">
-                <a href={ORDER_URL} target="_blank" rel="noreferrer" className="pill-gold flex-1 px-4 py-3 text-[11px]">
+                <a href={ORDER_URL} target="_blank" rel="noreferrer" className="pill-ghost-dark flex-1 px-4 py-3 text-[11px]">
                   Order Now
                 </a>
-                <Link to="/locations" onClick={() => setOpen(false)} className="pill-outline flex-1 px-4 py-3 text-[11px]">
+                <Link to="/locations" onClick={() => setOpen(false)} className="pill-gold flex-1 px-4 py-3 text-[11px]">
                   Find a Location
                 </Link>
               </li>
