@@ -74,6 +74,10 @@
     border-color: var(--color-border);
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
@@ -119,6 +123,26 @@
   border: 1.5px solid var(--gold);
   color: var(--gold);
   background: transparent;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+  &:hover {
+    background: var(--gold);
+    color: var(--gold-foreground);
+  }
+}
+
+@utility pill-ghost-dark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  border: 1.5px solid var(--gold);
+  background: var(--ink);
+  color: #fff;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.12em;
