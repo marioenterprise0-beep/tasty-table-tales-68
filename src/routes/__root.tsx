@@ -67,6 +67,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         name: "description",
         content: "Halal smash burgers, fried chicken and wraps made fresh daily in Rochester, NY.",
       },
+      { property: "og:site_name", content: "Gotham Halal" },
+      { property: "og:type", content: "website" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -78,7 +80,26 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: "https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:wght@400;500;700&display=swap",
       },
     ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Restaurant",
+          name: "Gotham Halal",
+          servesCuisine: ["Halal", "American", "Burgers"],
+          slogan: "Bold. Halal. Gotham.",
+          address: {
+            "@type": "PostalAddress",
+            addressLocality: "Rochester",
+            addressRegion: "NY",
+            addressCountry: "US",
+          },
+        }),
+      },
+    ],
   }),
+
 
   shellComponent: RootShell,
   component: RootComponent,
