@@ -36,12 +36,12 @@ function MenuPage() {
         <div className="mx-auto max-w-4xl space-y-14">
           {MENU_SECTIONS.map((section) => (
             <div key={section}>
-              <h2 className="font-display text-2xl uppercase tracking-tight text-gold">{section}</h2>
+              <h2 className="display text-2xl text-gold">{section}</h2>
               <ul className="mt-6 divide-y divide-gold/20 border-t border-gold/20">
                 {MENU_DISHES.filter((d) => d.section === section).map((dish) => (
                   <li key={dish.name} className="py-5">
-                    <h3 className="font-display text-lg uppercase tracking-tight text-background">{dish.name}</h3>
-                    <p className="mt-1 text-sm text-background/70">{dish.copy}</p>
+                    <h3 className="display text-lg">{dish.name}</h3>
+                    <p className="mt-1 text-sm text-muted-foreground">{dish.copy}</p>
                   </li>
                 ))}
               </ul>
