@@ -8,7 +8,11 @@ export const Route = createFileRoute("/our-story")({
       { name: "description", content: "Rochester born, community driven. The story behind Gotham Halal's hand-zabihah smash burgers." },
       { property: "og:title", content: "Our Story — Gotham Halal" },
       { property: "og:description", content: "Rochester born, community driven halal smash burgers." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:url", content: "/our-story" },
     ],
+    links: [{ rel: "canonical", href: "/our-story" }],
   }),
   component: StoryPage,
 });

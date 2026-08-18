@@ -8,7 +8,11 @@ export const Route = createFileRoute("/rewards")({
       { name: "description", content: "Order ahead, skip the line and earn rewards every time you eat with Gotham Halal." },
       { property: "og:title", content: "Rewards — Gotham Halal" },
       { property: "og:description", content: "Order ahead, skip the line, earn rewards." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:url", content: "/rewards" },
     ],
+    links: [{ rel: "canonical", href: "/rewards" }],
   }),
   component: RewardsPage,
 });

@@ -8,7 +8,11 @@ export const Route = createFileRoute("/menu")({
       { name: "description", content: "Smash burgers, halal fried chicken, wraps, bowls and loaded fries from Gotham Halal." },
       { property: "og:title", content: "Menu — Gotham Halal" },
       { property: "og:description", content: "Smash burgers, halal fried chicken, wraps and loaded fries." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:url", content: "/menu" },
     ],
+    links: [{ rel: "canonical", href: "/menu" }],
   }),
   component: MenuPage,
 });

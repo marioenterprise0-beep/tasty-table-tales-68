@@ -10,7 +10,9 @@ export const Route = createFileRoute("/media")({
       { property: "og:description", content: "Press mentions and media inquiries for Gotham Halal." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:url", content: "/media" },
     ],
+    links: [{ rel: "canonical", href: "/media" }],
   }),
   component: MediaPage,
 });
