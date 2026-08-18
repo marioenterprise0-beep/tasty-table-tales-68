@@ -4,7 +4,20 @@ export type MenuDish = {
   price: string;
   section: string;
   featured?: boolean;
+  /** Explicit ingredient list shown in the item details modal. */
+  ingredients?: string[];
+  /** Combo / add-on options shown in the item details modal. */
+  addOns?: string[];
 };
+
+/** Standard add-on options available on every burger. */
+export const BURGER_ADD_ONS = [
+  "Make it a combo — Gotham Regular Fries + Dirty Soda",
+  "Add Gotham Regular Fries",
+  "Extra American cheese",
+  "Add jalapeños",
+  "Extra Gotham Sauce",
+];
 
 export const MENU_DISHES: MenuDish[] = [
   // ---- Gotham Burgers ----
