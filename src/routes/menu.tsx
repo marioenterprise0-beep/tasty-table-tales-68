@@ -246,7 +246,7 @@ function MenuPage() {
                   <div className="flex items-center justify-between gap-4 pb-3">
                     <span className="display text-lg text-gold">${selected.price}</span>
                     <a
-                      href="/order"
+                      href="https://ordergothamhalal.com"
                       className="display inline-flex h-11 flex-1 items-center justify-center rounded-full bg-gold px-6 text-xs tracking-[0.16em] text-ink"
                     >
                       ORDER NOW
@@ -281,7 +281,7 @@ function MenuPage() {
                     {selected.section.toUpperCase()} · 100% HALAL
                   </span>
                   <a
-                    href="/order"
+                    href="https://ordergothamhalal.com"
                     className="display inline-flex h-10 items-center rounded-full bg-gold px-6 text-xs tracking-[0.16em] text-ink"
                   >
                     ORDER NOW
