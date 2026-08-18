@@ -12,13 +12,13 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Halal burgers, fried chicken & sandwiches made fresh daily in Rochester, NY. Built for flavor. Made for you.",
+          "Halal smash burgers and loaded fries made fresh daily in Rochester, NY. Built for flavor. Made for you.",
       },
       { property: "og:title", content: "Gotham Halal — Bold. Halal. Gotham." },
       {
         property: "og:description",
         content:
-          "Halal smash burgers, fried chicken and sandwiches made fresh daily in Rochester, NY.",
+          "Halal smash burgers and loaded fries made fresh daily in Rochester, NY.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -74,7 +74,7 @@ function Home() {
               <span className="block">Gotham.</span>
             </h1>
             <p className="mt-6 max-w-sm text-[17px] leading-snug text-white/90">
-              Halal burgers, fried chicken &amp; sandwiches made fresh daily. Built for flavor. Made
+              Halal smash burgers and loaded fries made fresh daily. Built for flavor. Made
               for you.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">

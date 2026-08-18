@@ -6,9 +6,9 @@ export const Route = createFileRoute("/menu")({
   head: () => ({
     meta: [
       { title: "Menu — Gotham Halal Smash Burgers" },
-      { name: "description", content: "Smash burgers, halal fried chicken, wraps, bowls and loaded fries from Gotham Halal." },
+      { name: "description", content: "Halal smash burgers and loaded fries made fresh daily at Gotham Halal." },
       { property: "og:title", content: "Menu — Gotham Halal" },
-      { property: "og:description", content: "Smash burgers, halal fried chicken, wraps and loaded fries." },
+      { property: "og:description", content: "Halal smash burgers and loaded fries made fresh daily." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { property: "og:url", content: "/menu" },
@@ -30,7 +30,7 @@ function MenuPage() {
       <PageHeader
         eyebrow="Our Signature"
         title="Menu"
-        blurb="The full Gotham Halal lineup lands here next — burgers, chicken, wraps, bowls, fries and dirty sodas."
+        blurb="The full Gotham Halal lineup — smash burgers, fries and loaded fries made fresh daily."
       />
       <section className="bg-ink px-6 pb-24">
         <div className="mx-auto max-w-4xl space-y-14">
