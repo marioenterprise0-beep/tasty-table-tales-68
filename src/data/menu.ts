@@ -156,24 +156,33 @@ export const MENU_SPECIALS = "Specials: 5 Double Smash $50 | 10 for $100";
 
 export const FEATURED_DISHES = MENU_DISHES.filter((d) => d.featured);
 
+const isVegetarian = (d: MenuDish) =>
+  /vegetar|falafel/i.test(d.name) || /vegetar|falafel/i.test(d.copy);
+
 export const menuJsonLd = {
   "@context": "https://schema.org",
   "@type": "Menu",
   name: "Gotham Halal Menu",
   url: "/menu",
   inLanguage: "en-US",
-  hasMenuSection: MENU_SECTIONS.map((section) => ({
+  hasMenuSection: MENU_SECTIONS.map((section, sectionIndex) => ({
     "@type": "MenuSection",
     name: section,
-    hasMenuItem: MENU_DISHES.filter((d) => d.section === section).map((d) => ({
+    position: sectionIndex + 1,
+    hasMenuItem: MENU_DISHES.filter((d) => d.section === section).map((d, itemIndex) => ({
       "@type": "MenuItem",
       name: d.name,
       description: d.copy,
-      suitableForDiet: "https://schema.org/HalalDiet",
+      position: itemIndex + 1,
+      menuAddOn: (d.addOns ?? []).map((a) => ({ "@type": "MenuItem", name: a })),
+      suitableForDiet: isVegetarian(d)
+        ? ["https://schema.org/HalalDiet", "https://schema.org/VegetarianDiet"]
+        : "https://schema.org/HalalDiet",
       offers: {
         "@type": "Offer",
         price: d.price,
         priceCurrency: "USD",
+        availability: "https://schema.org/InStock",
       },
     })),
   })),
