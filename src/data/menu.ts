@@ -4,7 +4,20 @@ export type MenuDish = {
   price: string;
   section: string;
   featured?: boolean;
+  /** Explicit ingredient list shown in the item details modal. */
+  ingredients?: string[];
+  /** Combo / add-on options shown in the item details modal. */
+  addOns?: string[];
 };
+
+/** Standard add-on options available on every burger. */
+export const BURGER_ADD_ONS = [
+  "Make it a combo — Gotham Regular Fries + Dirty Soda",
+  "Add Gotham Regular Fries",
+  "Extra American cheese",
+  "Add jalapeños",
+  "Extra Gotham Sauce",
+];
 
 export const MENU_DISHES: MenuDish[] = [
   // ---- Gotham Burgers ----
@@ -107,12 +120,25 @@ export const MENU_DISHES: MenuDish[] = [
     price: "13.00",
     featured: true,
   },
+
+  // ---- Healthy Options ----
   {
-    section: "Gotham Fries",
+    section: "Healthy Options",
     name: "Smashafel (Vegetarian)",
     copy: "Crispy smashed falafel on a toasted bun with lettuce, tomatoes, pickles, onions + Gotham Sauce.",
     price: "8.00",
+    ingredients: ["Smashed falafel patty", "Toasted bun", "Lettuce", "Tomatoes", "Pickles", "Onions", "Gotham Sauce"],
+    addOns: ["Add Gotham Regular Fries", "Extra Gotham Sauce", "Add jalapeños"],
   },
+  {
+    section: "Healthy Options",
+    name: "The Clean Getaway",
+    copy: "Lettuce wrapped smashed patties with American cheese and Gotham Sauce.",
+    price: "12.00",
+    ingredients: ["Smashed beef patties", "American cheese", "Gotham Sauce", "Lettuce wrap"],
+    addOns: ["Add an extra patty", "Add jalapeños", "Extra Gotham Sauce"],
+  },
+
 
   // ---- Gotham Dirty Sodas ----
   { section: "Gotham Dirty Sodas", name: "Strawberry Siren", copy: "Sweet strawberry with a smooth, creamy finish.", price: "6.00" },
