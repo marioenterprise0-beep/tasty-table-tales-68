@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { BadgeCheck, Leaf, Flame, Building2, Apple, Play } from "lucide-react";
 import { MediaSlot } from "@/components/MediaSlot";
-import { MENU_DISHES } from "@/data/menu";
+import { FEATURED_DISHES } from "@/data/menu";
 import heroBg from "@/assets/gotham-hero-bg.png.asset.json";
 import footerBand from "@/assets/gotham-footer-band.png.asset.json";
 
@@ -37,7 +37,7 @@ const PILLARS = [
   { Icon: Building2, title: "ROC Roots", copy: "Born in Rochester. Community driven." },
 ];
 
-const HIGHLIGHTS = MENU_DISHES;
+const HIGHLIGHTS = FEATURED_DISHES;
 
 function Home() {
   return (
@@ -112,27 +112,27 @@ function Home() {
             </h2>
           </div>
 
-          <div className="mt-8 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-8 grid items-stretch gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
             {HIGHLIGHTS.map((item, i) => (
               <article
                 key={item.name}
-                className={`flex items-start gap-4 ${
+                className={`flex h-full items-stretch gap-4 ${
                   i > 0 ? "lg:border-l lg:border-gold-foreground/25 lg:pl-8" : ""
                 }`}
               >
                 <div className="w-[42%] shrink-0">
                   <MediaSlot ratio="square" tone="gold" label={item.name} />
                 </div>
-                <div className="min-w-0">
-                  <h3 className="display text-[15px] leading-tight tracking-[0.01em] text-gold-foreground">
+                <div className="flex min-w-0 flex-1 flex-col">
+                  <h3 className="display min-h-[2.4em] text-[15px] leading-tight tracking-[0.01em] text-gold-foreground">
                     {item.name}
                   </h3>
                   <p className="mt-2 text-[13px] leading-snug text-gold-foreground/85">
                     {item.copy}
                   </p>
                   <a
-                    href="#menu-highlights"
-                    className="display mt-3 inline-flex items-center rounded-full border-[1.5px] border-gold-foreground px-5 py-1.5 text-[10.5px] tracking-[0.14em] text-gold-foreground transition hover:bg-gold-foreground hover:text-gold"
+                    href="/menu"
+                    className="display mt-auto inline-flex w-[8.5rem] items-center justify-center rounded-full border-[1.5px] border-gold-foreground px-4 pt-[0.55rem] pb-[0.5rem] text-[10.5px] leading-none tracking-[0.14em] text-gold-foreground transition hover:bg-gold-foreground hover:text-gold"
                   >
                     Order Now
                   </a>
