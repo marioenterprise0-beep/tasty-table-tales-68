@@ -16,11 +16,16 @@ import { SiteFooter } from "@/components/SiteFooter";
 
 function NotFoundComponent() {
   return (
-    <div className="flex min-h-screen items-center justify-center px-4">
+    <div className="flex min-h-[60vh] items-center justify-center bg-ink px-4">
       <div className="max-w-md text-center">
-        <h1 className="text-4xl font-semibold">404</h1>
-        <p className="mt-2 text-sm text-muted-foreground">Page not found.</p>
-        <Link to="/" className="mt-6 inline-block underline">Go home</Link>
+        <p className="display text-xs tracking-[0.3em] text-gold">Lost in Gotham</p>
+        <h1 className="display mt-3 text-6xl text-foreground">404</h1>
+        <p className="mt-3 text-sm text-muted-foreground">
+          That page isn&apos;t on the menu.
+        </p>
+        <Link to="/" className="pill-gold mt-7 px-7 py-2.5 text-[11px]">
+          Back Home
+        </Link>
       </div>
     </div>
   );
@@ -34,12 +39,15 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   }, [error]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center px-4">
+    <div className="flex min-h-[60vh] items-center justify-center bg-ink px-4">
       <div className="max-w-md text-center">
-        <h1 className="text-lg font-semibold">Something went wrong</h1>
+        <h1 className="display text-2xl text-gold">Something went wrong</h1>
+        <p className="mt-3 text-sm text-muted-foreground">
+          Give it another shot — the kitchen&apos;s still open.
+        </p>
         <button
           onClick={() => { router.invalidate(); reset(); }}
-          className="mt-4 inline-flex rounded-md bg-primary px-4 py-2 text-sm text-primary-foreground"
+          className="pill-gold mt-7 px-7 py-2.5 text-[11px]"
         >
           Try again
         </button>
@@ -47,6 +55,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
     </div>
   );
 }
+
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
