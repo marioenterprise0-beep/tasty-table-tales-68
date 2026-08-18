@@ -1,6 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader } from "@/components/PageHeader";
 import { MENU_DISHES, MENU_SECTIONS, MENU_SPECIALS, menuJsonLd } from "@/data/menu";
+import { assertMenuSource } from "@/data/menu.check";
+
+assertMenuSource();
 
 export const Route = createFileRoute("/menu")({
   head: () => ({
