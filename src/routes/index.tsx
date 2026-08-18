@@ -123,21 +123,19 @@ function Home() {
                   i > 0 ? "lg:border-l lg:border-gold-foreground/25 lg:pl-8" : ""
                 }`}
               >
-                <div className="aspect-square w-[42%] shrink-0">
+                <div className="aspect-square w-[34%] max-w-[7rem] shrink-0">
                   <MediaSlot ratio="square" tone="gold" label={item.name} className="h-full" />
                 </div>
-                <div className="flex min-w-0 flex-1 flex-col justify-between">
-                  <div>
-                    <h3 className="display line-clamp-2 min-h-[2.4em] text-[15px] leading-tight tracking-[0.01em] text-gold-foreground">
-                      {item.name}
-                    </h3>
-                    <p className="mt-2 line-clamp-3 text-[13px] leading-snug text-gold-foreground/85">
-                      {item.copy}
-                    </p>
-                  </div>
+                <div className="flex min-w-0 flex-1 flex-col">
+                  <h3 className="display text-[14px] leading-tight tracking-[0.01em] text-gold-foreground">
+                    {item.name}
+                  </h3>
+                  <p className="mt-2 text-[13px] leading-snug text-gold-foreground/85">
+                    {item.copy}
+                  </p>
                   <a
                     href="/menu"
-                    className="display mt-4 inline-flex h-9 w-[8.5rem] shrink-0 items-center justify-center rounded-full border-[1.5px] border-gold-foreground px-4 text-[10.5px] leading-none tracking-[0.14em] text-gold-foreground transition hover:bg-gold-foreground hover:text-gold"
+                    className="display mt-4 inline-flex h-9 w-[8.5rem] shrink-0 items-center justify-center self-start rounded-full border-[1.5px] border-gold-foreground px-4 text-[10.5px] leading-none tracking-[0.14em] text-gold-foreground transition hover:bg-gold-foreground hover:text-gold lg:mt-auto"
                   >
                     Order Now
                   </a>
@@ -145,6 +143,7 @@ function Home() {
               </article>
             ))}
           </div>
+
         </div>
       </section>
 
