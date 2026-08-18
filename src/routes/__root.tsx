@@ -65,7 +65,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "Gotham Halal — Bold. Halal. Gotham." },
       {
         name: "description",
-        content: "Halal smash burgers, fried chicken and wraps made fresh daily in Rochester, NY.",
+        content: "Halal smash burgers and loaded fries made fresh daily in Rochester, NY.",
       },
       { property: "og:site_name", content: "Gotham Halal" },
       { property: "og:type", content: "website" },

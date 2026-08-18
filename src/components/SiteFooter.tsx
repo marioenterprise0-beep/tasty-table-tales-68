@@ -25,7 +25,7 @@ export function SiteFooter() {
         <div className="space-y-4">
           <img src="/gotham-halal-logo.svg" alt="Gotham Halal" className="h-16 w-auto" />
           <p className="max-w-xs text-sm text-white/60">
-            Halal burgers, fried chicken &amp; sandwiches made fresh daily. Born in Rochester, NY.
+            Halal smash burgers and loaded fries made fresh daily. Born in Rochester, NY.
           </p>
         </div>
 
