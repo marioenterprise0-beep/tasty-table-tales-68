@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { BadgeCheck, Leaf, Flame, Building2, Apple, Play } from "lucide-react";
 import { MediaSlot } from "@/components/MediaSlot";
+import { MENU_DISHES } from "@/data/menu";
 import heroBg from "@/assets/gotham-hero-bg.png.asset.json";
 import footerBand from "@/assets/gotham-footer-band.png.asset.json";
 
@@ -36,24 +37,7 @@ const PILLARS = [
   { Icon: Building2, title: "ROC Roots", copy: "Born in Rochester. Community driven." },
 ];
 
-const HIGHLIGHTS = [
-  {
-    name: "Gotham Single Smash",
-    copy: "Single beef patty, American cheese, caramelized onions, pickles, Gotham Sauce, sesame bun.",
-  },
-  {
-    name: "Heatwave Double Smash",
-    copy: "Double smash patties, pepper jack cheese, jalapeños, spicy aioli, pickles, sesame bun.",
-  },
-  {
-    name: "Red Moon Smash Burger",
-    copy: "Double smash patties, hot Cheeto crunch, pepper jack cheese, pickled jalapeños, Red Moon sauce, sesame bun.",
-  },
-  {
-    name: "Crime Scene Fries",
-    copy: "Fries loaded with beef bacon, jalapeños, cheese sauce, ranch drizzle, chopped Gotham Sauce.",
-  },
-];
+const HIGHLIGHTS = MENU_DISHES;
 
 function Home() {
   return (
