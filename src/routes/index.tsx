@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { BadgeCheck, Leaf, Flame, Building2, Apple, Play } from "lucide-react";
 import { MediaSlot } from "@/components/MediaSlot";
-import { MENU_DISHES } from "@/data/menu";
+import { FEATURED_DISHES } from "@/data/menu";
 import heroBg from "@/assets/gotham-hero-bg.png.asset.json";
 import footerBand from "@/assets/gotham-footer-band.png.asset.json";
 
@@ -37,7 +37,7 @@ const PILLARS = [
   { Icon: Building2, title: "ROC Roots", copy: "Born in Rochester. Community driven." },
 ];
 
-const HIGHLIGHTS = MENU_DISHES;
+const HIGHLIGHTS = FEATURED_DISHES;
 
 function Home() {
   return (
