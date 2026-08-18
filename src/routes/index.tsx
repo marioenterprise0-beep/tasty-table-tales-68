@@ -116,23 +116,25 @@ function Home() {
             {HIGHLIGHTS.map((item, i) => (
               <article
                 key={item.name}
-                className={`flex h-full items-stretch gap-4 ${
+                className={`flex h-full gap-4 ${
                   i > 0 ? "lg:border-l lg:border-gold-foreground/25 lg:pl-8" : ""
                 }`}
               >
-                <div className="w-[42%] shrink-0">
-                  <MediaSlot ratio="square" tone="gold" label={item.name} />
+                <div className="aspect-square w-[42%] shrink-0">
+                  <MediaSlot ratio="square" tone="gold" label={item.name} className="h-full" />
                 </div>
-                <div className="flex min-w-0 flex-1 flex-col">
-                  <h3 className="display min-h-[2.4em] text-[15px] leading-tight tracking-[0.01em] text-gold-foreground">
-                    {item.name}
-                  </h3>
-                  <p className="mt-2 text-[13px] leading-snug text-gold-foreground/85">
-                    {item.copy}
-                  </p>
+                <div className="flex min-w-0 flex-1 flex-col justify-between">
+                  <div>
+                    <h3 className="display line-clamp-2 min-h-[2.4em] text-[15px] leading-tight tracking-[0.01em] text-gold-foreground">
+                      {item.name}
+                    </h3>
+                    <p className="mt-2 line-clamp-3 text-[13px] leading-snug text-gold-foreground/85">
+                      {item.copy}
+                    </p>
+                  </div>
                   <a
                     href="/menu"
-                    className="display mt-auto inline-flex w-[8.5rem] items-center justify-center rounded-full border-[1.5px] border-gold-foreground px-4 pt-[0.55rem] pb-[0.5rem] text-[10.5px] leading-none tracking-[0.14em] text-gold-foreground transition hover:bg-gold-foreground hover:text-gold"
+                    className="display mt-4 inline-flex h-9 w-[8.5rem] shrink-0 items-center justify-center rounded-full border-[1.5px] border-gold-foreground px-4 text-[10.5px] leading-none tracking-[0.14em] text-gold-foreground transition hover:bg-gold-foreground hover:text-gold"
                   >
                     Order Now
                   </a>
