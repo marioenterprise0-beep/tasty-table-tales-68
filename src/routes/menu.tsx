@@ -11,6 +11,14 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 assertMenuSource();
 
@@ -58,7 +66,36 @@ function addOnsFor(dish: MenuDish): string[] {
   return ["Add Gotham Regular Fries", "Add a Dirty Soda"];
 }
 
+function DetailBody({ dish }: { dish: MenuDish }) {
+  return (
+    <div className="space-y-6">
+      <div>
+        <h4 className="display text-[11px] tracking-[0.2em] text-gold">INGREDIENTS</h4>
+        <ul className="mt-2 flex flex-wrap gap-2">
+          {ingredientsFor(dish).map((i) => (
+            <li key={i} className="rounded-full border border-gold/30 px-3 py-1 text-xs text-cream/90">
+              {i}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <h4 className="display text-[11px] tracking-[0.2em] text-gold">COMBOS &amp; ADD-ONS</h4>
+        <ul className="mt-2 space-y-1.5 text-sm text-muted-foreground">
+          {addOnsFor(dish).map((a) => (
+            <li key={a}>• {a}</li>
+          ))}
+        </ul>
+      </div>
+      <p className="display text-[11px] tracking-[0.16em] text-gold/70">
+        {dish.section.toUpperCase()} · 100% HALAL
+      </p>
+    </div>
+  );
+}
+
 function MenuPage() {
+  const isMobile = useIsMobile();
   const [tab, setTab] = React.useState<string>("All");
   const [query, setQuery] = React.useState("");
   const [selected, setSelected] = React.useState<MenuDish | null>(null);
@@ -190,7 +227,7 @@ function MenuPage() {
       </section>
 
       {isMobile ? (
-        <Drawer open={selected !== null} onOpenChange={(open) => !open && setSelected(null)}>
+        <Drawer open={selected !== null} onOpenChange={(open: boolean) => !open && setSelected(null)}>
           <DrawerContent className="max-h-[88vh] border-gold/40 bg-ink text-cream">
             {selected && (
               <>
@@ -221,7 +258,7 @@ function MenuPage() {
           </DrawerContent>
         </Drawer>
       ) : (
-        <Dialog open={selected !== null} onOpenChange={(open) => !open && setSelected(null)}>
+        <Dialog open={selected !== null} onOpenChange={(open: boolean) => !open && setSelected(null)}>
           <DialogContent className="flex max-h-[85vh] flex-col gap-0 border-gold/40 bg-ink p-0 text-cream sm:max-w-lg">
             {selected && (
               <>
