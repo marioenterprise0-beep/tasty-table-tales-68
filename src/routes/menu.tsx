@@ -83,15 +83,28 @@ function MenuPage() {
       <section className="bg-ink px-6 pb-24 pt-10">
         <div className="mx-auto max-w-6xl">
           {/* Filters */}
-          <div className="flex flex-col gap-4 border-b border-gold/20 pb-6 lg:flex-row lg:items-center lg:justify-between">
-            <div className="flex min-w-0 flex-wrap gap-2">
+          <div className="flex flex-col gap-4 border-b border-gold/20 pb-6 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
+            <Input
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search the menu…"
+              aria-label="Search menu items"
+              className="order-1 h-11 w-full min-w-0 border-gold/40 bg-ink text-cream placeholder:text-muted-foreground lg:order-2 lg:h-10 lg:w-64 lg:shrink-0"
+            />
+            <div
+              role="tablist"
+              aria-label="Menu categories"
+              className="order-2 -mx-6 flex snap-x gap-2 overflow-x-auto px-6 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:order-1 lg:mx-0 lg:flex-wrap lg:overflow-visible lg:px-0"
+            >
               {["All", ...MENU_SECTIONS].map((section) => (
                 <button
                   key={section}
                   type="button"
+                  role="tab"
                   onClick={() => setTab(section)}
-                  aria-pressed={tab === section}
-                  className={`display h-9 shrink-0 rounded-full border px-4 text-[11px] tracking-[0.14em] transition ${
+                  aria-selected={tab === section}
+                  className={`display h-9 shrink-0 snap-start whitespace-nowrap rounded-full border px-4 text-[11px] tracking-[0.14em] transition ${
                     tab === section
                       ? "border-gold bg-gold text-ink"
                       : "border-gold/40 text-gold hover:border-gold hover:bg-gold/10"
@@ -101,14 +114,6 @@ function MenuPage() {
                 </button>
               ))}
             </div>
-            <Input
-              type="search"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search the menu…"
-              aria-label="Search menu items"
-              className="h-10 w-full border-gold/40 bg-ink text-cream placeholder:text-muted-foreground lg:w-64"
-            />
           </div>
 
           {/* Sections */}
