@@ -11,6 +11,14 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 assertMenuSource();
 
@@ -58,7 +66,36 @@ function addOnsFor(dish: MenuDish): string[] {
   return ["Add Gotham Regular Fries", "Add a Dirty Soda"];
 }
 
+function DetailBody({ dish }: { dish: MenuDish }) {
+  return (
+    <div className="space-y-6">
+      <div>
+        <h4 className="display text-[11px] tracking-[0.2em] text-gold">INGREDIENTS</h4>
+        <ul className="mt-2 flex flex-wrap gap-2">
+          {ingredientsFor(dish).map((i) => (
+            <li key={i} className="rounded-full border border-gold/30 px-3 py-1 text-xs text-cream/90">
+              {i}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <h4 className="display text-[11px] tracking-[0.2em] text-gold">COMBOS &amp; ADD-ONS</h4>
+        <ul className="mt-2 space-y-1.5 text-sm text-muted-foreground">
+          {addOnsFor(dish).map((a) => (
+            <li key={a}>• {a}</li>
+          ))}
+        </ul>
+      </div>
+      <p className="display text-[11px] tracking-[0.16em] text-gold/70">
+        {dish.section.toUpperCase()} · 100% HALAL
+      </p>
+    </div>
+  );
+}
+
 function MenuPage() {
+  const isMobile = useIsMobile();
   const [tab, setTab] = React.useState<string>("All");
   const [query, setQuery] = React.useState("");
   const [selected, setSelected] = React.useState<MenuDish | null>(null);
@@ -189,47 +226,73 @@ function MenuPage() {
         </div>
       </section>
 
-      <Dialog open={selected !== null} onOpenChange={(open) => !open && setSelected(null)}>
-        <DialogContent className="border-gold/40 bg-ink text-cream sm:max-w-lg">
-          {selected && (
-            <>
-              <DialogHeader>
-                <DialogTitle className="display flex items-start justify-between gap-6 text-left text-lg text-cream">
-                  <span className="min-w-0">{selected.name}</span>
-                  <span className="shrink-0 text-gold">${selected.price}</span>
-                </DialogTitle>
-                <DialogDescription className="text-left text-sm text-muted-foreground">
-                  {selected.copy}
-                </DialogDescription>
-              </DialogHeader>
+      {isMobile ? (
+        <Drawer open={selected !== null} onOpenChange={(open: boolean) => !open && setSelected(null)}>
+          <DrawerContent className="max-h-[88vh] border-gold/40 bg-ink text-cream">
+            {selected && (
+              <>
+                <DrawerHeader className="px-5 pb-2 text-left">
+                  <DrawerTitle className="display text-left text-lg text-cream">{selected.name}</DrawerTitle>
+                  <DrawerDescription className="text-left text-sm text-muted-foreground">
+                    {selected.copy}
+                  </DrawerDescription>
+                </DrawerHeader>
 
-              <div className="space-y-6">
-                <div>
-                  <h4 className="display text-[11px] tracking-[0.2em] text-gold">INGREDIENTS</h4>
-                  <ul className="mt-2 flex flex-wrap gap-2">
-                    {ingredientsFor(selected).map((i) => (
-                      <li key={i} className="rounded-full border border-gold/30 px-3 py-1 text-xs text-cream/90">
-                        {i}
-                      </li>
-                    ))}
-                  </ul>
+                <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 pb-4">
+                  <DetailBody dish={selected} />
                 </div>
-                <div>
-                  <h4 className="display text-[11px] tracking-[0.2em] text-gold">COMBOS &amp; ADD-ONS</h4>
-                  <ul className="mt-2 space-y-1.5 text-sm text-muted-foreground">
-                    {addOnsFor(selected).map((a) => (
-                      <li key={a}>• {a}</li>
-                    ))}
-                  </ul>
+
+                <div className="sticky bottom-0 border-t border-gold/25 bg-ink/95 px-5 pb-[env(safe-area-inset-bottom)] pt-3 backdrop-blur">
+                  <div className="flex items-center justify-between gap-4 pb-3">
+                    <span className="display text-lg text-gold">${selected.price}</span>
+                    <a
+                      href="https://ordergothamhalal.com"
+                      className="display inline-flex h-11 flex-1 items-center justify-center rounded-full bg-gold px-6 text-xs tracking-[0.16em] text-ink"
+                    >
+                      ORDER NOW
+                    </a>
+                  </div>
                 </div>
-                <p className="display text-[11px] tracking-[0.16em] text-gold/70">
-                  {selected.section.toUpperCase()} · 100% HALAL
-                </p>
-              </div>
-            </>
-          )}
-        </DialogContent>
-      </Dialog>
+              </>
+            )}
+          </DrawerContent>
+        </Drawer>
+      ) : (
+        <Dialog open={selected !== null} onOpenChange={(open: boolean) => !open && setSelected(null)}>
+          <DialogContent className="flex max-h-[85vh] flex-col gap-0 border-gold/40 bg-ink p-0 text-cream sm:max-w-lg">
+            {selected && (
+              <>
+                <DialogHeader className="px-6 pt-6">
+                  <DialogTitle className="display flex items-start justify-between gap-6 text-left text-lg text-cream">
+                    <span className="min-w-0">{selected.name}</span>
+                    <span className="shrink-0 text-gold">${selected.price}</span>
+                  </DialogTitle>
+                  <DialogDescription className="text-left text-sm text-muted-foreground">
+                    {selected.copy}
+                  </DialogDescription>
+                </DialogHeader>
+
+                <div className="min-h-0 flex-1 overflow-y-auto px-6 py-4">
+                  <DetailBody dish={selected} />
+                </div>
+
+                <div className="sticky bottom-0 flex items-center justify-between gap-4 border-t border-gold/25 bg-ink/95 px-6 py-4 backdrop-blur">
+                  <span className="display text-[11px] tracking-[0.16em] text-gold/70">
+                    {selected.section.toUpperCase()} · 100% HALAL
+                  </span>
+                  <a
+                    href="https://ordergothamhalal.com"
+                    className="display inline-flex h-10 items-center rounded-full bg-gold px-6 text-xs tracking-[0.16em] text-ink"
+                  >
+                    ORDER NOW
+                  </a>
+                </div>
+              </>
+            )}
+          </DialogContent>
+        </Dialog>
+      )}
+
     </>
   );
 }
