@@ -10,7 +10,9 @@ export const Route = createFileRoute("/locations")({
       { property: "og:description", content: "Find a Gotham Halal location near you in Rochester, NY." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:url", content: "/locations" },
     ],
+    links: [{ rel: "canonical", href: "/locations" }],
   }),
   component: LocationsPage,
 });

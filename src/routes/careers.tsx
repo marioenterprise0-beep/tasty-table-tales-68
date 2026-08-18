@@ -10,7 +10,9 @@ export const Route = createFileRoute("/careers")({
       { property: "og:description", content: "Join the Gotham Halal crew in Rochester, NY." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:url", content: "/careers" },
     ],
+    links: [{ rel: "canonical", href: "/careers" }],
   }),
   component: CareersPage,
 });

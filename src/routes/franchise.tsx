@@ -10,7 +10,9 @@ export const Route = createFileRoute("/franchise")({
       { property: "og:description", content: "Franchise opportunities with Gotham Halal." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:url", content: "/franchise" },
     ],
+    links: [{ rel: "canonical", href: "/franchise" }],
   }),
   component: FranchisePage,
 });
