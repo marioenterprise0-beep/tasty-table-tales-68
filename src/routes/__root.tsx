@@ -87,8 +87,32 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@context": "https://schema.org",
           "@type": "Restaurant",
           name: "Gotham Halal",
-          servesCuisine: ["Halal", "American", "Burgers"],
+          servesCuisine: ["Halal", "American", "Burgers", "Fried Chicken", "Sandwiches"],
           slogan: "Bold. Halal. Gotham.",
+          priceRange: "$$",
+          hasMenu: "/menu",
+          menu: "/menu",
+          acceptsReservations: false,
+          openingHoursSpecification: [
+            {
+              "@type": "OpeningHoursSpecification",
+              dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday"],
+              opens: "11:00",
+              closes: "22:00",
+            },
+            {
+              "@type": "OpeningHoursSpecification",
+              dayOfWeek: ["Friday", "Saturday"],
+              opens: "11:00",
+              closes: "23:00",
+            },
+            {
+              "@type": "OpeningHoursSpecification",
+              dayOfWeek: ["Sunday"],
+              opens: "12:00",
+              closes: "21:00",
+            },
+          ],
           address: {
             "@type": "PostalAddress",
             addressLocality: "Rochester",
