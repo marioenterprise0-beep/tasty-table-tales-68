@@ -1,5 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+
 import { Instagram } from "lucide-react";
 import { OrderLink } from "@/components/OrderLink";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
