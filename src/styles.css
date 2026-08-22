@@ -35,6 +35,8 @@
   --color-gold-foreground: var(--gold-foreground);
   --color-ink: var(--ink);
   --color-hairline: var(--hairline);
+  --color-placeholder: var(--placeholder);
+
   --font-display: "Archivo Black", "Arial Black", sans-serif;
   --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
 }
