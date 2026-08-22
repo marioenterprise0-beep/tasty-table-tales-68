@@ -237,6 +237,11 @@ function Home() {
       {/* ---------------- INSTAGRAM ---------------- */}
       <InstagramFeed />
 
+      {/* ---------------- TEXT CLUB ---------------- */}
+      <TextClub />
+
+
+
       {/* ---------------- GOLD SLOGAN / SKYLINE BAND ---------------- */}
       <section
         className="relative w-full bg-gold bg-cover bg-center bg-no-repeat aspect-[2560/260]"
