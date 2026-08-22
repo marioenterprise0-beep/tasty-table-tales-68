@@ -172,9 +172,10 @@ function RootComponent() {
       <OpeningSignupProvider>
         <div className="relative min-h-screen flex flex-col">
           <SiteNav />
-          <main className="flex-1 pt-20 md:pt-[88px]">
+          <main className="flex-1" style={{ paddingTop: "var(--header-h)" }}>
             <Outlet />
           </main>
+
           <SiteFooter />
         </div>
       </OpeningSignupProvider>
