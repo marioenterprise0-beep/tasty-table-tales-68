@@ -1,6 +1,10 @@
 import { Link } from "@tanstack/react-router";
-import { Instagram } from "lucide-react";
+import { Instagram, Phone } from "lucide-react";
 import { INSTAGRAM_URL } from "@/components/InstagramFeed";
+import { LOCATIONS, fullAddress } from "@/data/locations";
+
+const PHONE = "(585) 946-8426";
+
 
 const LINKS = [
   { label: "Menu", to: "/menu" },
