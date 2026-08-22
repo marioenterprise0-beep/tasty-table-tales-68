@@ -52,6 +52,11 @@ const JEFFERSON_HOURS: WeekHours = [
 ];
 
 
+/** Coordinate-based directions: address strings strand people at the road. */
+export function directionsTo(lat: number, lng: number) {
+  return `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+}
+
 export const LOCATIONS: Location[] = [
   {
     slug: "west-ridge",
@@ -65,7 +70,11 @@ export const LOCATIONS: Location[] = [
     status: "open",
     offers: ["Pickup", "Delivery"],
     orderUrl: ORDER_URL,
-    directionsUrl: "https://share.google/ohN6YdYP539PDVNRa",
+    lat: 43.2102859,
+    lng: -77.6954758,
+    placeId: "ChIJHYAgjryx1okRpv-FZaU48Ik",
+    findingNote: "",
+    directionsUrl: directionsTo(43.2102859, -77.6954758),
     hours: WEST_RIDGE_HOURS,
   },
   {
@@ -80,7 +89,11 @@ export const LOCATIONS: Location[] = [
     status: "opening_soon",
     // TODO: set the confirmed opening date to switch on the countdown.
     openingDate: null,
-    directionsUrl: "https://share.google/cIEM35AUDWOoOvv2c",
+    lat: 43.088514,
+    lng: -77.611357,
+    findingNote:
+      "Set back from Jefferson Rd, behind the storage lot. Look for the Gotham signage.",
+    directionsUrl: directionsTo(43.088514, -77.611357),
     hours: JEFFERSON_HOURS,
   },
 ];
