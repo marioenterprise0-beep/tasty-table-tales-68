@@ -10,6 +10,8 @@ type Props = {
   priority?: boolean;
   /** Placeholder tone for gold sections. */
   tone?: "dark" | "gold";
+  /** Skip the placeholder's solid background (for use over artwork). */
+  transparentPlaceholder?: boolean;
 };
 
 /**
