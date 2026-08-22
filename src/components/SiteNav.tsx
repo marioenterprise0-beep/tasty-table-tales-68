@@ -21,10 +21,34 @@ const SOCIALS = [{ label: "Instagram", href: INSTAGRAM_URL, Icon: Instagram }] a
 export function SiteNav() {
   const [open, setOpen] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const headerRef = useRef<HTMLElement | null>(null);
+
+  /**
+   * Publishes the real rendered header height (announcement bar included) as
+   * --header-h so page content can offset itself responsively.
+   */
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+    const apply = () =>
+      document.documentElement.style.setProperty("--header-h", `${el.offsetHeight}px`);
+    apply();
+    const observer = new ResizeObserver(apply);
+    observer.observe(el);
+    window.addEventListener("resize", apply);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", apply);
+    };
+  }, []);
 
   return (
-    <header className="absolute inset-x-0 top-0 z-50 bg-nav/35 text-nav-foreground backdrop-blur-xl backdrop-saturate-150 border-b border-white/10">
+    <header
+      ref={headerRef}
+      className="absolute inset-x-0 top-0 z-50 bg-nav/35 text-nav-foreground backdrop-blur-xl backdrop-saturate-150 border-b border-white/10"
+    >
       <AnnouncementBar />
+
       <div className="mx-auto max-w-[1600px] px-4 md:px-8">
         <div className="flex items-center gap-4 h-20 md:h-[88px]">
           <Link to="/" className="shrink-0" aria-label="Gotham Halal home">
