@@ -1,24 +1,21 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useState } from "react";
-import { Instagram, Facebook, Music2 } from "lucide-react";
-
-const ORDER_URL = "https://ordergothamhalal.com";
+import { Instagram } from "lucide-react";
+import { OrderLink } from "@/components/OrderLink";
+import { AnnouncementBar } from "@/components/AnnouncementBar";
+import { INSTAGRAM_URL } from "@/components/InstagramFeed";
 
 const NAV = [
   { label: "Home", to: "/" },
   { label: "Menu", to: "/menu" },
-  { label: "Catering", to: "/catering" },
   { label: "Locations", to: "/locations" },
+  { label: "Catering", to: "/catering" },
   { label: "Our Story", to: "/our-story" },
   { label: "Rewards", to: "/rewards" },
   { label: "Franchise", to: "/franchise" },
 ] as const;
 
-const SOCIALS = [
-  { label: "Instagram", href: "https://instagram.com", Icon: Instagram },
-  { label: "TikTok", href: "https://tiktok.com", Icon: Music2 },
-  { label: "Facebook", href: "https://facebook.com", Icon: Facebook },
-] as const;
+const SOCIALS = [{ label: "Instagram", href: INSTAGRAM_URL, Icon: Instagram }] as const;
 
 export function SiteNav() {
   const [open, setOpen] = useState(false);
@@ -26,6 +23,7 @@ export function SiteNav() {
 
   return (
     <header className="absolute inset-x-0 top-0 z-50 bg-nav/35 text-nav-foreground backdrop-blur-xl backdrop-saturate-150 border-b border-white/10">
+      <AnnouncementBar />
       <div className="mx-auto max-w-[1600px] px-4 md:px-8">
         <div className="flex items-center gap-4 h-20 md:h-[88px]">
           <Link to="/" className="shrink-0" aria-label="Gotham Halal home">
