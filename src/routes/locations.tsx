@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { LocationCard, useNow } from "@/components/LocationsBlock";
-import { DAY_LABELS, LOCATIONS, fullAddress, hoursLabel } from "@/data/locations";
+import { DAY_LABELS, LOCATIONS, hoursLabel } from "@/data/locations";
 
 export const Route = createFileRoute("/locations")({
   head: () => ({

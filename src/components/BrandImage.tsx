@@ -31,7 +31,9 @@ export function BrandImage({
 
   if (!slot.src) {
     const border = tone === "gold" ? "border-gold-foreground/25" : "border-gold/25";
-    const bg = transparentPlaceholder ? "" : "bg-ink";
+    const bg = transparentPlaceholder
+      ? ""
+      : "bg-placeholder bg-gradient-to-br from-placeholder to-ink";
     return (
       <div
         className={`${frame} flex items-center justify-center rounded-lg border ${bg} ${border}`}

@@ -5,6 +5,13 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { submitCateringLead } from "@/lib/leads.functions";
 
+/** Today in YYYY-MM-DD, local time — used to block past dates. */
+function todayIso() {
+  const d = new Date();
+  const offset = d.getTimezoneOffset() * 60_000;
+  return new Date(d.getTime() - offset).toISOString().slice(0, 10);
+}
+
 const EVENT_TYPES = ["Office Lunch", "Party", "Wedding", "Corporate Event", "Other"] as const;
 
 export const CATERING_EMAIL = "hello@gothamhalal.com";
@@ -67,7 +74,15 @@ export function CateringForm() {
           <Input id="c-email" name="email" type="email" required maxLength={255} autoComplete="email" />
         </Field>
         <Field id="c-date" label="Event date">
-          <Input id="c-date" name="eventDate" type="date" required />
+          <Input
+            id="c-date"
+            name="eventDate"
+            type="date"
+            required
+            defaultValue=""
+            min={todayIso()}
+            placeholder="Select a date"
+          />
         </Field>
         <Field id="c-count" label="Headcount">
           <Input id="c-count" name="headcount" type="number" min={1} max={100000} required />
