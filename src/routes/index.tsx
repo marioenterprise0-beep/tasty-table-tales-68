@@ -8,7 +8,7 @@ import { InstagramFeed } from "@/components/InstagramFeed";
 import { FEATURED_DISHES } from "@/data/menu";
 import { assertMenuSource } from "@/data/menu.check";
 import { IMAGES, menuImage } from "@/data/images";
-import { slugify } from "@/lib/order";
+import { slugify, formatPrice } from "@/lib/order";
 import heroBg from "@/assets/gotham-hero-bg.png.asset.json";
 import footerBand from "@/assets/gotham-footer-band.png.asset.json";
 
