@@ -158,16 +158,28 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+
+  useEffect(() => {
+    initAnalytics();
+  }, []);
+
+  useEffect(() => {
+    trackPageView(pathname);
+  }, [pathname]);
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="relative min-h-screen flex flex-col">
-        <SiteNav />
-        <main className="flex-1 pt-20 md:pt-[88px]">
-          <Outlet />
-        </main>
-        <SiteFooter />
-      </div>
+      <OpeningSignupProvider>
+        <div className="relative min-h-screen flex flex-col">
+          <AnnouncementBar />
+          <SiteNav />
+          <main className="flex-1 pt-20 md:pt-[88px]">
+            <Outlet />
+          </main>
+          <SiteFooter />
+        </div>
+      </OpeningSignupProvider>
     </QueryClientProvider>
   );
 }
