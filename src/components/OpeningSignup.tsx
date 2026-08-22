@@ -65,7 +65,7 @@ function OpeningSignupDialog({ open, onOpenChange }: { open: boolean; onOpenChan
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md border-gold/40 bg-ink text-cream">
+      <DialogContent className="max-w-md border-gold/40 bg-ink text-foreground">
         <DialogHeader>
           <DialogTitle className="display text-left text-xl text-gold">Get Opening Day Alerts</DialogTitle>
           <DialogDescription className="text-left text-sm text-muted-foreground">
