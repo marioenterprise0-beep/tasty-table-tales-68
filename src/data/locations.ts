@@ -23,15 +23,28 @@ export type Location = {
   hours: WeekHours;
 };
 
-const STANDARD_HOURS: WeekHours = [
-  { open: "12:00", close: "21:00" }, // Sun
-  { open: "11:00", close: "22:00" }, // Mon
-  { open: "11:00", close: "22:00" }, // Tue
-  { open: "11:00", close: "22:00" }, // Wed
-  { open: "11:00", close: "22:00" }, // Thu
-  { open: "11:00", close: "23:00" }, // Fri
-  { open: "11:00", close: "23:00" }, // Sat
+/** West Ridge: 11AM–12AM daily, except Friday which opens at 4PM. */
+const WEST_RIDGE_HOURS: WeekHours = [
+  { open: "11:00", close: "24:00" }, // Sun
+  { open: "11:00", close: "24:00" }, // Mon
+  { open: "11:00", close: "24:00" }, // Tue
+  { open: "11:00", close: "24:00" }, // Wed
+  { open: "11:00", close: "24:00" }, // Thu
+  { open: "16:00", close: "24:00" }, // Fri
+  { open: "11:00", close: "24:00" }, // Sat
 ];
+
+/** Jefferson Road opening hours: 4PM–12AM every day. */
+const JEFFERSON_HOURS: WeekHours = [
+  { open: "16:00", close: "24:00" },
+  { open: "16:00", close: "24:00" },
+  { open: "16:00", close: "24:00" },
+  { open: "16:00", close: "24:00" },
+  { open: "16:00", close: "24:00" },
+  { open: "16:00", close: "24:00" },
+  { open: "16:00", close: "24:00" },
+];
+
 
 export const LOCATIONS: Location[] = [
   {
