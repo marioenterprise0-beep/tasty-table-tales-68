@@ -53,14 +53,108 @@ export type Database = {
         }
         Relationships: []
       }
+      franchise_inquiries: {
+        Row: {
+          capital: string
+          created_at: string
+          email: string
+          experience_details: string | null
+          full_name: string
+          has_ownership_experience: boolean
+          id: string
+          locations_interest: string
+          market: string
+          notes: string | null
+          phone: string
+          timeline: string
+        }
+        Insert: {
+          capital: string
+          created_at?: string
+          email: string
+          experience_details?: string | null
+          full_name: string
+          has_ownership_experience: boolean
+          id?: string
+          locations_interest: string
+          market: string
+          notes?: string | null
+          phone: string
+          timeline: string
+        }
+        Update: {
+          capital?: string
+          created_at?: string
+          email?: string
+          experience_details?: string | null
+          full_name?: string
+          has_ownership_experience?: boolean
+          id?: string
+          locations_interest?: string
+          market?: string
+          notes?: string | null
+          phone?: string
+          timeline?: string
+        }
+        Relationships: []
+      }
+      job_applications: {
+        Row: {
+          availability: string[]
+          created_at: string
+          email: string
+          experience_details: string | null
+          full_name: string
+          has_experience: boolean
+          id: string
+          is_adult: boolean
+          notes: string | null
+          phone: string
+          position: string
+          preferred_location: string
+          sms_opt_in: boolean
+        }
+        Insert: {
+          availability?: string[]
+          created_at?: string
+          email: string
+          experience_details?: string | null
+          full_name: string
+          has_experience: boolean
+          id?: string
+          is_adult: boolean
+          notes?: string | null
+          phone: string
+          position: string
+          preferred_location: string
+          sms_opt_in?: boolean
+        }
+        Update: {
+          availability?: string[]
+          created_at?: string
+          email?: string
+          experience_details?: string | null
+          full_name?: string
+          has_experience?: boolean
+          id?: string
+          is_adult?: boolean
+          notes?: string | null
+          phone?: string
+          position?: string
+          preferred_location?: string
+          sms_opt_in?: boolean
+        }
+        Relationships: []
+      }
       opening_signups: {
         Row: {
           created_at: string
           email: string | null
           first_name: string
           id: string
-          location_slug: string
+          location_slug: string | null
           phone: string
+          signup_source: string
           sms_opt_in: boolean
         }
         Insert: {
@@ -68,8 +162,9 @@ export type Database = {
           email?: string | null
           first_name: string
           id?: string
-          location_slug?: string
+          location_slug?: string | null
           phone: string
+          signup_source?: string
           sms_opt_in?: boolean
         }
         Update: {
@@ -77,8 +172,9 @@ export type Database = {
           email?: string | null
           first_name?: string
           id?: string
-          location_slug?: string
+          location_slug?: string | null
           phone?: string
+          signup_source?: string
           sms_opt_in?: boolean
         }
         Relationships: []
