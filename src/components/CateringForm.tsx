@@ -3,6 +3,8 @@ import { useServerFn } from "@tanstack/react-start";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
+import { PhoneDisclaimer } from "@/components/form-bits";
 import { submitCateringLead } from "@/lib/leads.functions";
 
 /** Today in YYYY-MM-DD, local time — used to block past dates. */
@@ -37,6 +39,7 @@ export function CateringForm() {
           eventType: String(form.get("eventType") ?? "Other") as (typeof EVENT_TYPES)[number],
           eventLocation: String(form.get("eventLocation") ?? ""),
           notes: String(form.get("notes") ?? ""),
+          smsOptIn: form.get("smsOptIn") === "on",
         },
       });
       setStatus("done");
@@ -116,6 +119,12 @@ export function CateringForm() {
           <Field id="c-notes" label="Notes (optional)">
             <Textarea id="c-notes" name="notes" rows={4} maxLength={2000} />
           </Field>
+        </div>
+        <div className="flex items-center gap-3 sm:col-span-2">
+          <Checkbox id="c-sms" name="smsOptIn" />
+          <Label htmlFor="c-sms" className="text-sm font-normal text-white/80">
+            Text me Gotham Halal deals and updates
+          </Label>
         </div>
       </div>
 
