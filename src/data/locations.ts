@@ -17,6 +17,12 @@ export type Location = {
   status: "open" | "opening_soon";
   offers?: string[];
   orderUrl?: string;
+  /** Verified pin coordinates. Never derived from the address string. */
+  lat: number;
+  lng: number;
+  placeId?: string;
+  /** Short "how to find us" note shown under the address when present. */
+  findingNote?: string;
   directionsUrl: string;
   /** ISO date, e.g. "2026-10-01". Leave null until the date is confirmed. */
   openingDate?: string | null;
