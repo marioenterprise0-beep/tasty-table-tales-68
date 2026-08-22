@@ -60,7 +60,7 @@ export const LOCATIONS: Location[] = [
     offers: ["Pickup", "Delivery"],
     orderUrl: ORDER_URL,
     directionsUrl: "https://share.google/ohN6YdYP539PDVNRa",
-    hours: STANDARD_HOURS,
+    hours: WEST_RIDGE_HOURS,
   },
   {
     slug: "jefferson-road",
@@ -75,7 +75,7 @@ export const LOCATIONS: Location[] = [
     // TODO: set the confirmed opening date to switch on the countdown.
     openingDate: null,
     directionsUrl: "https://share.google/cIEM35AUDWOoOvv2c",
-    hours: STANDARD_HOURS,
+    hours: JEFFERSON_HOURS,
   },
 ];
 
