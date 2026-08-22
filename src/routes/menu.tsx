@@ -59,8 +59,8 @@ function addOnsFor(dish: MenuDish): string[] {
     const combo = MENU_DISHES.find((d) => d.section === "Burger Combos" && d.name.includes(base.split(" ")[0]));
     const withFries = MENU_DISHES.find((d) => d.section === "Burgers with Fries" && d.name.includes(base.split(" ")[0]));
     return [
-      combo ? `${combo.name} — $${combo.price}` : BURGER_ADD_ONS[0],
-      withFries ? `${withFries.name} — $${withFries.price}` : BURGER_ADD_ONS[1],
+      combo ? `${combo.name} — ${formatPrice(combo.price)}` : BURGER_ADD_ONS[0],
+      withFries ? `${withFries.name} — ${formatPrice(withFries.price)}` : BURGER_ADD_ONS[1],
       ...BURGER_ADD_ONS.slice(2),
     ];
   }
@@ -259,7 +259,7 @@ function MenuPage() {
 
                 <div className="sticky bottom-0 border-t border-gold/25 bg-ink/95 px-5 pb-[env(safe-area-inset-bottom)] pt-3 backdrop-blur">
                   <div className="flex items-center justify-between gap-4 pb-3">
-                    <span className="display text-lg text-gold">${selected.price}</span>
+                    <span className="display text-lg text-gold">{formatPrice(selected.price)}</span>
                     <a
                       href="https://ordergothamhalal.com"
                       className="display inline-flex h-11 flex-1 items-center justify-center rounded-full bg-gold px-6 text-xs tracking-[0.16em] text-ink"
@@ -280,7 +280,7 @@ function MenuPage() {
                 <DialogHeader className="px-6 pt-6">
                   <DialogTitle className="display flex items-start justify-between gap-6 text-left text-lg text-cream">
                     <span className="min-w-0">{selected.name}</span>
-                    <span className="shrink-0 text-gold">${selected.price}</span>
+                    <span className="shrink-0 text-gold">{formatPrice(selected.price)}</span>
                   </DialogTitle>
                   <DialogDescription className="text-left text-sm text-muted-foreground">
                     {selected.copy}
