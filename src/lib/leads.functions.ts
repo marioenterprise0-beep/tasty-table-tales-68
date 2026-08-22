@@ -1,30 +1,11 @@
 import { createServerFn } from "@tanstack/react-start";
-import { z } from "zod";
-
-const phone = z
-  .string()
-  .trim()
-  .min(7, "Enter a valid phone number")
-  .max(30, "Phone number is too long");
-
-const openingSignupSchema = z.object({
-  firstName: z.string().trim().min(1, "First name is required").max(80),
-  phone,
-  email: z.string().trim().email("Enter a valid email").max(255).optional().or(z.literal("")),
-  smsOptIn: z.boolean(),
-  locationSlug: z.string().trim().min(1).max(60),
-});
-
-const cateringLeadSchema = z.object({
-  fullName: z.string().trim().min(1, "Full name is required").max(120),
-  phone,
-  email: z.string().trim().email("Enter a valid email").max(255),
-  eventDate: z.string().trim().regex(/^\d{4}-\d{2}-\d{2}$/, "Choose an event date"),
-  headcount: z.coerce.number().int().min(1, "Headcount must be at least 1").max(100000),
-  eventType: z.enum(["Office Lunch", "Party", "Wedding", "Corporate Event", "Other"]),
-  eventLocation: z.string().trim().max(300).optional().or(z.literal("")),
-  notes: z.string().trim().max(2000).optional().or(z.literal("")),
-});
+import {
+  cateringLeadSchema,
+  franchiseInquirySchema,
+  jobApplicationSchema,
+  openingSignupSchema,
+  textClubSchema,
+} from "./leads.schemas";
 
 export const submitOpeningSignup = createServerFn({ method: "POST" })
   .inputValidator((data: unknown) => openingSignupSchema.parse(data))
@@ -36,6 +17,7 @@ export const submitOpeningSignup = createServerFn({ method: "POST" })
       email: data.email || null,
       sms_opt_in: data.smsOptIn,
       location_slug: data.locationSlug,
+      signup_source: "opening_day",
     });
     if (error) {
       console.error("opening signup insert failed", error.message);
@@ -49,6 +31,32 @@ export const submitOpeningSignup = createServerFn({ method: "POST" })
       `Email: ${data.email || "—"}`,
       `Text me when it opens: ${data.smsOptIn ? "Yes" : "No"}`,
       `Location: ${data.locationSlug}`,
+    ]);
+
+    return { ok: true as const };
+  });
+
+export const submitTextClub = createServerFn({ method: "POST" })
+  .inputValidator((data: unknown) => textClubSchema.parse(data))
+  .handler(async ({ data }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { error } = await supabaseAdmin.from("opening_signups").insert({
+      first_name: data.firstName,
+      phone: data.phone,
+      sms_opt_in: true,
+      location_slug: null,
+      signup_source: data.source,
+    });
+    if (error) {
+      console.error("text club insert failed", error.message);
+      throw new Error("We couldn't add you to the list. Please try again.");
+    }
+
+    const { notifyLead } = await import("./notify.server");
+    await notifyLead("New text club signup", [
+      `Name: ${data.firstName}`,
+      `Phone: ${data.phone}`,
+      `Source: ${data.source}`,
     ]);
 
     return { ok: true as const };
@@ -73,6 +81,18 @@ export const submitCateringLead = createServerFn({ method: "POST" })
       throw new Error("We couldn't send your request. Please try again.");
     }
 
+    if (data.smsOptIn) {
+      const { error: smsError } = await supabaseAdmin.from("opening_signups").insert({
+        first_name: data.fullName.split(" ")[0] ?? data.fullName,
+        phone: data.phone,
+        email: data.email,
+        sms_opt_in: true,
+        location_slug: null,
+        signup_source: "catering",
+      });
+      if (smsError) console.error("catering text club insert failed", smsError.message);
+    }
+
     const { notifyLead } = await import("./notify.server");
     await notifyLead("New catering request", [
       `Name: ${data.fullName}`,
@@ -82,6 +102,97 @@ export const submitCateringLead = createServerFn({ method: "POST" })
       `Headcount: ${data.headcount}`,
       `Event type: ${data.eventType}`,
       `Location: ${data.eventLocation || "—"}`,
+      `Notes: ${data.notes || "—"}`,
+      `Text club opt-in: ${data.smsOptIn ? "Yes" : "No"}`,
+    ]);
+
+    return { ok: true as const };
+  });
+
+export const submitJobApplication = createServerFn({ method: "POST" })
+  .inputValidator((data: unknown) => jobApplicationSchema.parse(data))
+  .handler(async ({ data }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { error } = await supabaseAdmin.from("job_applications").insert({
+      full_name: data.fullName,
+      phone: data.phone,
+      email: data.email,
+      position: data.position,
+      preferred_location: data.preferredLocation,
+      availability: data.availability,
+      has_experience: data.hasExperience,
+      experience_details: data.hasExperience ? data.experienceDetails || null : null,
+      is_adult: data.isAdult,
+      notes: data.notes || null,
+      sms_opt_in: data.smsOptIn,
+    });
+    if (error) {
+      console.error("job application insert failed", error.message);
+      throw new Error("We couldn't send your application. Please try again.");
+    }
+
+    if (data.smsOptIn) {
+      const { error: smsError } = await supabaseAdmin.from("opening_signups").insert({
+        first_name: data.fullName.split(" ")[0] ?? data.fullName,
+        phone: data.phone,
+        email: data.email,
+        sms_opt_in: true,
+        location_slug: null,
+        signup_source: "careers",
+      });
+      if (smsError) console.error("careers text club insert failed", smsError.message);
+    }
+
+    const { notifyLead } = await import("./notify.server");
+    await notifyLead("New job application", [
+      `Name: ${data.fullName}`,
+      `Phone: ${data.phone}`,
+      `Email: ${data.email}`,
+      `Position: ${data.position}`,
+      `Preferred location: ${data.preferredLocation}`,
+      `Availability: ${data.availability.join(", ") || "—"}`,
+      `Food service experience: ${data.hasExperience ? "Yes" : "No"}`,
+      `Where: ${data.hasExperience ? data.experienceDetails || "—" : "—"}`,
+      `18 or older: ${data.isAdult ? "Yes" : "No"}`,
+      `Notes: ${data.notes || "—"}`,
+      `Text club opt-in: ${data.smsOptIn ? "Yes" : "No"}`,
+    ]);
+
+    return { ok: true as const };
+  });
+
+export const submitFranchiseInquiry = createServerFn({ method: "POST" })
+  .inputValidator((data: unknown) => franchiseInquirySchema.parse(data))
+  .handler(async ({ data }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { error } = await supabaseAdmin.from("franchise_inquiries").insert({
+      full_name: data.fullName,
+      phone: data.phone,
+      email: data.email,
+      market: data.market,
+      capital: data.capital,
+      has_ownership_experience: data.hasOwnershipExperience,
+      experience_details: data.hasOwnershipExperience ? data.experienceDetails || null : null,
+      locations_interest: data.locationsInterest,
+      timeline: data.timeline,
+      notes: data.notes || null,
+    });
+    if (error) {
+      console.error("franchise inquiry insert failed", error.message);
+      throw new Error("We couldn't send your inquiry. Please try again.");
+    }
+
+    const { notifyLead } = await import("./notify.server");
+    await notifyLead("New franchise inquiry", [
+      `Name: ${data.fullName}`,
+      `Phone: ${data.phone}`,
+      `Email: ${data.email}`,
+      `Market: ${data.market}`,
+      `Capital: ${data.capital}`,
+      `Ownership experience: ${data.hasOwnershipExperience ? "Yes" : "No"}`,
+      `Details: ${data.hasOwnershipExperience ? data.experienceDetails || "—" : "—"}`,
+      `Locations of interest: ${data.locationsInterest}`,
+      `Timeline: ${data.timeline}`,
       `Notes: ${data.notes || "—"}`,
     ]);
 
