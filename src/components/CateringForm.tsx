@@ -67,9 +67,14 @@ export function CateringForm() {
         <Field id="c-name" label="Full name">
           <Input id="c-name" name="fullName" required maxLength={120} autoComplete="name" />
         </Field>
-        <Field id="c-phone" label="Phone">
+        <div className="space-y-1.5">
+          <Label htmlFor="c-phone" className="text-white/80">
+            Phone
+          </Label>
           <Input id="c-phone" name="phone" type="tel" required maxLength={30} autoComplete="tel" />
-        </Field>
+          <PhoneDisclaimer />
+        </div>
+
         <Field id="c-email" label="Email">
           <Input id="c-email" name="email" type="email" required maxLength={255} autoComplete="email" />
         </Field>
