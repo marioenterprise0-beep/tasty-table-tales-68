@@ -66,6 +66,13 @@ function LocationsPage() {
           ))}
         </div>
 
+        <div className="mt-12">
+          <h2 className="display text-[15px] tracking-[0.03em] text-gold">Find Us On The Map</h2>
+          <div className="mt-4">
+            <LocationsMap />
+          </div>
+        </div>
+
         <div className="mt-12 grid gap-8 md:grid-cols-2">
           {LOCATIONS.map((l) => (
             <div key={l.slug} className="rounded-2xl border border-gold/20 p-6">
