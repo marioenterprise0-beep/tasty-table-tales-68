@@ -109,7 +109,7 @@ export function LocationCard({ location, now }: { location: Location; now: Date 
         </p>
       )}
 
-      <div className="mt-6 flex flex-wrap gap-3">
+      <div className="mt-6 flex flex-wrap gap-3 pt-2 [margin-top:auto]">
         {isSoon ? (
           <>
             <button type="button" onClick={open} className="pill-gold px-6 py-2.5 text-[11px]">
