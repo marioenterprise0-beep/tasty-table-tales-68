@@ -71,9 +71,7 @@ function Home() {
               for you.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
-              <a href="#menu-highlights" className="pill-ghost-dark px-8 py-2.5 text-[12px]">
-                Order Now
-              </a>
+              <OrderLink content="hero" className="pill-ghost-dark px-8 py-2.5 text-[12px]" />
               <Link to="/menu" className="pill-ghost-dark px-8 py-2.5 text-[12px]">
                 View Menu
               </Link>
@@ -82,7 +80,7 @@ function Home() {
 
           {/* hero food photography */}
           <div className="h-64 sm:h-80 lg:h-[26rem]">
-            <MediaSlot fill tone="gold" label="Hero photo — three smash burgers (transparent PNG)" />
+            <BrandImage slot={IMAGES.heroBurgers} fill priority tone="gold" />
           </div>
         </div>
       </section>
