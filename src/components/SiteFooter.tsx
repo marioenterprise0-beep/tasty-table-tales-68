@@ -13,11 +13,7 @@ const LINKS = [
   { label: "Contact", to: "/contact" },
 ] as const;
 
-const SOCIALS = [
-  { label: "Instagram", Icon: Instagram },
-  { label: "TikTok", Icon: Music2 },
-  { label: "Facebook", Icon: Facebook },
-] as const;
+const SOCIALS = [{ label: "Instagram", href: INSTAGRAM_URL, Icon: Instagram }] as const;
 
 export function SiteFooter() {
   return (
