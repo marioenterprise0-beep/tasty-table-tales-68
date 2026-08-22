@@ -54,12 +54,17 @@ function Home() {
       {/* ---------------- HERO — grunge black-to-gold artwork background ---------------- */}
       <section
         id="home"
-        className="relative isolate -mt-20 flex items-center overflow-hidden bg-ink bg-cover bg-center bg-no-repeat pt-20 scroll-mt-24 md:-mt-[88px] md:pt-[88px] lg:aspect-[5/2]"
-        style={{ backgroundImage: `url(${heroBg.url})` }}
+        className="relative isolate flex items-center overflow-hidden bg-ink bg-cover bg-center bg-no-repeat scroll-mt-24"
+        style={{
+          backgroundImage: `url(${heroBg.url})`,
+          marginTop: "calc(var(--header-h) * -1)",
+          paddingTop: "var(--header-h)",
+          minHeight: "calc(var(--header-h) + 34rem)",
+        }}
       >
 
 
-        <div className="relative z-20 mx-auto grid max-w-[1500px] items-center gap-8 px-5 py-10 md:px-10 lg:grid-cols-[minmax(0,40%)_minmax(0,60%)] lg:gap-4 lg:py-12">
+        <div className="relative z-20 mx-auto grid max-w-[1500px] items-center gap-8 px-5 pb-14 pt-10 md:px-10 lg:grid-cols-[minmax(0,40%)_minmax(0,60%)] lg:gap-4 lg:pb-16 lg:pt-12">
           <div className="max-w-xl">
             <h1 className="display text-[3.25rem] leading-[0.86] tracking-[-0.035em] text-white sm:text-[4rem] lg:text-[4.25rem] xl:text-[5rem]">
               <span className="block">Bold.</span>
@@ -70,13 +75,14 @@ function Home() {
               Halal smash burgers and loaded fries made fresh daily. Built for flavor. Made
               for you.
             </p>
-            <div className="mt-7 flex flex-wrap gap-3">
+            <div className="mt-7 flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center">
               <OrderLink content="hero" className="pill-ghost-dark px-8 py-2.5 text-[12px]" />
               <Link to="/menu" className="pill-ghost-dark px-8 py-2.5 text-[12px]">
                 View Menu
               </Link>
             </div>
           </div>
+
 
           {/* hero food photography */}
           <div className="h-64 sm:h-80 lg:h-[26rem]">
