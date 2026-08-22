@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { Instagram, Facebook, Music2 } from "lucide-react";
+import { Instagram } from "lucide-react";
+import { INSTAGRAM_URL } from "@/components/InstagramFeed";
 
 const LINKS = [
   { label: "Menu", to: "/menu" },
