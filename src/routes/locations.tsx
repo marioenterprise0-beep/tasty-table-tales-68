@@ -70,7 +70,7 @@ function LocationsPage() {
           {LOCATIONS.map((l) => (
             <div key={l.slug} className="rounded-2xl border border-gold/20 p-6">
               <h2 className="display text-[15px] tracking-[0.03em] text-gold">{l.shortName} Hours</h2>
-              <p className="mt-1 text-[13px] text-white/60">{fullAddress(l)}</p>
+
               <dl className="mt-4 space-y-1.5">
                 {l.hours.map((h, i) => (
                   <div key={DAY_LABELS[i]} className="flex justify-between gap-4 text-[13.5px]">
