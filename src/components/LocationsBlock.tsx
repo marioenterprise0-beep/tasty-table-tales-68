@@ -56,7 +56,7 @@ export function LocationCard({ location, now }: { location: Location; now: Date 
   const days = now ? daysUntilOpening(location, now) : null;
 
   return (
-    <article className="flex flex-col rounded-2xl border border-gold/25 bg-white/[0.03] p-6">
+    <article className="flex h-full flex-col rounded-2xl border border-gold/25 bg-white/[0.03] p-6">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <h3 className="display min-w-0 text-lg leading-tight text-white">{location.name}</h3>
         {isSoon ? (
@@ -81,25 +81,27 @@ export function LocationCard({ location, now }: { location: Location; now: Date 
         <span className="min-w-0 break-words">{fullAddress(location)}</span>
       </p>
 
-      {!isSoon && (
-        <>
-          <p className="mt-2 flex items-start gap-2 text-sm text-white/80">
-            <Clock className="mt-0.5 size-4 shrink-0 text-gold" />
-            <span>Today: {hoursLabel(todayHours(location, now ?? new Date()))}</span>
-          </p>
-          <p className="mt-2 flex items-start gap-2 text-sm text-white/80">
-            <Phone className="mt-0.5 size-4 shrink-0 text-gold" />
-            <a href={`tel:${location.phone.replace(/[^\d+]/g, "")}`} className="hover:text-gold">
-              {location.phone}
-            </a>
-          </p>
-          {location.offers?.length ? (
-            <p className="display mt-3 text-[10px] tracking-[0.16em] text-white/50">
-              {location.offers.join(" · ")}
-            </p>
-          ) : null}
-        </>
-      )}
+      <p className="mt-2 flex items-start gap-2 text-sm text-white/80">
+        <Clock className="mt-0.5 size-4 shrink-0 text-gold" />
+        <span>
+          {isSoon ? "Opening hours: " : "Today: "}
+          {hoursLabel(todayHours(location, now ?? new Date()))}
+        </span>
+      </p>
+
+      <p className="mt-2 flex items-start gap-2 text-sm text-white/80">
+        <Phone className="mt-0.5 size-4 shrink-0 text-gold" />
+        <a href={`tel:${location.phone.replace(/[^\d+]/g, "")}`} className="hover:text-gold">
+          {location.phone}
+        </a>
+      </p>
+
+      {!isSoon && location.offers?.length ? (
+        <p className="display mt-3 text-[10px] tracking-[0.16em] text-white/50">
+          {location.offers.join(" · ")}
+        </p>
+      ) : null}
+
 
       {isSoon && days !== null && (
         <p className="display mt-3 text-[11px] tracking-[0.16em] text-gold">
