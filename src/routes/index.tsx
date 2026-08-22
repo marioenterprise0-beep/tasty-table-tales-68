@@ -133,12 +133,13 @@ function Home() {
                   i > 0 ? "lg:border-l lg:border-gold-foreground/25 lg:pl-8" : ""
                 }`}
               >
-                <div className="aspect-square w-[34%] max-w-[7rem] shrink-0">
+                <div className="aspect-square w-[34%] max-w-[7rem] shrink-0 self-start">
                   <BrandImage slot={menuImage(item.name)} tone="gold" className="h-full" fill />
                 </div>
                 <div className="flex min-w-0 flex-1 flex-col">
-                  <h3 className="display text-[14px] leading-tight tracking-[0.01em] text-gold-foreground">
-                    {item.name}
+                  <h3 className="display flex items-start justify-between gap-3 text-[14px] leading-tight tracking-[0.01em] text-gold-foreground">
+                    <span className="min-w-0">{item.name}</span>
+                    <span className="shrink-0">{formatPrice(item.price)}</span>
                   </h3>
                   <p className="mt-2 text-[13px] leading-snug text-gold-foreground/85">
                     {item.copy}
@@ -146,9 +147,10 @@ function Home() {
                   <OrderLink
                     content={`menu_card_${slugify(item.name)}`}
                     ariaLabel={`Order the ${item.name}`}
-                    className="display mt-4 inline-flex h-9 w-[8.5rem] shrink-0 items-center justify-center self-start rounded-full border-[1.5px] border-gold-foreground px-4 text-[10.5px] leading-none tracking-[0.14em] text-gold-foreground transition hover:bg-gold-foreground hover:text-gold lg:mt-auto"
+                    className="display mt-auto inline-flex h-9 w-[8.5rem] shrink-0 items-center justify-center self-start rounded-full border-[1.5px] border-gold-foreground px-4 pt-px text-[10.5px] leading-none tracking-[0.14em] text-gold-foreground transition hover:bg-gold-foreground hover:text-gold"
                   />
                 </div>
+
               </article>
             ))}
           </div>
