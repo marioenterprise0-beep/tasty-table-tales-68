@@ -14,7 +14,75 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      catering_leads: {
+        Row: {
+          created_at: string
+          email: string
+          event_date: string
+          event_location: string | null
+          event_type: string
+          full_name: string
+          headcount: number
+          id: string
+          notes: string | null
+          phone: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          event_date: string
+          event_location?: string | null
+          event_type: string
+          full_name: string
+          headcount: number
+          id?: string
+          notes?: string | null
+          phone: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          event_date?: string
+          event_location?: string | null
+          event_type?: string
+          full_name?: string
+          headcount?: number
+          id?: string
+          notes?: string | null
+          phone?: string
+        }
+        Relationships: []
+      }
+      opening_signups: {
+        Row: {
+          created_at: string
+          email: string | null
+          first_name: string
+          id: string
+          location_slug: string
+          phone: string
+          sms_opt_in: boolean
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          first_name: string
+          id?: string
+          location_slug?: string
+          phone: string
+          sms_opt_in?: boolean
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          first_name?: string
+          id?: string
+          location_slug?: string
+          phone?: string
+          sms_opt_in?: boolean
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
