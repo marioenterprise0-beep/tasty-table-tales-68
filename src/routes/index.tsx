@@ -1,8 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { BadgeCheck, Leaf, Flame, Building2, Apple, Play } from "lucide-react";
-import { MediaSlot } from "@/components/MediaSlot";
+import { BrandImage } from "@/components/BrandImage";
+import { OrderLink } from "@/components/OrderLink";
+import { LocationsBlock } from "@/components/LocationsBlock";
+import { GoogleReviews } from "@/components/GoogleReviews";
+import { InstagramFeed } from "@/components/InstagramFeed";
 import { FEATURED_DISHES } from "@/data/menu";
 import { assertMenuSource } from "@/data/menu.check";
+import { IMAGES, menuImage } from "@/data/images";
+import { slugify } from "@/lib/order";
 import heroBg from "@/assets/gotham-hero-bg.png.asset.json";
 import footerBand from "@/assets/gotham-footer-band.png.asset.json";
 
