@@ -260,12 +260,13 @@ function MenuPage() {
                 <div className="sticky bottom-0 border-t border-gold/25 bg-ink/95 px-5 pb-[env(safe-area-inset-bottom)] pt-3 backdrop-blur">
                   <div className="flex items-center justify-between gap-4 pb-3">
                     <span className="display text-lg text-gold">{formatPrice(selected.price)}</span>
-                    <a
-                      href="https://ordergothamhalal.com"
+                    <OrderLink
+                      content={`menu_card_${slugify(selected.name)}`}
+                      ariaLabel={`Order the ${selected.name}`}
                       className="display inline-flex h-11 flex-1 items-center justify-center rounded-full bg-gold px-6 text-xs tracking-[0.16em] text-ink"
                     >
                       ORDER NOW
-                    </a>
+                    </OrderLink>
                   </div>
                 </div>
               </>
@@ -295,12 +296,13 @@ function MenuPage() {
                   <span className="display text-[11px] tracking-[0.16em] text-gold/70">
                     {selected.section.toUpperCase()} · 100% HALAL
                   </span>
-                  <a
-                    href="https://ordergothamhalal.com"
-                    className="display inline-flex h-10 items-center rounded-full bg-gold px-6 text-xs tracking-[0.16em] text-ink"
+                  <OrderLink
+                    content={`menu_card_${slugify(selected.name)}`}
+                    ariaLabel={`Order the ${selected.name}`}
+                    className="display inline-flex h-10 items-center rounded-full bg-gold px-7 text-xs tracking-[0.16em] text-ink"
                   >
                     ORDER NOW
-                  </a>
+                  </OrderLink>
                 </div>
               </>
             )}
