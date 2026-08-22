@@ -220,6 +220,15 @@ function Home() {
         </div>
       </section>
 
+      {/* ---------------- WHERE WE'RE AT ---------------- */}
+      <LocationsBlock />
+
+      {/* ---------------- GOOGLE REVIEWS ---------------- */}
+      <GoogleReviews />
+
+      {/* ---------------- INSTAGRAM ---------------- */}
+      <InstagramFeed />
+
       {/* ---------------- GOLD SLOGAN / SKYLINE BAND ---------------- */}
       <section
         className="relative w-full bg-gold bg-cover bg-center bg-no-repeat aspect-[2560/260]"
