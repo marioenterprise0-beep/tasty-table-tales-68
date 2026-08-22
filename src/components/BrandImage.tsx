@@ -19,14 +19,22 @@ type Props = {
  * otherwise a branded placeholder. Drop-in ready: set `src`/`webp`
  * in the data file and the photo appears everywhere that slot is used.
  */
-export function BrandImage({ slot, className = "", fill = false, priority = false, tone = "dark" }: Props) {
+export function BrandImage({
+  slot,
+  className = "",
+  fill = false,
+  priority = false,
+  tone = "dark",
+  transparentPlaceholder = false,
+}: Props) {
   const frame = `relative overflow-hidden ${fill ? "h-full w-full" : "w-full"} ${className}`;
 
   if (!slot.src) {
     const border = tone === "gold" ? "border-gold-foreground/25" : "border-gold/25";
+    const bg = transparentPlaceholder ? "" : "bg-ink";
     return (
       <div
-        className={`${frame} flex items-center justify-center rounded-lg border bg-ink ${border}`}
+        className={`${frame} flex items-center justify-center rounded-lg border ${bg} ${border}`}
         role="img"
         aria-label={slot.alt}
       >
