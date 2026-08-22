@@ -67,7 +67,17 @@
   --border: oklch(0.723 0.167 61.6 / 0.22);
   --input: oklch(0.3 0.01 70);
   --ring: oklch(0.723 0.167 61.6);
+  --placeholder: oklch(0.19 0.035 260);
+  /* Fallback header height; SiteNav overwrites it with the measured value. */
+  --header-h: 7.5rem;
 }
+
+@media (min-width: 768px) {
+  :root {
+    --header-h: 8rem;
+  }
+}
+
 
 @layer base {
   * {
