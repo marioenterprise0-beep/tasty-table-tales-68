@@ -12,6 +12,7 @@ const LINKS = [
   { label: "Locations", to: "/locations" },
   { label: "Our Story", to: "/our-story" },
   { label: "Rewards", to: "/rewards" },
+  { label: "Blog", to: "/blog" },
   { label: "Franchise", to: "/franchise" },
   { label: "Careers", to: "/careers" },
   { label: "Contact", to: "/contact" },
