@@ -81,6 +81,10 @@ export function LocationCard({ location, now }: { location: Location; now: Date 
         <span className="min-w-0 break-words">{fullAddress(location)}</span>
       </p>
 
+      {location.findingNote ? (
+        <p className="mt-1.5 pl-6 text-[12.5px] leading-snug text-gold">{location.findingNote}</p>
+      ) : null}
+
       <p className="mt-2 flex items-start gap-2 text-sm text-white/80">
         <Clock className="mt-0.5 size-4 shrink-0 text-gold" />
         <span>
