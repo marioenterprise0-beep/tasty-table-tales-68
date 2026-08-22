@@ -50,7 +50,7 @@ export function GoogleReviews() {
           >
             <span className="display text-4xl leading-none text-gold">{GOOGLE_RATING}</span>
             <span className="text-left">
-              <Stars value={4.5} className="size-4" />
+              <Stars value={GOOGLE_RATING} className="size-4" />
               <span className="mt-1 block text-[12px] text-white/70">
                 {GOOGLE_REVIEW_COUNT} Google Reviews
               </span>
