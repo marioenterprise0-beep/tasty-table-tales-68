@@ -172,7 +172,6 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <OpeningSignupProvider>
         <div className="relative min-h-screen flex flex-col">
-          <AnnouncementBar />
           <SiteNav />
           <main className="flex-1 pt-20 md:pt-[88px]">
             <Outlet />
