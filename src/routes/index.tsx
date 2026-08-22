@@ -80,7 +80,7 @@ function Home() {
 
           {/* hero food photography */}
           <div className="h-64 sm:h-80 lg:h-[26rem]">
-            <BrandImage slot={IMAGES.heroBurgers} fill priority tone="gold" />
+            <BrandImage slot={IMAGES.heroBurgers} fill priority tone="gold" transparentPlaceholder />
           </div>
         </div>
       </section>
