@@ -122,8 +122,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           ],
           address: {
             "@type": "PostalAddress",
+            streetAddress: "2534 W Ridge Rd",
             addressLocality: "Rochester",
             addressRegion: "NY",
+            postalCode: "14626",
             addressCountry: "US",
           },
         }),
