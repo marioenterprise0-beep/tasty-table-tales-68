@@ -1,8 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { BadgeCheck, Leaf, Flame, Building2, Apple, Play } from "lucide-react";
-import { MediaSlot } from "@/components/MediaSlot";
+import { BrandImage } from "@/components/BrandImage";
+import { OrderLink } from "@/components/OrderLink";
+import { LocationsBlock } from "@/components/LocationsBlock";
+import { GoogleReviews } from "@/components/GoogleReviews";
+import { InstagramFeed } from "@/components/InstagramFeed";
 import { FEATURED_DISHES } from "@/data/menu";
 import { assertMenuSource } from "@/data/menu.check";
+import { IMAGES, menuImage } from "@/data/images";
+import { slugify } from "@/lib/order";
 import heroBg from "@/assets/gotham-hero-bg.png.asset.json";
 import footerBand from "@/assets/gotham-footer-band.png.asset.json";
 
@@ -65,9 +71,7 @@ function Home() {
               for you.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
-              <a href="#menu-highlights" className="pill-ghost-dark px-8 py-2.5 text-[12px]">
-                Order Now
-              </a>
+              <OrderLink content="hero" className="pill-ghost-dark px-8 py-2.5 text-[12px]" />
               <Link to="/menu" className="pill-ghost-dark px-8 py-2.5 text-[12px]">
                 View Menu
               </Link>
@@ -76,7 +80,7 @@ function Home() {
 
           {/* hero food photography */}
           <div className="h-64 sm:h-80 lg:h-[26rem]">
-            <MediaSlot fill tone="gold" label="Hero photo — three smash burgers (transparent PNG)" />
+            <BrandImage slot={IMAGES.heroBurgers} fill priority tone="gold" transparentPlaceholder />
           </div>
         </div>
       </section>
@@ -124,7 +128,7 @@ function Home() {
                 }`}
               >
                 <div className="aspect-square w-[34%] max-w-[7rem] shrink-0">
-                  <MediaSlot ratio="square" tone="gold" label={item.name} className="h-full" />
+                  <BrandImage slot={menuImage(item.name)} tone="gold" className="h-full" fill />
                 </div>
                 <div className="flex min-w-0 flex-1 flex-col">
                   <h3 className="display text-[14px] leading-tight tracking-[0.01em] text-gold-foreground">
@@ -133,15 +137,23 @@ function Home() {
                   <p className="mt-2 text-[13px] leading-snug text-gold-foreground/85">
                     {item.copy}
                   </p>
-                  <a
-                    href="/menu"
+                  <OrderLink
+                    content={`menu_card_${slugify(item.name)}`}
+                    ariaLabel={`Order the ${item.name}`}
                     className="display mt-4 inline-flex h-9 w-[8.5rem] shrink-0 items-center justify-center self-start rounded-full border-[1.5px] border-gold-foreground px-4 text-[10.5px] leading-none tracking-[0.14em] text-gold-foreground transition hover:bg-gold-foreground hover:text-gold lg:mt-auto"
-                  >
-                    Order Now
-                  </a>
+                  />
                 </div>
               </article>
             ))}
+          </div>
+
+          <div className="mt-10 flex justify-center">
+            <Link
+              to="/menu"
+              className="display inline-flex h-11 items-center justify-center rounded-full bg-gold-foreground px-8 text-[11px] tracking-[0.14em] text-gold transition hover:opacity-90"
+            >
+              See the Full Menu
+            </Link>
           </div>
 
         </div>
@@ -153,7 +165,7 @@ function Home() {
           {/* App */}
           <div className="flex items-center gap-6 lg:pr-10">
             <div className="hidden w-[26%] max-w-[150px] shrink-0 sm:block">
-              <MediaSlot ratio="phone" label="App phone mockup" />
+              <BrandImage slot={IMAGES.appPhone} className="aspect-[9/19]" />
             </div>
             <div className="min-w-0">
               <h2 className="display text-2xl leading-none tracking-[0.01em] text-gold md:text-[30px]">
@@ -202,11 +214,20 @@ function Home() {
               </Link>
             </div>
             <div className="hidden h-40 w-[45%] shrink-0 sm:block">
-              <MediaSlot fill label="Catering trays" />
+              <BrandImage slot={IMAGES.cateringTrays} fill />
             </div>
           </div>
         </div>
       </section>
+
+      {/* ---------------- WHERE WE'RE AT ---------------- */}
+      <LocationsBlock />
+
+      {/* ---------------- GOOGLE REVIEWS ---------------- */}
+      <GoogleReviews />
+
+      {/* ---------------- INSTAGRAM ---------------- */}
+      <InstagramFeed />
 
       {/* ---------------- GOLD SLOGAN / SKYLINE BAND ---------------- */}
       <section

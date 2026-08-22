@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { Instagram, Facebook, Music2 } from "lucide-react";
+import { Instagram } from "lucide-react";
+import { INSTAGRAM_URL } from "@/components/InstagramFeed";
 
 const LINKS = [
   { label: "Menu", to: "/menu" },
@@ -12,11 +13,7 @@ const LINKS = [
   { label: "Contact", to: "/contact" },
 ] as const;
 
-const SOCIALS = [
-  { label: "Instagram", Icon: Instagram },
-  { label: "TikTok", Icon: Music2 },
-  { label: "Facebook", Icon: Facebook },
-] as const;
+const SOCIALS = [{ label: "Instagram", href: INSTAGRAM_URL, Icon: Instagram }] as const;
 
 export function SiteFooter() {
   return (
@@ -45,10 +42,12 @@ export function SiteFooter() {
         <div>
           <h3 className="display mb-4 text-[12px] tracking-[0.2em] text-gold">Follow</h3>
           <div className="flex gap-2">
-            {SOCIALS.map(({ label, Icon }) => (
+            {SOCIALS.map(({ label, href, Icon }) => (
               <a
                 key={label}
-                href="#"
+                href={href}
+                target="_blank"
+                rel="noreferrer"
                 aria-label={label}
                 className="inline-flex size-10 items-center justify-center rounded-full border border-gold/40 text-gold transition hover:bg-gold hover:text-gold-foreground"
               >

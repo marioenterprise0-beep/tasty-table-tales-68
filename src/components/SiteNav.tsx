@@ -1,24 +1,21 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useState } from "react";
-import { Instagram, Facebook, Music2 } from "lucide-react";
-
-const ORDER_URL = "https://ordergothamhalal.com";
+import { Instagram } from "lucide-react";
+import { OrderLink } from "@/components/OrderLink";
+import { AnnouncementBar } from "@/components/AnnouncementBar";
+import { INSTAGRAM_URL } from "@/components/InstagramFeed";
 
 const NAV = [
   { label: "Home", to: "/" },
   { label: "Menu", to: "/menu" },
-  { label: "Catering", to: "/catering" },
   { label: "Locations", to: "/locations" },
+  { label: "Catering", to: "/catering" },
   { label: "Our Story", to: "/our-story" },
   { label: "Rewards", to: "/rewards" },
   { label: "Franchise", to: "/franchise" },
 ] as const;
 
-const SOCIALS = [
-  { label: "Instagram", href: "https://instagram.com", Icon: Instagram },
-  { label: "TikTok", href: "https://tiktok.com", Icon: Music2 },
-  { label: "Facebook", href: "https://facebook.com", Icon: Facebook },
-] as const;
+const SOCIALS = [{ label: "Instagram", href: INSTAGRAM_URL, Icon: Instagram }] as const;
 
 export function SiteNav() {
   const [open, setOpen] = useState(false);
@@ -26,6 +23,7 @@ export function SiteNav() {
 
   return (
     <header className="absolute inset-x-0 top-0 z-50 bg-nav/35 text-nav-foreground backdrop-blur-xl backdrop-saturate-150 border-b border-white/10">
+      <AnnouncementBar />
       <div className="mx-auto max-w-[1600px] px-4 md:px-8">
         <div className="flex items-center gap-4 h-20 md:h-[88px]">
           <Link to="/" className="shrink-0" aria-label="Gotham Halal home">
@@ -67,20 +65,11 @@ export function SiteNav() {
               ))}
             </div>
 
-            <a
-              href={ORDER_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="pill-gold hidden sm:inline-flex whitespace-nowrap px-4 py-2.5 text-[11px] xl:px-6"
-            >
-              Order Now
-            </a>
-            <Link
-              to="/locations"
-              className="pill-outline hidden sm:inline-flex whitespace-nowrap px-4 py-2.5 text-[11px] xl:px-6"
-            >
-              Find a Location
-            </Link>
+            <OrderLink
+              content="nav"
+              className="pill-gold hidden sm:inline-flex whitespace-nowrap px-5 py-2.5 text-[11px] xl:px-7"
+            />
+
 
             <button
               type="button"
@@ -114,13 +103,8 @@ export function SiteNav() {
                   </li>
                 );
               })}
-              <li className="p-3 flex gap-2">
-                <a href={ORDER_URL} target="_blank" rel="noreferrer" className="pill-gold flex-1 px-4 py-3 text-[11px]">
-                  Order Now
-                </a>
-                <Link to="/locations" onClick={() => setOpen(false)} className="pill-outline flex-1 px-4 py-3 text-[11px]">
-                  Find a Location
-                </Link>
+              <li className="p-3">
+                <OrderLink content="nav_mobile" className="pill-gold w-full px-4 py-3 text-[11px]" />
               </li>
             </ul>
           </div>
