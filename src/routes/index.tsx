@@ -64,7 +64,7 @@ function Home() {
       >
 
 
-        <div className="relative z-20 mx-auto grid max-w-[1500px] items-center gap-8 px-5 pb-14 pt-10 md:px-10 lg:grid-cols-[minmax(0,40%)_minmax(0,60%)] lg:gap-4 lg:pb-16 lg:pt-12">
+        <div className="relative z-20 mx-auto grid w-full max-w-[1500px] items-center gap-8 px-5 pb-14 pt-10 md:px-10 lg:grid-cols-[minmax(0,40%)_minmax(0,60%)] lg:gap-4 lg:pb-16 lg:pt-12">
           <div className="max-w-xl">
             <h1 className="display text-[3.25rem] leading-[0.86] tracking-[-0.035em] text-white sm:text-[4rem] lg:text-[4.25rem] xl:text-[5rem]">
               <span className="block">Bold.</span>
