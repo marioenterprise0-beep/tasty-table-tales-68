@@ -74,7 +74,7 @@ function OpeningSignupDialog({ open, onOpenChange }: { open: boolean; onOpenChan
         </DialogHeader>
 
         {status === "done" ? (
-          <p className="py-6 text-center text-base text-cream">
+          <p className="py-6 text-center text-base text-foreground">
             You&apos;re on the list. We&apos;ll text you before we open.
           </p>
         ) : (
