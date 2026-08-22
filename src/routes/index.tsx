@@ -165,7 +165,7 @@ function Home() {
           {/* App */}
           <div className="flex items-center gap-6 lg:pr-10">
             <div className="hidden w-[26%] max-w-[150px] shrink-0 sm:block">
-              <MediaSlot ratio="phone" label="App phone mockup" />
+              <BrandImage slot={IMAGES.appPhone} className="aspect-[9/19]" />
             </div>
             <div className="min-w-0">
               <h2 className="display text-2xl leading-none tracking-[0.01em] text-gold md:text-[30px]">
@@ -214,7 +214,7 @@ function Home() {
               </Link>
             </div>
             <div className="hidden h-40 w-[45%] shrink-0 sm:block">
-              <MediaSlot fill label="Catering trays" />
+              <BrandImage slot={IMAGES.cateringTrays} fill />
             </div>
           </div>
         </div>
