@@ -33,7 +33,8 @@ export function SiteNav() {
     const apply = () =>
       document.documentElement.style.setProperty("--header-h", `${el.offsetHeight}px`);
     apply();
-    const observer = new ResizeObserver(apply);
+    // rAF defers the write out of the observer callback (avoids RO loop warnings).
+    const observer = new ResizeObserver(() => requestAnimationFrame(apply));
     observer.observe(el);
     window.addEventListener("resize", apply);
     return () => {

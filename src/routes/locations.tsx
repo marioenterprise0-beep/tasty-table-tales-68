@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { LocationCard, useNow } from "@/components/LocationsBlock";
+import { LocationsMap } from "@/components/LocationsMap";
 import { DAY_LABELS, LOCATIONS, hoursLabel } from "@/data/locations";
 
 export const Route = createFileRoute("/locations")({
@@ -64,6 +65,13 @@ function LocationsPage() {
           {LOCATIONS.map((l) => (
             <LocationCard key={l.slug} location={l} now={now} />
           ))}
+        </div>
+
+        <div className="mt-12">
+          <h2 className="display text-[15px] tracking-[0.03em] text-gold">Find Us On The Map</h2>
+          <div className="mt-4">
+            <LocationsMap />
+          </div>
         </div>
 
         <div className="mt-12 grid gap-8 md:grid-cols-2">
