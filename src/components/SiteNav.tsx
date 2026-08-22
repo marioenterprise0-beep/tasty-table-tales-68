@@ -65,20 +65,11 @@ export function SiteNav() {
               ))}
             </div>
 
-            <a
-              href={ORDER_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="pill-gold hidden sm:inline-flex whitespace-nowrap px-4 py-2.5 text-[11px] xl:px-6"
-            >
-              Order Now
-            </a>
-            <Link
-              to="/locations"
-              className="pill-outline hidden sm:inline-flex whitespace-nowrap px-4 py-2.5 text-[11px] xl:px-6"
-            >
-              Find a Location
-            </Link>
+            <OrderLink
+              content="nav"
+              className="pill-gold hidden sm:inline-flex whitespace-nowrap px-5 py-2.5 text-[11px] xl:px-7"
+            />
+
 
             <button
               type="button"
