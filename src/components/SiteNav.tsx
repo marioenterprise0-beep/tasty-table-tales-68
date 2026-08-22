@@ -103,13 +103,8 @@ export function SiteNav() {
                   </li>
                 );
               })}
-              <li className="p-3 flex gap-2">
-                <a href={ORDER_URL} target="_blank" rel="noreferrer" className="pill-gold flex-1 px-4 py-3 text-[11px]">
-                  Order Now
-                </a>
-                <Link to="/locations" onClick={() => setOpen(false)} className="pill-outline flex-1 px-4 py-3 text-[11px]">
-                  Find a Location
-                </Link>
+              <li className="p-3">
+                <OrderLink content="nav_mobile" className="pill-gold w-full px-4 py-3 text-[11px]" />
               </li>
             </ul>
           </div>
