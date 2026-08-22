@@ -49,7 +49,7 @@ export const Route = createFileRoute("/blog/$slug")({
     };
   },
   notFoundComponent: PostNotFound,
-  component: BlogPostPage;
+  component: BlogPostPage,
 });
 
 function PostNotFound() {
