@@ -1,3 +1,4 @@
+/// <reference types="google.maps" />
 import * as React from "react";
 import { LOCATIONS, fullAddress, type Location } from "@/data/locations";
 
