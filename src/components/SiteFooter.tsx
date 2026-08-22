@@ -1,6 +1,10 @@
 import { Link } from "@tanstack/react-router";
-import { Instagram } from "lucide-react";
+import { Instagram, Phone } from "lucide-react";
 import { INSTAGRAM_URL } from "@/components/InstagramFeed";
+import { LOCATIONS, fullAddress } from "@/data/locations";
+
+const PHONE = "(585) 946-8426";
+
 
 const LINKS = [
   { label: "Menu", to: "/menu" },
@@ -18,13 +22,36 @@ const SOCIALS = [{ label: "Instagram", href: INSTAGRAM_URL, Icon: Instagram }] a
 export function SiteFooter() {
   return (
     <footer className="bg-ink text-white">
-      <div className="mx-auto grid max-w-[1500px] gap-8 px-5 py-12 md:grid-cols-[1.2fr_1fr_auto] md:px-8">
+      <div className="mx-auto grid max-w-[1500px] gap-8 px-5 py-12 md:grid-cols-[1.2fr_1fr_1fr_auto] md:px-8">
         <div className="space-y-4">
           <img src="/gotham-halal-logo.svg" alt="Gotham Halal" className="h-16 w-auto" />
           <p className="max-w-xs text-sm text-white/60">
             Halal smash burgers and loaded fries made fresh daily. Born in Rochester, NY.
           </p>
+          <a
+            href={`tel:${PHONE.replace(/[^\d+]/g, "")}`}
+            className="inline-flex items-center gap-2 text-sm text-white/80 transition hover:text-gold"
+          >
+            <Phone className="size-4 text-gold" />
+            {PHONE}
+          </a>
         </div>
+
+        <div>
+          <h3 className="display mb-4 text-[12px] tracking-[0.2em] text-gold">Visit</h3>
+          <ul className="space-y-3 text-sm text-white/70">
+            {LOCATIONS.map((l) => (
+              <li key={l.slug}>
+                <span className="display block text-[11px] tracking-[0.16em] text-white/90">
+                  {l.shortName}
+                  {l.status === "opening_soon" ? " — Opening Soon" : ""}
+                </span>
+                <address className="not-italic">{fullAddress(l)}</address>
+              </li>
+            ))}
+          </ul>
+        </div>
+
 
         <nav aria-label="Footer">
           <h3 className="display mb-4 text-[12px] tracking-[0.2em] text-gold">Explore</h3>

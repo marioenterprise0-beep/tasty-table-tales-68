@@ -19,6 +19,9 @@ import {
   DrawerTitle,
 } from "@/components/ui/drawer";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { OrderLink } from "@/components/OrderLink";
+import { slugify, formatPrice } from "@/lib/order";
+
 
 assertMenuSource();
 
@@ -56,8 +59,8 @@ function addOnsFor(dish: MenuDish): string[] {
     const combo = MENU_DISHES.find((d) => d.section === "Burger Combos" && d.name.includes(base.split(" ")[0]));
     const withFries = MENU_DISHES.find((d) => d.section === "Burgers with Fries" && d.name.includes(base.split(" ")[0]));
     return [
-      combo ? `${combo.name} — $${combo.price}` : BURGER_ADD_ONS[0],
-      withFries ? `${withFries.name} — $${withFries.price}` : BURGER_ADD_ONS[1],
+      combo ? `${combo.name} — ${formatPrice(combo.price)}` : BURGER_ADD_ONS[0],
+      withFries ? `${withFries.name} — ${formatPrice(withFries.price)}` : BURGER_ADD_ONS[1],
       ...BURGER_ADD_ONS.slice(2),
     ];
   }
@@ -173,26 +176,38 @@ function MenuPage() {
                     {filtered
                       .filter((d) => d.section === section)
                       .map((dish) => (
-                        <li key={dish.name} className="border-b border-gold/15">
-                          <button
-                            type="button"
-                            onClick={() => setSelected(dish)}
-                            className="group flex w-full items-start gap-4 py-4 text-left"
-                          >
+                        <li key={dish.name} className="border-b border-gold/15 py-4">
+                          <div className="flex items-start gap-4">
                             <div className="min-w-0 flex-1">
-                              <h3 className="display text-sm tracking-[0.06em] text-cream transition group-hover:text-gold sm:text-base">
+                              <h3 className="display text-sm tracking-[0.06em] text-cream sm:text-base">
                                 {dish.name}
                               </h3>
                               <p className="mt-1.5 text-[13px] leading-snug text-muted-foreground">{dish.copy}</p>
-                              <span className="display mt-2 inline-block text-[10px] tracking-[0.18em] text-gold/70 group-hover:text-gold">
-                                VIEW DETAILS
-                              </span>
+                              <div className="mt-3 flex flex-wrap items-center gap-2">
+                                <OrderLink
+                                  content={`menu_card_${slugify(dish.name)}`}
+                                  ariaLabel={`Order the ${dish.name}`}
+                                  className="display inline-flex h-8 items-center rounded-full bg-gold px-4 text-[10px] tracking-[0.16em] text-ink transition hover:brightness-110"
+                                >
+                                  Order
+                                </OrderLink>
+                                <button
+                                  type="button"
+                                  onClick={() => setSelected(dish)}
+                                  className="display inline-flex h-8 items-center rounded-full border border-gold/40 px-4 text-[10px] tracking-[0.16em] text-gold/80 transition hover:border-gold hover:text-gold"
+                                >
+                                  View Details
+                                </button>
+                              </div>
                             </div>
-                            <span className="display shrink-0 text-sm text-gold sm:text-base">{dish.price}</span>
-                          </button>
+                            <span className="display shrink-0 text-sm text-gold sm:text-base">
+                              {formatPrice(dish.price)}
+                            </span>
+                          </div>
                         </li>
                       ))}
                   </ul>
+
                 </div>
               ))}
             </div>
@@ -244,13 +259,14 @@ function MenuPage() {
 
                 <div className="sticky bottom-0 border-t border-gold/25 bg-ink/95 px-5 pb-[env(safe-area-inset-bottom)] pt-3 backdrop-blur">
                   <div className="flex items-center justify-between gap-4 pb-3">
-                    <span className="display text-lg text-gold">${selected.price}</span>
-                    <a
-                      href="https://ordergothamhalal.com"
+                    <span className="display text-lg text-gold">{formatPrice(selected.price)}</span>
+                    <OrderLink
+                      content={`menu_card_${slugify(selected.name)}`}
+                      ariaLabel={`Order the ${selected.name}`}
                       className="display inline-flex h-11 flex-1 items-center justify-center rounded-full bg-gold px-6 text-xs tracking-[0.16em] text-ink"
                     >
                       ORDER NOW
-                    </a>
+                    </OrderLink>
                   </div>
                 </div>
               </>
@@ -265,7 +281,7 @@ function MenuPage() {
                 <DialogHeader className="px-6 pt-6">
                   <DialogTitle className="display flex items-start justify-between gap-6 text-left text-lg text-cream">
                     <span className="min-w-0">{selected.name}</span>
-                    <span className="shrink-0 text-gold">${selected.price}</span>
+                    <span className="shrink-0 text-gold">{formatPrice(selected.price)}</span>
                   </DialogTitle>
                   <DialogDescription className="text-left text-sm text-muted-foreground">
                     {selected.copy}
@@ -280,12 +296,13 @@ function MenuPage() {
                   <span className="display text-[11px] tracking-[0.16em] text-gold/70">
                     {selected.section.toUpperCase()} · 100% HALAL
                   </span>
-                  <a
-                    href="https://ordergothamhalal.com"
-                    className="display inline-flex h-10 items-center rounded-full bg-gold px-6 text-xs tracking-[0.16em] text-ink"
+                  <OrderLink
+                    content={`menu_card_${slugify(selected.name)}`}
+                    ariaLabel={`Order the ${selected.name}`}
+                    className="display inline-flex h-10 items-center rounded-full bg-gold px-7 text-xs tracking-[0.16em] text-ink"
                   >
                     ORDER NOW
-                  </a>
+                  </OrderLink>
                 </div>
               </>
             )}

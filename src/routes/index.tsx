@@ -8,7 +8,7 @@ import { InstagramFeed } from "@/components/InstagramFeed";
 import { FEATURED_DISHES } from "@/data/menu";
 import { assertMenuSource } from "@/data/menu.check";
 import { IMAGES, menuImage } from "@/data/images";
-import { slugify } from "@/lib/order";
+import { slugify, formatPrice } from "@/lib/order";
 import heroBg from "@/assets/gotham-hero-bg.png.asset.json";
 import footerBand from "@/assets/gotham-footer-band.png.asset.json";
 
@@ -54,12 +54,17 @@ function Home() {
       {/* ---------------- HERO — grunge black-to-gold artwork background ---------------- */}
       <section
         id="home"
-        className="relative isolate -mt-20 flex items-center overflow-hidden bg-ink bg-cover bg-center bg-no-repeat pt-20 scroll-mt-24 md:-mt-[88px] md:pt-[88px] lg:aspect-[5/2]"
-        style={{ backgroundImage: `url(${heroBg.url})` }}
+        className="relative isolate flex items-center overflow-hidden bg-ink bg-cover bg-center bg-no-repeat scroll-mt-24"
+        style={{
+          backgroundImage: `url(${heroBg.url})`,
+          marginTop: "calc(var(--header-h) * -1)",
+          paddingTop: "var(--header-h)",
+          minHeight: "calc(var(--header-h) + 34rem)",
+        }}
       >
 
 
-        <div className="relative z-20 mx-auto grid max-w-[1500px] items-center gap-8 px-5 py-10 md:px-10 lg:grid-cols-[minmax(0,40%)_minmax(0,60%)] lg:gap-4 lg:py-12">
+        <div className="relative z-20 mx-auto grid w-full max-w-[1500px] items-center gap-8 px-5 pb-14 pt-10 md:px-10 lg:grid-cols-[minmax(0,40%)_minmax(0,60%)] lg:gap-4 lg:pb-16 lg:pt-12">
           <div className="max-w-xl">
             <h1 className="display text-[3.25rem] leading-[0.86] tracking-[-0.035em] text-white sm:text-[4rem] lg:text-[4.25rem] xl:text-[5rem]">
               <span className="block">Bold.</span>
@@ -70,13 +75,14 @@ function Home() {
               Halal smash burgers and loaded fries made fresh daily. Built for flavor. Made
               for you.
             </p>
-            <div className="mt-7 flex flex-wrap gap-3">
+            <div className="mt-7 flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center">
               <OrderLink content="hero" className="pill-ghost-dark px-8 py-2.5 text-[12px]" />
               <Link to="/menu" className="pill-ghost-dark px-8 py-2.5 text-[12px]">
                 View Menu
               </Link>
             </div>
           </div>
+
 
           {/* hero food photography */}
           <div className="h-64 sm:h-80 lg:h-[26rem]">
@@ -127,12 +133,13 @@ function Home() {
                   i > 0 ? "lg:border-l lg:border-gold-foreground/25 lg:pl-8" : ""
                 }`}
               >
-                <div className="aspect-square w-[34%] max-w-[7rem] shrink-0">
+                <div className="aspect-square w-[34%] max-w-[7rem] shrink-0 self-start">
                   <BrandImage slot={menuImage(item.name)} tone="gold" className="h-full" fill />
                 </div>
                 <div className="flex min-w-0 flex-1 flex-col">
-                  <h3 className="display text-[14px] leading-tight tracking-[0.01em] text-gold-foreground">
-                    {item.name}
+                  <h3 className="display flex items-start justify-between gap-3 text-[14px] leading-tight tracking-[0.01em] text-gold-foreground">
+                    <span className="min-w-0">{item.name}</span>
+                    <span className="shrink-0">{formatPrice(item.price)}</span>
                   </h3>
                   <p className="mt-2 text-[13px] leading-snug text-gold-foreground/85">
                     {item.copy}
@@ -140,9 +147,10 @@ function Home() {
                   <OrderLink
                     content={`menu_card_${slugify(item.name)}`}
                     ariaLabel={`Order the ${item.name}`}
-                    className="display mt-4 inline-flex h-9 w-[8.5rem] shrink-0 items-center justify-center self-start rounded-full border-[1.5px] border-gold-foreground px-4 text-[10.5px] leading-none tracking-[0.14em] text-gold-foreground transition hover:bg-gold-foreground hover:text-gold lg:mt-auto"
+                    className="display mt-auto inline-flex h-9 w-[8.5rem] shrink-0 items-center justify-center self-start rounded-full border-[1.5px] border-gold-foreground px-4 pt-px text-[10.5px] leading-none tracking-[0.14em] text-gold-foreground transition hover:bg-gold-foreground hover:text-gold"
                   />
                 </div>
+
               </article>
             ))}
           </div>

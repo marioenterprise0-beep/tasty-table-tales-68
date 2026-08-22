@@ -23,15 +23,28 @@ export type Location = {
   hours: WeekHours;
 };
 
-const STANDARD_HOURS: WeekHours = [
-  { open: "12:00", close: "21:00" }, // Sun
-  { open: "11:00", close: "22:00" }, // Mon
-  { open: "11:00", close: "22:00" }, // Tue
-  { open: "11:00", close: "22:00" }, // Wed
-  { open: "11:00", close: "22:00" }, // Thu
-  { open: "11:00", close: "23:00" }, // Fri
-  { open: "11:00", close: "23:00" }, // Sat
+/** West Ridge: 11AM–12AM daily, except Friday which opens at 4PM. */
+const WEST_RIDGE_HOURS: WeekHours = [
+  { open: "11:00", close: "24:00" }, // Sun
+  { open: "11:00", close: "24:00" }, // Mon
+  { open: "11:00", close: "24:00" }, // Tue
+  { open: "11:00", close: "24:00" }, // Wed
+  { open: "11:00", close: "24:00" }, // Thu
+  { open: "16:00", close: "24:00" }, // Fri
+  { open: "11:00", close: "24:00" }, // Sat
 ];
+
+/** Jefferson Road opening hours: 4PM–12AM every day. */
+const JEFFERSON_HOURS: WeekHours = [
+  { open: "16:00", close: "24:00" },
+  { open: "16:00", close: "24:00" },
+  { open: "16:00", close: "24:00" },
+  { open: "16:00", close: "24:00" },
+  { open: "16:00", close: "24:00" },
+  { open: "16:00", close: "24:00" },
+  { open: "16:00", close: "24:00" },
+];
+
 
 export const LOCATIONS: Location[] = [
   {
@@ -47,7 +60,7 @@ export const LOCATIONS: Location[] = [
     offers: ["Pickup", "Delivery"],
     orderUrl: ORDER_URL,
     directionsUrl: "https://share.google/ohN6YdYP539PDVNRa",
-    hours: STANDARD_HOURS,
+    hours: WEST_RIDGE_HOURS,
   },
   {
     slug: "jefferson-road",
@@ -62,7 +75,7 @@ export const LOCATIONS: Location[] = [
     // TODO: set the confirmed opening date to switch on the countdown.
     openingDate: null,
     directionsUrl: "https://share.google/cIEM35AUDWOoOvv2c",
-    hours: STANDARD_HOURS,
+    hours: JEFFERSON_HOURS,
   },
 ];
 
@@ -79,8 +92,9 @@ function toMinutes(hhmm: string) {
 
 export function formatTime(hhmm: string) {
   const [h, m] = hhmm.split(":").map(Number);
-  const suffix = h >= 12 ? "PM" : "AM";
-  const hour = h % 12 === 0 ? 12 : h % 12;
+  const normalized = h % 24; // 24:00 => midnight
+  const suffix = normalized >= 12 ? "PM" : "AM";
+  const hour = normalized % 12 === 0 ? 12 : normalized % 12;
   return m === 0 ? `${hour}${suffix}` : `${hour}:${String(m).padStart(2, "0")}${suffix}`;
 }
 
@@ -93,12 +107,33 @@ export function hoursLabel(hours: DayHours) {
   return `${formatTime(hours.open)} – ${formatTime(hours.close)}`;
 }
 
-export function isOpenNow(l: Location, now = new Date()) {
-  const hours = todayHours(l, now);
-  if (!hours) return false;
-  const minutes = now.getHours() * 60 + now.getMinutes();
-  return minutes >= toMinutes(hours.open) && minutes < toMinutes(hours.close);
+/**
+ * Minutes since midnight for a day's close time. A close that is at or before
+ * the open time (e.g. "00:00" or "02:00") belongs to the FOLLOWING day, so it
+ * is returned as 24:00+ of the same day.
+ */
+function closeMinutes(hours: NonNullable<DayHours>) {
+  const open = toMinutes(hours.open);
+  const close = toMinutes(hours.close);
+  return close <= open ? close + 1440 : close;
 }
+
+export function isOpenNow(l: Location, now = new Date()) {
+  const minutes = now.getHours() * 60 + now.getMinutes();
+
+  // Today's shift.
+  const today = todayHours(l, now);
+  if (today && minutes >= toMinutes(today.open) && minutes < closeMinutes(today)) return true;
+
+  // Yesterday's shift may still be running past midnight.
+  const yesterday = l.hours[(now.getDay() + 6) % 7];
+  if (yesterday && closeMinutes(yesterday) > 1440 && minutes < closeMinutes(yesterday) - 1440) {
+    return true;
+  }
+
+  return false;
+}
+
 
 /** Whole days until the opening date, or null when no date is set. */
 export function daysUntilOpening(l: Location, now = new Date()): number | null {

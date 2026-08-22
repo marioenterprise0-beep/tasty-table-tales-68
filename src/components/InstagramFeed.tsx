@@ -55,15 +55,17 @@ export function InstagramFeed() {
           </a>
         </div>
 
-        <div className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+        <div className="mt-7 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
           {tiles
-            ? tiles.map((p) => (
+            ? tiles.map((p, i) => (
                 <a
                   key={p.id}
                   href={p.permalink}
                   target="_blank"
                   rel="noreferrer"
-                  className="aspect-square overflow-hidden rounded-lg border border-gold/20"
+                  className={`aspect-square overflow-hidden rounded-lg border border-gold/20 ${
+                    i >= 4 ? "hidden lg:block" : ""
+                  }`}
                 >
                   <img
                     src={p.mediaUrl}
@@ -81,7 +83,9 @@ export function InstagramFeed() {
                   target="_blank"
                   rel="noreferrer"
                   aria-label="Gotham Halal on Instagram"
-                  className="flex aspect-square items-center justify-center rounded-lg border border-gold/20 bg-white/[0.03] transition hover:border-gold/50"
+                  className={`aspect-square items-center justify-center rounded-lg border border-gold/20 bg-white/[0.03] transition hover:border-gold/50 ${
+                    i >= 4 ? "hidden lg:flex" : "flex"
+                  }`}
                 >
                   <img
                     src="/gotham-halal-logo.svg"
