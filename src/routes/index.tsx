@@ -4,6 +4,7 @@ import { BrandImage } from "@/components/BrandImage";
 import { OrderLink } from "@/components/OrderLink";
 import { LocationsBlock } from "@/components/LocationsBlock";
 import { GoogleReviews } from "@/components/GoogleReviews";
+import { TextClub } from "@/components/TextClub";
 import { InstagramFeed } from "@/components/InstagramFeed";
 import { FEATURED_DISHES } from "@/data/menu";
 import { assertMenuSource } from "@/data/menu.check";
