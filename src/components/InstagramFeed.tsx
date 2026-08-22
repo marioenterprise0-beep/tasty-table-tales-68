@@ -55,7 +55,7 @@ export function InstagramFeed() {
           </a>
         </div>
 
-        <div className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+        <div className="mt-7 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
           {tiles
             ? tiles.map((p) => (
                 <a
