@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -13,6 +14,10 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
+import { AnnouncementBar } from "@/components/AnnouncementBar";
+import { OpeningSignupProvider } from "@/components/OpeningSignup";
+import { initAnalytics, trackPageView } from "@/lib/analytics";
+import { ORDER_URL } from "@/lib/order";
 
 function NotFoundComponent() {
   return (
