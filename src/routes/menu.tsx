@@ -173,26 +173,38 @@ function MenuPage() {
                     {filtered
                       .filter((d) => d.section === section)
                       .map((dish) => (
-                        <li key={dish.name} className="border-b border-gold/15">
-                          <button
-                            type="button"
-                            onClick={() => setSelected(dish)}
-                            className="group flex w-full items-start gap-4 py-4 text-left"
-                          >
+                        <li key={dish.name} className="border-b border-gold/15 py-4">
+                          <div className="flex items-start gap-4">
                             <div className="min-w-0 flex-1">
-                              <h3 className="display text-sm tracking-[0.06em] text-cream transition group-hover:text-gold sm:text-base">
+                              <h3 className="display text-sm tracking-[0.06em] text-cream sm:text-base">
                                 {dish.name}
                               </h3>
                               <p className="mt-1.5 text-[13px] leading-snug text-muted-foreground">{dish.copy}</p>
-                              <span className="display mt-2 inline-block text-[10px] tracking-[0.18em] text-gold/70 group-hover:text-gold">
-                                VIEW DETAILS
-                              </span>
+                              <div className="mt-3 flex flex-wrap items-center gap-2">
+                                <OrderLink
+                                  content={`menu_card_${slugify(dish.name)}`}
+                                  ariaLabel={`Order the ${dish.name}`}
+                                  className="display inline-flex h-8 items-center rounded-full bg-gold px-4 text-[10px] tracking-[0.16em] text-ink transition hover:brightness-110"
+                                >
+                                  Order
+                                </OrderLink>
+                                <button
+                                  type="button"
+                                  onClick={() => setSelected(dish)}
+                                  className="display inline-flex h-8 items-center rounded-full border border-gold/40 px-4 text-[10px] tracking-[0.16em] text-gold/80 transition hover:border-gold hover:text-gold"
+                                >
+                                  View Details
+                                </button>
+                              </div>
                             </div>
-                            <span className="display shrink-0 text-sm text-gold sm:text-base">{dish.price}</span>
-                          </button>
+                            <span className="display shrink-0 text-sm text-gold sm:text-base">
+                              {formatPrice(dish.price)}
+                            </span>
+                          </div>
                         </li>
                       ))}
                   </ul>
+
                 </div>
               ))}
             </div>
