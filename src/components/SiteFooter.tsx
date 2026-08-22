@@ -42,10 +42,12 @@ export function SiteFooter() {
         <div>
           <h3 className="display mb-4 text-[12px] tracking-[0.2em] text-gold">Follow</h3>
           <div className="flex gap-2">
-            {SOCIALS.map(({ label, Icon }) => (
+            {SOCIALS.map(({ label, href, Icon }) => (
               <a
                 key={label}
-                href="#"
+                href={href}
+                target="_blank"
+                rel="noreferrer"
                 aria-label={label}
                 className="inline-flex size-10 items-center justify-center rounded-full border border-gold/40 text-gold transition hover:bg-gold hover:text-gold-foreground"
               >
