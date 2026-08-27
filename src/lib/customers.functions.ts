@@ -38,7 +38,17 @@ export const updateMyProfile = createServerFn({ method: "POST" })
     const nextEmail = data.email ? data.email.trim().toLowerCase() : null;
     const emailChanged = (current.email ?? "").toLowerCase() !== (nextEmail ?? "");
 
-    const patch: Record<string, unknown> = {
+    const patch: {
+      first_name: string;
+      last_name: string | null;
+      email: string | null;
+      birthday_month: number | null;
+      birthday_day: number | null;
+      email_verified?: boolean;
+      email_verify_token?: string | null;
+      email_verify_target?: string | null;
+      email_opt_in?: boolean;
+    } = {
       first_name: data.firstName,
       last_name: data.lastName || null,
       email: nextEmail,
@@ -49,10 +59,10 @@ export const updateMyProfile = createServerFn({ method: "POST" })
     // A new address is untrusted until re-verified: it cannot be used to sign
     // in, and we stop emailing it until the owner confirms it.
     if (emailChanged) {
-      patch["email_verified"] = false;
-      patch["email_verify_token"] = null;
-      patch["email_verify_target"] = null;
-      patch["email_opt_in"] = false;
+      patch.email_verified = false;
+      patch.email_verify_token = null;
+      patch.email_verify_target = null;
+      patch.email_opt_in = false;
     }
 
     const { error } = await supabaseAdmin.from("customers").update(patch).eq("id", current.id);
