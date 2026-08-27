@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { getRequestHeader } from "@tanstack/react-start/server";
 import {
   cateringLeadSchema,
   franchiseInquirySchema,
@@ -6,6 +7,14 @@ import {
   openingSignupSchema,
   textClubSchema,
 } from "./leads.schemas";
+
+function requestMeta() {
+  const forwarded = getRequestHeader("x-forwarded-for") ?? "";
+  return {
+    ip: forwarded.split(",")[0]?.trim() || getRequestHeader("cf-connecting-ip") || null,
+    userAgent: getRequestHeader("user-agent") ?? null,
+  };
+}
 
 export const submitOpeningSignup = createServerFn({ method: "POST" })
   .inputValidator((data: unknown) => openingSignupSchema.parse(data))
@@ -23,6 +32,18 @@ export const submitOpeningSignup = createServerFn({ method: "POST" })
       console.error("opening signup insert failed", error.message);
       throw new Error("We couldn't save your signup. Please try again.");
     }
+
+    const { upsertCustomerFromSignup } = await import("./customers.server");
+    const meta = requestMeta();
+    await upsertCustomerFromSignup({
+      phone: data.phone,
+      firstName: data.firstName,
+      email: data.email || null,
+      smsOptIn: data.smsOptIn,
+      source: "opening_day",
+      ip: meta.ip,
+      userAgent: meta.userAgent,
+    });
 
     const { notifyLead } = await import("./notify.server");
     await notifyLead("New opening day signup", [
@@ -51,6 +72,17 @@ export const submitTextClub = createServerFn({ method: "POST" })
       console.error("text club insert failed", error.message);
       throw new Error("We couldn't add you to the list. Please try again.");
     }
+
+    const { upsertCustomerFromSignup } = await import("./customers.server");
+    const meta = requestMeta();
+    await upsertCustomerFromSignup({
+      phone: data.phone,
+      firstName: data.firstName,
+      smsOptIn: true,
+      source: data.source,
+      ip: meta.ip,
+      userAgent: meta.userAgent,
+    });
 
     const { notifyLead } = await import("./notify.server");
     await notifyLead("New text club signup", [
@@ -91,6 +123,20 @@ export const submitCateringLead = createServerFn({ method: "POST" })
         signup_source: "catering",
       });
       if (smsError) console.error("catering text club insert failed", smsError.message);
+    }
+
+    {
+      const { upsertCustomerFromSignup } = await import("./customers.server");
+      const meta = requestMeta();
+      await upsertCustomerFromSignup({
+        phone: data.phone,
+        firstName: data.fullName.split(" ")[0] ?? data.fullName,
+        email: data.email,
+        smsOptIn: data.smsOptIn,
+        source: "catering",
+        ip: meta.ip,
+        userAgent: meta.userAgent,
+      });
     }
 
     const { notifyLead } = await import("./notify.server");
@@ -141,6 +187,20 @@ export const submitJobApplication = createServerFn({ method: "POST" })
         signup_source: "careers",
       });
       if (smsError) console.error("careers text club insert failed", smsError.message);
+    }
+
+    {
+      const { upsertCustomerFromSignup } = await import("./customers.server");
+      const meta = requestMeta();
+      await upsertCustomerFromSignup({
+        phone: data.phone,
+        firstName: data.fullName.split(" ")[0] ?? data.fullName,
+        email: data.email,
+        smsOptIn: data.smsOptIn,
+        source: "careers",
+        ip: meta.ip,
+        userAgent: meta.userAgent,
+      });
     }
 
     const { notifyLead } = await import("./notify.server");
