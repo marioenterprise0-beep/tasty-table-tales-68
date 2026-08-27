@@ -132,7 +132,7 @@ function Home() {
                 key={item.name}
                 className="flex h-full flex-col gap-4 lg:px-8"
               >
-                <div className="aspect-[4/3] w-full overflow-hidden rounded-2xl">
+                <div className="aspect-[1308/1202] w-full overflow-hidden rounded-2xl">
                   <BrandImage slot={menuImage(item.name)} tone="gold" className="h-full" fill />
                 </div>
                 <div className="flex min-w-0 flex-1 flex-col">
