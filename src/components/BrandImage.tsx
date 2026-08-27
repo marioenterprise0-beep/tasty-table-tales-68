@@ -61,7 +61,7 @@ export function BrandImage({
         loading={priority ? "eager" : "lazy"}
         decoding="async"
         fetchPriority={priority ? "high" : "auto"}
-        className={`h-full w-full rounded-lg object-cover ${slot.imageClassName ?? ""}`}
+        className={`h-full w-full rounded-lg ${slot.imageClassName ?? "object-cover"}`}
       />
     </picture>
   );
