@@ -26,7 +26,7 @@ export async function recordAdminAction(params: {
     target_type: params.targetType ?? null,
     target_id: params.targetId ?? null,
     row_count: params.rowCount ?? null,
-    detail: params.detail ?? {},
+    detail: JSON.parse(JSON.stringify(params.detail ?? {})),
     ip_address: params.ip ?? null,
   });
   if (error) console.error("audit log insert failed", error.message);
