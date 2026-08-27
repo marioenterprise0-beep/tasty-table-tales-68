@@ -43,6 +43,25 @@ function AuthPage() {
   const [error, setError] = React.useState<string | null>(null);
   const [showEmail, setShowEmail] = React.useState(false);
   const [company, setCompany] = React.useState("");
+  const [showPassword, setShowPassword] = React.useState(false);
+  const [password, setPassword] = React.useState("");
+
+  async function signInWithPassword(event: React.FormEvent) {
+    event.preventDefault();
+    setBusy(true);
+    setError(null);
+    const { error: pwError } = await supabase.auth.signInWithPassword({
+      email: email.trim(),
+      password,
+    });
+    setBusy(false);
+    if (pwError) {
+      setError(pwError.message);
+      return;
+    }
+    navigate({ to: "/account", replace: true });
+  }
+
   const mountedAt = React.useRef(Date.now());
   const sendOtp = useServerFn(requestPhoneCode);
   const checkOtp = useServerFn(verifyPhoneCode);
@@ -236,8 +255,47 @@ function AuthPage() {
                   Trouble with texts? Sign in by email instead
                 </button>
               )}
+              {showPassword ? (
+                <form onSubmit={signInWithPassword} className="mt-4 space-y-3">
+                  <Label htmlFor="auth-staff-email" className="text-white/80">
+                    Staff email &amp; password
+                  </Label>
+                  <Input
+                    id="auth-staff-email"
+                    type="email"
+                    autoComplete="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                  <Input
+                    id="auth-staff-password"
+                    type="password"
+                    autoComplete="current-password"
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <button
+                    type="submit"
+                    disabled={busy}
+                    className="w-full rounded-full border border-gold/50 px-6 py-3 text-[12px] display tracking-[0.14em] text-gold hover:bg-gold/10 disabled:opacity-60"
+                  >
+                    {busy ? "Signing in…" : "Staff Sign In"}
+                  </button>
+                </form>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(true)}
+                  className="mt-3 w-full text-center text-[11.5px] text-white/40 underline"
+                >
+                  Staff sign-in
+                </button>
+              )}
             </div>
           )}
+
         </div>
 
         <p className="mt-5 text-center text-[11.5px] text-white/45">
