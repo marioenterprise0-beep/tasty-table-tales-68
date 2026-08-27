@@ -22,7 +22,8 @@ export type ImageSlot = {
 
 export const IMAGES = {
   heroBurgers: {
-    alt: "Three Gotham Halal smash burgers stacked with melted cheese",
+    src: heroBurgers.url,
+    alt: "Four Gotham Halal smash burgers and loaded fries piled together",
   },
   appPhone: {
     alt: "Gotham Halal mobile app shown on a phone",
