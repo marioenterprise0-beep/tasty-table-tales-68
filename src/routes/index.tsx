@@ -85,15 +85,15 @@ function Home() {
           </div>
 
 
-          {/* hero food photography — natural framing, no cropping */}
-          <div className="flex items-center">
+          {/* hero food photography — anchored lower so the bridge/skyline artwork shows above */}
+          <div className="flex items-end">
             <img
               src={IMAGES.heroBurgers.src}
               alt={IMAGES.heroBurgers.alt}
               loading="eager"
               decoding="async"
               fetchPriority="high"
-              className="h-auto w-full max-w-[640px] drop-shadow-[0_24px_40px_rgba(0,0,0,0.45)]"
+              className="h-auto w-full max-w-[640px] translate-y-6 drop-shadow-[0_24px_40px_rgba(0,0,0,0.45)] lg:translate-y-10"
             />
           </div>
         </div>
