@@ -130,11 +130,11 @@ function Home() {
             {HIGHLIGHTS.map((item, i) => (
               <article
                 key={item.name}
-                className={`flex h-full gap-4 ${
+                className={`flex h-full flex-col gap-4 ${
                   i > 0 ? "lg:border-l lg:border-gold-foreground/25 lg:pl-8" : ""
                 }`}
               >
-                <div className="aspect-square w-[34%] max-w-[7rem] shrink-0 self-start">
+                <div className="aspect-[4/3] w-full overflow-hidden rounded-2xl">
                   <BrandImage slot={menuImage(item.name)} tone="gold" className="h-full" fill />
                 </div>
                 <div className="flex min-w-0 flex-1 flex-col">
