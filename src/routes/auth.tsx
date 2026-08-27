@@ -45,6 +45,28 @@ function AuthPage() {
   const [company, setCompany] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
   const [password, setPassword] = React.useState("");
+  const [resetNote, setResetNote] = React.useState<string | null>(null);
+
+  async function sendPasswordReset() {
+    const target = email.trim();
+    if (!target) {
+      setError("Enter your staff email first.");
+      return;
+    }
+    setBusy(true);
+    setError(null);
+    setResetNote(null);
+    const { error: resetError } = await supabase.auth.resetPasswordForEmail(target, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+    setBusy(false);
+    if (resetError) {
+      setError(resetError.message);
+      return;
+    }
+    setResetNote(`If an account exists for ${target}, a reset link is on its way.`);
+  }
+
 
   async function signInWithPassword(event: React.FormEvent) {
     event.preventDefault();
