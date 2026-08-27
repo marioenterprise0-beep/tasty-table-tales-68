@@ -5,6 +5,8 @@
  * To add a photo: drop the file in /public (or src/assets) and set `src`
  * (plus optional `webp`) here — no component changes needed.
  */
+import heatwave from "@/assets/heatwave.png.asset.json";
+import heatwaveCombo from "@/assets/heatwave-combo.png.asset.json";
 export type ImageSlot = {
   /** Fallback source (jpg/png). Leave empty to render the branded placeholder. */
   src?: string;
@@ -32,7 +34,20 @@ export const IMAGES = {
 } satisfies Record<string, ImageSlot>;
 
 /** Photos per menu item, keyed by item name. */
-export const MENU_IMAGES: Record<string, ImageSlot> = {};
+export const MENU_IMAGES: Record<string, ImageSlot> = {
+  "The Gotham Heatwave": {
+    src: heatwave.url,
+    alt: "The Gotham Heatwave smash burger with jalapeños and melted pepperjack",
+  },
+  "Heatwave Combo": {
+    src: heatwaveCombo.url,
+    alt: "The Gotham Heatwave combo with Gotham Regular Fries and a Dirty Soda",
+  },
+  "Heatwave + Fries": {
+    src: heatwaveCombo.url,
+    alt: "The Gotham Heatwave served with Gotham Regular Fries",
+  },
+};
 
 export function menuImage(name: string): ImageSlot {
   return MENU_IMAGES[name] ?? { alt: `${name} from Gotham Halal` };
