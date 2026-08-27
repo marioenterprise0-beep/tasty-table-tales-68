@@ -27,7 +27,7 @@ export function BrandImage({
   tone = "dark",
   transparentPlaceholder = false,
 }: Props) {
-  const frame = `relative overflow-hidden ${fill ? "h-full w-full" : "w-full"} ${className}`;
+  const frame = `relative block overflow-hidden ${fill ? "h-full w-full" : "w-full"} ${className}`;
 
   if (!slot.src) {
     const border = tone === "gold" ? "border-gold-foreground/25" : "border-gold/25";
