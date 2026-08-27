@@ -6,7 +6,15 @@ import { Input } from "@/components/ui/input";
 import { PageHeader } from "@/components/PageHeader";
 import { selectClass } from "@/components/form-bits";
 import { formatPhone } from "@/lib/phone";
-import { amIAdmin, listCustomers, listCustomerSources, listLeads } from "@/lib/admin.functions";
+import {
+  amIAdmin,
+  listCustomers,
+  listCustomerSources,
+  listLeads,
+  listAuditLog,
+  exportCustomersCsv,
+  changeAdminRole,
+} from "@/lib/admin.functions";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
@@ -23,24 +31,15 @@ export const Route = createFileRoute("/_authenticated/admin")({
   component: AdminPage,
 });
 
-type Tab = "customers" | "catering_leads" | "job_applications" | "franchise_inquiries";
+type Tab = "customers" | "catering_leads" | "job_applications" | "franchise_inquiries" | "audit";
 
 const TABS: { id: Tab; label: string }[] = [
   { id: "customers", label: "Customers" },
   { id: "catering_leads", label: "Catering" },
   { id: "job_applications", label: "Careers" },
   { id: "franchise_inquiries", label: "Franchise" },
+  { id: "audit", label: "Audit Log" },
 ];
-
-function toCsv(rows: Record<string, unknown>[]) {
-  if (rows.length === 0) return "";
-  const headers = Object.keys(rows[0]!);
-  const escape = (v: unknown) => {
-    const s = v === null || v === undefined ? "" : String(v);
-    return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
-  };
-  return [headers.join(","), ...rows.map((r) => headers.map((h) => escape(r[h])).join(","))].join("\n");
-}
 
 function download(name: string, csv: string) {
   const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
@@ -90,7 +89,9 @@ function AdminPage() {
           ))}
         </div>
 
-        {tab === "customers" ? <CustomersPanel /> : <LeadsPanel type={tab} />}
+        {tab === "customers" && <CustomersPanel />}
+        {tab === "audit" && <AuditPanel />}
+        {tab !== "customers" && tab !== "audit" && <LeadsPanel type={tab} />}
       </div>
     </div>
   );
@@ -99,6 +100,9 @@ function AdminPage() {
 function CustomersPanel() {
   const fetchCustomers = useServerFn(listCustomers);
   const fetchSources = useServerFn(listCustomerSources);
+  const runExport = useServerFn(exportCustomersCsv);
+  const [exporting, setExporting] = React.useState(false);
+  const [exportNote, setExportNote] = React.useState<string | null>(null);
   const [search, setSearch] = React.useState("");
   const [optIn, setOptIn] = React.useState<"all" | "sms" | "email" | "both" | "none">("all");
   const [source, setSource] = React.useState("");
@@ -154,12 +158,28 @@ function CustomersPanel() {
         </select>
         <button
           type="button"
-          onClick={() => download(`gotham-customers-${new Date().toISOString().slice(0, 10)}.csv`, toCsv(rows))}
-          disabled={rows.length === 0}
+          onClick={async () => {
+            setExporting(true);
+            setExportNote(null);
+            try {
+              // The server re-checks the admin role, rate limits and audits this.
+              const result = await runExport({ data: { search, optIn, source } });
+              if (!result.ok) setExportNote(result.message);
+              else {
+                download(`gotham-customers-${new Date().toISOString().slice(0, 10)}.csv`, result.csv);
+                setExportNote(`Exported ${result.rowCount} rows — logged to the audit trail.`);
+              }
+            } catch {
+              setExportNote("Export failed.");
+            }
+            setExporting(false);
+          }}
+          disabled={exporting || rows.length === 0}
           className="pill-gold px-6 py-2.5 text-[11px] disabled:opacity-50"
         >
-          Export CSV
+          {exporting ? "Exporting…" : "Export CSV"}
         </button>
+        {exportNote && <p className="w-full text-[12px] text-white/60">{exportNote}</p>}
       </div>
 
       <div className="mt-6 overflow-x-auto rounded-xl border border-gold/20">
@@ -242,6 +262,133 @@ function LeadsPanel({ type }: { type: Exclude<Tab, "customers"> }) {
             ))}
           </tbody>
         </table>
+      </div>
+    </div>
+  );
+}
+
+function AuditPanel() {
+  const fetchAudit = useServerFn(listAuditLog);
+  const changeRole = useServerFn(changeAdminRole);
+  const { data, isLoading, refetch } = useQuery({
+    queryKey: ["admin-audit"],
+    queryFn: () => fetchAudit({ data: undefined }),
+  });
+  const [email, setEmail] = React.useState("");
+  const [note, setNote] = React.useState<string | null>(null);
+  const [busy, setBusy] = React.useState(false);
+
+  async function submitRole(action: "grant" | "revoke") {
+    setBusy(true);
+    setNote(null);
+    try {
+      const result = await changeRole({ data: { email, action } });
+      setNote(result.message);
+      if (result.ok) {
+        setEmail("");
+        void refetch();
+      }
+    } catch (e) {
+      setNote(e instanceof Error ? e.message : "That didn't work.");
+    }
+    setBusy(false);
+  }
+
+  const entries = data?.entries ?? [];
+  const blocked = data?.blockedAttempts ?? [];
+
+  return (
+    <div className="space-y-10">
+      <div className="rounded-xl border border-gold/25 bg-white/[0.03] p-5">
+        <h2 className="display text-[13px] tracking-[0.14em] text-gold">Admin access</h2>
+        <p className="mt-2 text-[12.5px] text-white/60">
+          Grant or revoke staff admin access by account email. Every change is recorded below.
+        </p>
+        <div className="mt-4 flex flex-wrap items-center gap-3">
+          <Input
+            placeholder="staff@gothamhalal.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="max-w-xs"
+          />
+          <button
+            type="button"
+            disabled={busy || !email}
+            onClick={() => void submitRole("grant")}
+            className="pill-gold px-5 py-2.5 text-[11px] disabled:opacity-50"
+          >
+            Grant
+          </button>
+          <button
+            type="button"
+            disabled={busy || !email}
+            onClick={() => void submitRole("revoke")}
+            className="display rounded-full border border-gold/40 px-5 py-2.5 text-[11px] tracking-[0.12em] text-gold hover:bg-gold/10 disabled:opacity-50"
+          >
+            Revoke
+          </button>
+          {note && <p className="text-[12px] text-white/70">{note}</p>}
+        </div>
+      </div>
+
+      <div>
+        <h2 className="display mb-3 text-[13px] tracking-[0.14em] text-gold">Admin activity (read-only)</h2>
+        <div className="overflow-x-auto rounded-xl border border-gold/20">
+          <table className="w-full min-w-[900px] text-left text-[13px]">
+            <thead className="bg-white/[0.04] text-[11px] uppercase tracking-[0.14em] text-white/50">
+              <tr>
+                {["When", "Admin", "Action", "Target", "Rows", "IP"].map((h) => (
+                  <th key={h} className="px-4 py-3 font-normal">{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="text-white/85">
+              {isLoading && <tr><td colSpan={6} className="px-4 py-6 text-white/50">Loading…</td></tr>}
+              {!isLoading && entries.length === 0 && (
+                <tr><td colSpan={6} className="px-4 py-6 text-white/50">No admin activity recorded yet.</td></tr>
+              )}
+              {entries.map((e) => (
+                <tr key={e.id} className="border-t border-white/5">
+                  <td className="px-4 py-3">{new Date(e.created_at).toLocaleString()}</td>
+                  <td className="px-4 py-3">{e.admin_label ?? "—"}</td>
+                  <td className="px-4 py-3">{e.action.replace(/_/g, " ")}</td>
+                  <td className="px-4 py-3">{e.target_type ?? "—"}</td>
+                  <td className="px-4 py-3">{e.row_count ?? "—"}</td>
+                  <td className="px-4 py-3">{e.ip_address ?? "—"}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div>
+        <h2 className="display mb-3 text-[13px] tracking-[0.14em] text-gold">Blocked sign-in / export attempts</h2>
+        <div className="overflow-x-auto rounded-xl border border-gold/20">
+          <table className="w-full min-w-[800px] text-left text-[13px]">
+            <thead className="bg-white/[0.04] text-[11px] uppercase tracking-[0.14em] text-white/50">
+              <tr>
+                {["When", "Kind", "Phone", "IP", "Reason"].map((h) => (
+                  <th key={h} className="px-4 py-3 font-normal">{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="text-white/85">
+              {blocked.length === 0 && (
+                <tr><td colSpan={5} className="px-4 py-6 text-white/50">Nothing blocked recently.</td></tr>
+              )}
+              {blocked.map((b) => (
+                <tr key={b.id} className="border-t border-white/5">
+                  <td className="px-4 py-3">{new Date(b.created_at).toLocaleString()}</td>
+                  <td className="px-4 py-3">{b.kind.replace(/_/g, " ")}</td>
+                  <td className="px-4 py-3">{b.phone ? formatPhone(b.phone) : "—"}</td>
+                  <td className="px-4 py-3">{b.ip_address ?? "—"}</td>
+                  <td className="px-4 py-3">{b.detail ?? "—"}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
