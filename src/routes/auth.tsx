@@ -4,8 +4,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PageHeader } from "@/components/PageHeader";
-import { normalizePhone, formatPhone } from "@/lib/phone";
+import { useServerFn } from "@tanstack/react-start";
+import { toUsCanadaE164, formatPhone } from "@/lib/phone";
 import { useSession } from "@/hooks/useSession";
+import { requestPhoneCode, verifyPhoneCode } from "@/lib/otp.functions";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -40,6 +42,10 @@ function AuthPage() {
   const [busy, setBusy] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
   const [showEmail, setShowEmail] = React.useState(false);
+  const [company, setCompany] = React.useState("");
+  const mountedAt = React.useRef(Date.now());
+  const sendOtp = useServerFn(requestPhoneCode);
+  const checkOtp = useServerFn(verifyPhoneCode);
 
   React.useEffect(() => {
     if (session) navigate({ to: "/account", replace: true });
@@ -47,20 +53,19 @@ function AuthPage() {
 
   async function sendCode(event: React.FormEvent) {
     event.preventDefault();
-    const e164 = normalizePhone(phone);
-    if (!e164) {
-      setError("Enter a valid 10-digit phone number.");
+    if (!toUsCanadaE164(phone)) {
+      setError("Enter a valid 10-digit US or Canada number.");
       return;
     }
     setBusy(true);
     setError(null);
-    const { error: otpError } = await supabase.auth.signInWithOtp({ phone: e164 });
+    const result = await sendOtp({
+      data: { phone, company, elapsedMs: Date.now() - mountedAt.current },
+    });
     setBusy(false);
-    if (otpError) {
-      setError(
-        `${otpError.message} — if text sign-in isn't live yet, use the email option below.`,
-      );
-      setShowEmail(true);
+    if (!result.ok) {
+      setError(result.message);
+      if ("providerDown" in result && result.providerDown) setShowEmail(true);
       return;
     }
     setStep("code");
@@ -68,18 +73,21 @@ function AuthPage() {
 
   async function verifyCode(event: React.FormEvent) {
     event.preventDefault();
-    const e164 = normalizePhone(phone);
-    if (!e164) return;
     setBusy(true);
     setError(null);
-    const { error: verifyError } = await supabase.auth.verifyOtp({
-      phone: e164,
-      token: code.trim(),
-      type: "sms",
+    const result = await checkOtp({ data: { phone, code: code.trim() } });
+    if (!result.ok) {
+      setBusy(false);
+      setError(result.message);
+      return;
+    }
+    const { error: sessionError } = await supabase.auth.setSession({
+      access_token: result.accessToken,
+      refresh_token: result.refreshToken,
     });
     setBusy(false);
-    if (verifyError) {
-      setError(verifyError.message);
+    if (sessionError) {
+      setError("We verified your code but couldn't start your session. Please try again.");
       return;
     }
     navigate({ to: "/account", replace: true });
@@ -134,6 +142,19 @@ function AuthPage() {
                   preferences after signing in.
                 </p>
               </div>
+              {/* Honeypot: hidden from people and screen readers, irresistible to bots. */}
+              <div aria-hidden="true" className="absolute left-[-9999px] h-0 w-0 overflow-hidden">
+                <label htmlFor="auth-company">Company</label>
+                <input
+                  id="auth-company"
+                  name="company"
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={company}
+                  onChange={(e) => setCompany(e.target.value)}
+                />
+              </div>
               {error && <p className="text-sm text-destructive">{error}</p>}
               <button type="submit" disabled={busy} className="pill-gold w-full px-6 py-3 text-[12px] disabled:opacity-60">
                 {busy ? "Sending…" : "Send Code"}
@@ -144,7 +165,7 @@ function AuthPage() {
           {step === "code" && (
             <form onSubmit={verifyCode} className="space-y-4">
               <p className="text-sm text-white/80">
-                Enter the code we texted to {formatPhone(normalizePhone(phone))}.
+                Enter the code we texted to {formatPhone(toUsCanadaE164(phone))}.
               </p>
               <div className="space-y-1.5">
                 <Label htmlFor="auth-code" className="text-white/80">
