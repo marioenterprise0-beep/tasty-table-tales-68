@@ -283,6 +283,15 @@ function AuthPage() {
                   >
                     {busy ? "Signing in…" : "Staff Sign In"}
                   </button>
+                  {resetNote && <p className="text-sm text-white/70">{resetNote}</p>}
+                  <button
+                    type="button"
+                    onClick={sendPasswordReset}
+                    disabled={busy}
+                    className="w-full text-center text-[11.5px] text-white/55 underline disabled:opacity-60"
+                  >
+                    Forgot password? Email me a reset link
+                  </button>
                 </form>
               ) : (
                 <button
@@ -293,6 +302,7 @@ function AuthPage() {
                   Staff sign-in
                 </button>
               )}
+
             </div>
           )}
 
