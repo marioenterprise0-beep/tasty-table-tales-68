@@ -13,6 +13,7 @@ import { Route as VerifyEmailRouteImport } from './routes/verify-email'
 import { Route as UnsubscribeRouteImport } from './routes/unsubscribe'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as RewardsRouteImport } from './routes/rewards'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as OurStoryRouteImport } from './routes/our-story'
 import { Route as MenuRouteImport } from './routes/menu'
 import { Route as MediaRouteImport } from './routes/media'
@@ -48,6 +49,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const RewardsRoute = RewardsRouteImport.update({
   id: '/rewards',
   path: '/rewards',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OurStoryRoute = OurStoryRouteImport.update({
@@ -141,6 +147,7 @@ export interface FileRoutesByFullPath {
   '/media': typeof MediaRoute
   '/menu': typeof MenuRoute
   '/our-story': typeof OurStoryRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/rewards': typeof RewardsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/unsubscribe': typeof UnsubscribeRoute
@@ -162,6 +169,7 @@ export interface FileRoutesByTo {
   '/media': typeof MediaRoute
   '/menu': typeof MenuRoute
   '/our-story': typeof OurStoryRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/rewards': typeof RewardsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/unsubscribe': typeof UnsubscribeRoute
@@ -185,6 +193,7 @@ export interface FileRoutesById {
   '/media': typeof MediaRoute
   '/menu': typeof MenuRoute
   '/our-story': typeof OurStoryRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/rewards': typeof RewardsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/unsubscribe': typeof UnsubscribeRoute
@@ -208,6 +217,7 @@ export interface FileRouteTypes {
     | '/media'
     | '/menu'
     | '/our-story'
+    | '/reset-password'
     | '/rewards'
     | '/sitemap.xml'
     | '/unsubscribe'
@@ -229,6 +239,7 @@ export interface FileRouteTypes {
     | '/media'
     | '/menu'
     | '/our-story'
+    | '/reset-password'
     | '/rewards'
     | '/sitemap.xml'
     | '/unsubscribe'
@@ -251,6 +262,7 @@ export interface FileRouteTypes {
     | '/media'
     | '/menu'
     | '/our-story'
+    | '/reset-password'
     | '/rewards'
     | '/sitemap.xml'
     | '/unsubscribe'
@@ -274,6 +286,7 @@ export interface RootRouteChildren {
   MediaRoute: typeof MediaRoute
   MenuRoute: typeof MenuRoute
   OurStoryRoute: typeof OurStoryRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   RewardsRoute: typeof RewardsRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   UnsubscribeRoute: typeof UnsubscribeRoute
@@ -311,6 +324,13 @@ declare module '@tanstack/react-router' {
       path: '/rewards'
       fullPath: '/rewards'
       preLoaderRoute: typeof RewardsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/our-story': {
@@ -453,6 +473,7 @@ const rootRouteChildren: RootRouteChildren = {
   MediaRoute: MediaRoute,
   MenuRoute: MenuRoute,
   OurStoryRoute: OurStoryRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   RewardsRoute: RewardsRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   UnsubscribeRoute: UnsubscribeRoute,

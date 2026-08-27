@@ -45,6 +45,28 @@ function AuthPage() {
   const [company, setCompany] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
   const [password, setPassword] = React.useState("");
+  const [resetNote, setResetNote] = React.useState<string | null>(null);
+
+  async function sendPasswordReset() {
+    const target = email.trim();
+    if (!target) {
+      setError("Enter your staff email first.");
+      return;
+    }
+    setBusy(true);
+    setError(null);
+    setResetNote(null);
+    const { error: resetError } = await supabase.auth.resetPasswordForEmail(target, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+    setBusy(false);
+    if (resetError) {
+      setError(resetError.message);
+      return;
+    }
+    setResetNote(`If an account exists for ${target}, a reset link is on its way.`);
+  }
+
 
   async function signInWithPassword(event: React.FormEvent) {
     event.preventDefault();
@@ -283,6 +305,15 @@ function AuthPage() {
                   >
                     {busy ? "Signing in…" : "Staff Sign In"}
                   </button>
+                  {resetNote && <p className="text-sm text-white/70">{resetNote}</p>}
+                  <button
+                    type="button"
+                    onClick={sendPasswordReset}
+                    disabled={busy}
+                    className="w-full text-center text-[11.5px] text-white/55 underline disabled:opacity-60"
+                  >
+                    Forgot password? Email me a reset link
+                  </button>
                 </form>
               ) : (
                 <button
@@ -293,6 +324,7 @@ function AuthPage() {
                   Staff sign-in
                 </button>
               )}
+
             </div>
           )}
 
