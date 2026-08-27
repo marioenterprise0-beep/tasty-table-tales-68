@@ -7,6 +7,7 @@ export type AuditAction =
   | "lead_list_view"
   | "admin_role_grant"
   | "admin_role_revoke"
+  | "admin_sign_in"
   | "content_edit";
 
 export async function recordAdminAction(params: {

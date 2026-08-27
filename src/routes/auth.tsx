@@ -8,6 +8,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { toUsCanadaE164, formatPhone } from "@/lib/phone";
 import { useSession } from "@/hooks/useSession";
 import { requestPhoneCode, verifyPhoneCode } from "@/lib/otp.functions";
+import { recordAdminSignIn } from "@/lib/admin.functions";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -81,7 +82,19 @@ function AuthPage() {
       setError(pwError.message);
       return;
     }
+    await auditSignIn();
     navigate({ to: "/account", replace: true });
+  }
+
+  const logAdminSignIn = useServerFn(recordAdminSignIn);
+
+  /** Fire-and-forget: an audit write must never block the user's sign-in. */
+  async function auditSignIn() {
+    try {
+      await logAdminSignIn({ data: undefined });
+    } catch {
+      /* non-blocking */
+    }
   }
 
   const mountedAt = React.useRef(Date.now());
@@ -131,6 +144,7 @@ function AuthPage() {
       setError("We verified your code but couldn't start your session. Please try again.");
       return;
     }
+    await auditSignIn();
     navigate({ to: "/account", replace: true });
   }
 
