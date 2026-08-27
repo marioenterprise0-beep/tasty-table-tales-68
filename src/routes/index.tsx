@@ -85,9 +85,16 @@ function Home() {
           </div>
 
 
-          {/* hero food photography */}
-          <div className="h-64 sm:h-80 lg:h-[26rem]">
-            <BrandImage slot={IMAGES.heroBurgers} fill priority tone="gold" transparentPlaceholder />
+          {/* hero food photography — natural framing, no cropping */}
+          <div className="flex items-center">
+            <img
+              src={IMAGES.heroBurgers.src}
+              alt={IMAGES.heroBurgers.alt}
+              loading="eager"
+              decoding="async"
+              fetchPriority="high"
+              className="h-auto w-full max-w-[640px] drop-shadow-[0_24px_40px_rgba(0,0,0,0.45)]"
+            />
           </div>
         </div>
       </section>
