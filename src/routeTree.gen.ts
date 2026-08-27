@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VerifyEmailRouteImport } from './routes/verify-email'
 import { Route as UnsubscribeRouteImport } from './routes/unsubscribe'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as RewardsRouteImport } from './routes/rewards'
@@ -29,6 +30,11 @@ import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedAccountRouteImport } from './routes/_authenticated/account'
 import { Route as ApiPublicSmsInboundRouteImport } from './routes/api/public/sms-inbound'
 
+const VerifyEmailRoute = VerifyEmailRouteImport.update({
+  id: '/verify-email',
+  path: '/verify-email',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const UnsubscribeRoute = UnsubscribeRouteImport.update({
   id: '/unsubscribe',
   path: '/unsubscribe',
@@ -138,6 +144,7 @@ export interface FileRoutesByFullPath {
   '/rewards': typeof RewardsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/unsubscribe': typeof UnsubscribeRoute
+  '/verify-email': typeof VerifyEmailRoute
   '/account': typeof AuthenticatedAccountRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -158,6 +165,7 @@ export interface FileRoutesByTo {
   '/rewards': typeof RewardsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/unsubscribe': typeof UnsubscribeRoute
+  '/verify-email': typeof VerifyEmailRoute
   '/account': typeof AuthenticatedAccountRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -180,6 +188,7 @@ export interface FileRoutesById {
   '/rewards': typeof RewardsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/unsubscribe': typeof UnsubscribeRoute
+  '/verify-email': typeof VerifyEmailRoute
   '/_authenticated/account': typeof AuthenticatedAccountRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -202,6 +211,7 @@ export interface FileRouteTypes {
     | '/rewards'
     | '/sitemap.xml'
     | '/unsubscribe'
+    | '/verify-email'
     | '/account'
     | '/admin'
     | '/blog/$slug'
@@ -222,6 +232,7 @@ export interface FileRouteTypes {
     | '/rewards'
     | '/sitemap.xml'
     | '/unsubscribe'
+    | '/verify-email'
     | '/account'
     | '/admin'
     | '/blog/$slug'
@@ -243,6 +254,7 @@ export interface FileRouteTypes {
     | '/rewards'
     | '/sitemap.xml'
     | '/unsubscribe'
+    | '/verify-email'
     | '/_authenticated/account'
     | '/_authenticated/admin'
     | '/blog/$slug'
@@ -265,6 +277,7 @@ export interface RootRouteChildren {
   RewardsRoute: typeof RewardsRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   UnsubscribeRoute: typeof UnsubscribeRoute
+  VerifyEmailRoute: typeof VerifyEmailRoute
   BlogSlugRoute: typeof BlogSlugRoute
   BlogIndexRoute: typeof BlogIndexRoute
   ApiPublicSmsInboundRoute: typeof ApiPublicSmsInboundRoute
@@ -272,6 +285,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/verify-email': {
+      id: '/verify-email'
+      path: '/verify-email'
+      fullPath: '/verify-email'
+      preLoaderRoute: typeof VerifyEmailRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/unsubscribe': {
       id: '/unsubscribe'
       path: '/unsubscribe'
@@ -436,6 +456,7 @@ const rootRouteChildren: RootRouteChildren = {
   RewardsRoute: RewardsRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   UnsubscribeRoute: UnsubscribeRoute,
+  VerifyEmailRoute: VerifyEmailRoute,
   BlogSlugRoute: BlogSlugRoute,
   BlogIndexRoute: BlogIndexRoute,
   ApiPublicSmsInboundRoute: ApiPublicSmsInboundRoute,

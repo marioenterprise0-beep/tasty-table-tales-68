@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_audit_log: {
+        Row: {
+          action: string
+          admin_label: string | null
+          admin_user_id: string
+          created_at: string
+          detail: Json
+          id: string
+          ip_address: string | null
+          row_count: number | null
+          target_id: string | null
+          target_type: string | null
+        }
+        Insert: {
+          action: string
+          admin_label?: string | null
+          admin_user_id: string
+          created_at?: string
+          detail?: Json
+          id?: string
+          ip_address?: string | null
+          row_count?: number | null
+          target_id?: string | null
+          target_type?: string | null
+        }
+        Update: {
+          action?: string
+          admin_label?: string | null
+          admin_user_id?: string
+          created_at?: string
+          detail?: Json
+          id?: string
+          ip_address?: string | null
+          row_count?: number | null
+          target_id?: string | null
+          target_type?: string | null
+        }
+        Relationships: []
+      }
       catering_leads: {
         Row: {
           created_at: string
@@ -109,6 +148,10 @@ export type Database = {
           email_consent_ip: string | null
           email_consent_timestamp: string | null
           email_opt_in: boolean
+          email_verified: boolean
+          email_verify_sent_at: string | null
+          email_verify_target: string | null
+          email_verify_token: string | null
           first_name: string | null
           id: string
           last_name: string | null
@@ -132,6 +175,10 @@ export type Database = {
           email_consent_ip?: string | null
           email_consent_timestamp?: string | null
           email_opt_in?: boolean
+          email_verified?: boolean
+          email_verify_sent_at?: string | null
+          email_verify_target?: string | null
+          email_verify_token?: string | null
           first_name?: string | null
           id?: string
           last_name?: string | null
@@ -155,6 +202,10 @@ export type Database = {
           email_consent_ip?: string | null
           email_consent_timestamp?: string | null
           email_opt_in?: boolean
+          email_verified?: boolean
+          email_verify_sent_at?: string | null
+          email_verify_target?: string | null
+          email_verify_token?: string | null
           first_name?: string | null
           id?: string
           last_name?: string | null
@@ -295,6 +346,72 @@ export type Database = {
           phone?: string
           signup_source?: string
           sms_opt_in?: boolean
+        }
+        Relationships: []
+      }
+      otp_lockouts: {
+        Row: {
+          created_at: string
+          failed_attempts: number
+          id: string
+          last_failed_at: string | null
+          locked_until: string | null
+          phone: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          failed_attempts?: number
+          id?: string
+          last_failed_at?: string | null
+          locked_until?: string | null
+          phone: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          failed_attempts?: number
+          id?: string
+          last_failed_at?: string | null
+          locked_until?: string | null
+          phone?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      rate_limit_log: {
+        Row: {
+          actor_user_id: string | null
+          created_at: string
+          detail: string | null
+          id: string
+          ip_address: string | null
+          kind: string
+          outcome: string
+          phone: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          actor_user_id?: string | null
+          created_at?: string
+          detail?: string | null
+          id?: string
+          ip_address?: string | null
+          kind: string
+          outcome?: string
+          phone?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          actor_user_id?: string | null
+          created_at?: string
+          detail?: string | null
+          id?: string
+          ip_address?: string | null
+          kind?: string
+          outcome?: string
+          phone?: string | null
+          user_agent?: string | null
         }
         Relationships: []
       }

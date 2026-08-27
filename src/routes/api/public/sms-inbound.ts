@@ -1,36 +1,86 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { createHmac, timingSafeEqual } from "crypto";
 
 const STOP_WORDS = ["stop", "stopall", "unsubscribe", "cancel", "end", "quit", "revoke", "optout", "opt-out"];
 const START_WORDS = ["start", "unstop", "yes"];
 
 /**
- * Inbound SMS webhook (Twilio-compatible form post).
+ * Verifies Twilio's X-Twilio-Signature: HMAC-SHA1 of the full request URL with
+ * every POST parameter appended in sorted key order, keyed by the account auth
+ * token, base64 encoded. Compared in constant time.
+ */
+function isValidTwilioSignature(params: {
+  authToken: string;
+  signature: string;
+  url: string;
+  fields: Record<string, string>;
+}) {
+  const payload =
+    params.url +
+    Object.keys(params.fields)
+      .sort()
+      .map((key) => key + params.fields[key])
+      .join("");
+  const expected = createHmac("sha1", params.authToken).update(Buffer.from(payload, "utf-8")).digest("base64");
+  const a = Buffer.from(params.signature);
+  const b = Buffer.from(expected);
+  return a.length === b.length && timingSafeEqual(a, b);
+}
+
+/**
+ * Inbound SMS webhook. The signature is validated before the payload is read
+ * for meaning — an unsigned or badly signed call never reaches the database.
  * STOP always wins: the number is suppressed even when no account exists.
  */
 export const Route = createFileRoute("/api/public/sms-inbound")({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const secret = process.env["SMS_WEBHOOK_SECRET"];
-        if (secret) {
-          const url = new URL(request.url);
-          if (url.searchParams.get("key") !== secret) {
-            return new Response("Unauthorized", { status: 401 });
-          }
+        const authToken = process.env["TWILIO_AUTH_TOKEN"];
+        const signature = request.headers.get("x-twilio-signature");
+
+        // Fail closed. No token configured means we cannot authenticate anyone.
+        if (!authToken) {
+          console.error("sms-inbound rejected: TWILIO_AUTH_TOKEN is not configured");
+          return new Response("Webhook not configured", { status: 503 });
         }
+        if (!signature) return new Response("Missing signature", { status: 401 });
 
         const contentType = request.headers.get("content-type") ?? "";
-        let from = "";
-        let body = "";
+        const raw = await request.text();
+
+        // Parse to fields only to recompute the signature — no side effects yet.
+        const fields: Record<string, string> = {};
         if (contentType.includes("application/json")) {
-          const json = (await request.json()) as Record<string, unknown>;
-          from = String(json["From"] ?? json["from"] ?? "");
-          body = String(json["Body"] ?? json["body"] ?? "");
+          try {
+            const json = JSON.parse(raw) as Record<string, unknown>;
+            for (const [k, v] of Object.entries(json)) fields[k] = String(v);
+          } catch {
+            return new Response("Bad request", { status: 400 });
+          }
         } else {
-          const form = await request.formData();
-          from = String(form.get("From") ?? form.get("from") ?? "");
-          body = String(form.get("Body") ?? form.get("body") ?? "");
+          for (const [k, v] of new URLSearchParams(raw)) fields[k] = v;
         }
+
+        // Twilio signs the public URL it was configured with. Honour a proxy
+        // override so the signature still matches behind Lovable's edge.
+        const configuredUrl = process.env["TWILIO_WEBHOOK_URL"];
+        const forwardedProto = request.headers.get("x-forwarded-proto");
+        const requestUrl = new URL(request.url);
+        if (forwardedProto) requestUrl.protocol = `${forwardedProto}:`;
+        const candidates = [configuredUrl, requestUrl.toString()].filter(Boolean) as string[];
+
+        const verified = candidates.some((url) =>
+          isValidTwilioSignature({ authToken, signature, url, fields }),
+        );
+        if (!verified) {
+          console.warn("sms-inbound rejected: invalid signature");
+          return new Response("Invalid signature", { status: 403 });
+        }
+
+        // ---- verified past this point ----
+        const from = fields["From"] ?? fields["from"] ?? "";
+        const body = fields["Body"] ?? fields["body"] ?? "";
 
         const { normalizePhone } = await import("@/lib/phone");
         const phone = normalizePhone(from);

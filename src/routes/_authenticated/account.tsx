@@ -31,6 +31,7 @@ import {
   updateMyPreferences,
   deleteMyAccount,
 } from "@/lib/customers.functions";
+import { sendMyEmailVerification } from "@/lib/email-verify.functions";
 
 export const Route = createFileRoute("/_authenticated/account")({
   head: () => ({
@@ -82,6 +83,8 @@ function AccountPage() {
   const [error, setError] = React.useState<string | null>(null);
   const [sms, setSms] = React.useState(false);
   const [emailOpt, setEmailOpt] = React.useState(false);
+  const sendVerification = useServerFn(sendMyEmailVerification);
+  const [verifyNote, setVerifyNote] = React.useState<string | null>(null);
   const [savingPrefs, setSavingPrefs] = React.useState(false);
 
   React.useEffect(() => {
@@ -104,7 +107,7 @@ function AccountPage() {
     setError(null);
     setProfileStatus(null);
     try {
-      await saveProfile({
+      const result = await saveProfile({
         data: {
           firstName: String(form.get("firstName") ?? ""),
           lastName: String(form.get("lastName") ?? ""),
@@ -114,7 +117,11 @@ function AccountPage() {
         },
       });
       await queryClient.invalidateQueries({ queryKey: ["my-account"] });
-      setProfileStatus("Saved.");
+      setProfileStatus(
+        result.emailNeedsVerification
+          ? "Saved. Confirm your new email below before it can be used to sign in or receive updates."
+          : "Saved.",
+      );
     } catch (e) {
       setError(e instanceof Error ? e.message : "Something went wrong.");
     }
@@ -176,6 +183,31 @@ function AccountPage() {
                 <div className="space-y-1.5">
                   <Label htmlFor="acc-email" className="text-white/80">Email (optional)</Label>
                   <Input id="acc-email" name="email" type="email" maxLength={255} defaultValue={account.email ?? ""} />
+                  {account.email && (
+                    <div className="flex flex-wrap items-center gap-3 pt-1">
+                      <span className={`text-[12px] ${account.email_verified ? "text-gold" : "text-white/55"}`}>
+                        {account.email_verified ? "Email confirmed" : "Email not confirmed yet"}
+                      </span>
+                      {!account.email_verified && (
+                        <button
+                          type="button"
+                          onClick={async () => {
+                            setVerifyNote(null);
+                            try {
+                              const r = await sendVerification({ data: { origin: window.location.origin } });
+                              setVerifyNote(r.message);
+                            } catch {
+                              setVerifyNote("We couldn't send that. Please try again.");
+                            }
+                          }}
+                          className="display rounded-full border border-gold/40 px-4 py-1.5 text-[10.5px] tracking-[0.12em] text-gold hover:bg-gold/10"
+                        >
+                          Send Confirmation Link
+                        </button>
+                      )}
+                      {verifyNote && <span className="text-[12px] text-white/60">{verifyNote}</span>}
+                    </div>
+                  )}
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="space-y-1.5">

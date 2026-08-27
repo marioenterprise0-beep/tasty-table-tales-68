@@ -153,7 +153,14 @@ export async function upsertCustomerFromSignup(params: {
   return existing.id;
 }
 
-/** Finds (or creates) the customer row for a freshly authenticated user. */
+/**
+ * Resolves the customer row for a freshly authenticated user.
+ *
+ * Phone is the primary identity. The email magic link is a fallback path only:
+ * it can never mint a new customer record, and it can only open an existing
+ * account whose email has already been verified on that account. Otherwise an
+ * attacker who knows a customer's email address could sign in as them.
+ */
 export async function linkAuthenticatedCustomer(params: {
   userId: string;
   phone?: string | null;
@@ -161,6 +168,7 @@ export async function linkAuthenticatedCustomer(params: {
 }) {
   const now = new Date().toISOString();
   const phone = normalizePhone(params.phone);
+  const email = params.email?.trim().toLowerCase() || null;
 
   const { data: byUser } = await supabaseAdmin
     .from("customers")
@@ -175,6 +183,7 @@ export async function linkAuthenticatedCustomer(params: {
     return { ...byUser, last_sign_in_at: now };
   }
 
+  // --- Phone path: the provider already proved they hold the number. ---
   if (phone) {
     const { data: byPhone } = await supabaseAdmin
       .from("customers")
@@ -188,23 +197,43 @@ export async function linkAuthenticatedCustomer(params: {
           user_id: params.userId,
           phone_verified: true,
           last_sign_in_at: now,
-          email: byPhone.email || params.email || null,
+          email: byPhone.email || email,
         })
         .eq("id", byPhone.id)
         .select("*")
         .single();
       return data;
     }
+
+    const { data, error } = await supabaseAdmin
+      .from("customers")
+      .insert({
+        user_id: params.userId,
+        phone,
+        email,
+        phone_verified: true,
+        last_sign_in_at: now,
+        signup_source: "account",
+      })
+      .select("*")
+      .single();
+    if (error) {
+      console.error("customer create on sign-in failed", error.message);
+      throw new Error("We couldn't load your account. Please try again.");
+    }
+    return data;
   }
 
-  if (params.email) {
+  // --- Email fallback path: attach only, never create. ---
+  if (email) {
     const { data: byEmail } = await supabaseAdmin
       .from("customers")
       .select("*")
       .is("user_id", null)
-      .ilike("email", params.email)
+      .eq("email_verified", true)
+      .ilike("email", email)
       .maybeSingle();
-    if (byEmail) {
+    if (byEmail && byEmail.phone_verified) {
       const { data } = await supabaseAdmin
         .from("customers")
         .update({ user_id: params.userId, last_sign_in_at: now })
@@ -215,21 +244,7 @@ export async function linkAuthenticatedCustomer(params: {
     }
   }
 
-  const { data, error } = await supabaseAdmin
-    .from("customers")
-    .insert({
-      user_id: params.userId,
-      phone: phone ?? `pending:${params.userId}`,
-      email: params.email || null,
-      phone_verified: Boolean(phone),
-      last_sign_in_at: now,
-      signup_source: "account",
-    })
-    .select("*")
-    .single();
-  if (error) {
-    console.error("customer create on sign-in failed", error.message);
-    throw new Error("We couldn't load your account. Please try again.");
-  }
-  return data;
+  throw new Error(
+    "Your account is phone-first. Sign in with your phone number to finish setting up — email sign-in only works after you verify an email on an existing account.",
+  );
 }
