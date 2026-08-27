@@ -15,6 +15,8 @@ export type ImageSlot = {
   /** Optional .webp source served first via <picture>. */
   webp?: string;
   alt: string;
+  /** Optional crop adjustment used to keep differently framed photos consistent. */
+  imageClassName?: string;
 };
 
 export const IMAGES = {
@@ -52,26 +54,32 @@ export const MENU_IMAGES: Record<string, ImageSlot> = {
   "The Gotham Single Smash": {
     src: singleSmash.url,
     alt: "The Gotham Single Smash burger with American cheese and Gotham Sauce",
+    imageClassName: "scale-[1.24] object-[center_60%]",
   },
   "Single Smash Combo": {
     src: singleSmash.url,
     alt: "The Gotham Single Smash combo with Gotham Regular Fries and a Dirty Soda",
+    imageClassName: "scale-[1.24] object-[center_60%]",
   },
   "Single Smash + Fries": {
     src: singleSmash.url,
     alt: "The Gotham Single Smash served with Gotham Regular Fries",
+    imageClassName: "scale-[1.24] object-[center_60%]",
   },
   "The Gotham Double Smash": {
     src: doubleSmash.url,
     alt: "The Gotham Double Smash burger with American cheese and Gotham Sauce",
+    imageClassName: "scale-[1.38] object-[center_61%]",
   },
   "Double Smash Combo": {
     src: doubleSmash.url,
     alt: "The Gotham Double Smash combo with Gotham Regular Fries and a Dirty Soda",
+    imageClassName: "scale-[1.38] object-[center_61%]",
   },
   "Double Smash + Fries": {
     src: doubleSmash.url,
     alt: "The Gotham Double Smash served with Gotham Regular Fries",
+    imageClassName: "scale-[1.38] object-[center_61%]",
   },
 };
 
