@@ -126,13 +126,11 @@ function Home() {
             </h2>
           </div>
 
-          <div className="mt-8 grid items-stretch gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
-            {HIGHLIGHTS.map((item, i) => (
+          <div className="mt-8 grid items-stretch gap-x-0 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 lg:divide-x lg:divide-gold-foreground/25">
+            {HIGHLIGHTS.map((item) => (
               <article
                 key={item.name}
-                className={`flex h-full flex-col gap-4 ${
-                  i > 0 ? "lg:border-l lg:border-gold-foreground/25 lg:pl-8" : ""
-                }`}
+                className="flex h-full flex-col gap-4 lg:px-8"
               >
                 <div className="aspect-[4/3] w-full overflow-hidden rounded-2xl">
                   <BrandImage slot={menuImage(item.name)} tone="gold" className="h-full" fill />
