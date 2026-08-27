@@ -43,6 +43,25 @@ function AuthPage() {
   const [error, setError] = React.useState<string | null>(null);
   const [showEmail, setShowEmail] = React.useState(false);
   const [company, setCompany] = React.useState("");
+  const [showPassword, setShowPassword] = React.useState(false);
+  const [password, setPassword] = React.useState("");
+
+  async function signInWithPassword(event: React.FormEvent) {
+    event.preventDefault();
+    setBusy(true);
+    setError(null);
+    const { error: pwError } = await supabase.auth.signInWithPassword({
+      email: email.trim(),
+      password,
+    });
+    setBusy(false);
+    if (pwError) {
+      setError(pwError.message);
+      return;
+    }
+    navigate({ to: "/account", replace: true });
+  }
+
   const mountedAt = React.useRef(Date.now());
   const sendOtp = useServerFn(requestPhoneCode);
   const checkOtp = useServerFn(verifyPhoneCode);
