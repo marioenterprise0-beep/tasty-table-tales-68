@@ -7,6 +7,8 @@
  */
 import heatwave from "@/assets/heatwave.png.asset.json";
 import heatwaveCombo from "@/assets/heatwave-combo.png.asset.json";
+import singleSmash from "@/assets/single-smash.png.asset.json";
+import doubleSmash from "@/assets/double-smash.png.asset.json";
 export type ImageSlot = {
   /** Fallback source (jpg/png). Leave empty to render the branded placeholder. */
   src?: string;
