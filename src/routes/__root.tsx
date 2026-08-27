@@ -17,6 +17,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { OpeningSignupProvider } from "@/components/OpeningSignup";
 import { initAnalytics, trackPageView } from "@/lib/analytics";
 import { ORDER_URL } from "@/lib/order";
+import { supabase } from "@/integrations/supabase/client";
 
 function NotFoundComponent() {
   return (
@@ -158,6 +159,16 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const router = useRouter();
+
+  useEffect(() => {
+    const { data: sub } = supabase.auth.onAuthStateChange((event) => {
+      if (event !== "SIGNED_IN" && event !== "SIGNED_OUT" && event !== "USER_UPDATED") return;
+      router.invalidate();
+      if (event !== "SIGNED_OUT") queryClient.invalidateQueries();
+    });
+    return () => sub.subscription.unsubscribe();
+  }, [router, queryClient]);
 
   useEffect(() => {
     initAnalytics();

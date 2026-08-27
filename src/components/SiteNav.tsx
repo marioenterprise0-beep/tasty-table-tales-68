@@ -5,6 +5,7 @@ import { Instagram } from "lucide-react";
 import { OrderLink } from "@/components/OrderLink";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
 import { INSTAGRAM_URL } from "@/components/InstagramFeed";
+import { AccountMenu } from "@/components/AccountMenu";
 
 const NAV = [
   { label: "Home", to: "/" },
@@ -91,6 +92,8 @@ export function SiteNav() {
               ))}
             </div>
 
+            <AccountMenu />
+
             <OrderLink
               content="nav"
               className="pill-gold hidden sm:inline-flex whitespace-nowrap px-5 py-2.5 text-[11px] xl:px-7"
@@ -130,6 +133,9 @@ export function SiteNav() {
                 );
               })}
               <li className="p-3">
+                <AccountMenu variant="mobile" onNavigate={() => setOpen(false)} />
+              </li>
+              <li className="p-3 pt-0">
                 <OrderLink content="nav_mobile" className="pill-gold w-full px-4 py-3 text-[11px]" />
               </li>
             </ul>
