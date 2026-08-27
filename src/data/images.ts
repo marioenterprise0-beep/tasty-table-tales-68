@@ -69,17 +69,17 @@ export const MENU_IMAGES: Record<string, ImageSlot> = {
   "The Gotham Double Smash": {
     src: doubleSmash.url,
     alt: "The Gotham Double Smash burger with American cheese and Gotham Sauce",
-    imageClassName: "object-contain scale-[1.16] translate-y-[-2%]",
+    imageClassName: "object-cover scale-[1.08] object-[center_60%]",
   },
   "Double Smash Combo": {
     src: doubleSmash.url,
     alt: "The Gotham Double Smash combo with Gotham Regular Fries and a Dirty Soda",
-    imageClassName: "object-contain scale-[1.16] translate-y-[-2%]",
+    imageClassName: "object-cover scale-[1.08] object-[center_60%]",
   },
   "Double Smash + Fries": {
     src: doubleSmash.url,
     alt: "The Gotham Double Smash served with Gotham Regular Fries",
-    imageClassName: "object-contain scale-[1.16] translate-y-[-2%]",
+    imageClassName: "object-cover scale-[1.08] object-[center_60%]",
   },
 };
 
