@@ -10,7 +10,7 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.15"
+    PostgrestVersion: "14.17"
   }
   public: {
     Tables: {
@@ -50,6 +50,125 @@ export type Database = {
           id?: string
           notes?: string | null
           phone?: string
+        }
+        Relationships: []
+      }
+      consent_events: {
+        Row: {
+          action: string
+          channel: string
+          created_at: string
+          customer_id: string | null
+          email: string | null
+          id: string
+          ip_address: string | null
+          phone: string | null
+          source: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          action: string
+          channel: string
+          created_at?: string
+          customer_id?: string | null
+          email?: string | null
+          id?: string
+          ip_address?: string | null
+          phone?: string | null
+          source?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          action?: string
+          channel?: string
+          created_at?: string
+          customer_id?: string | null
+          email?: string | null
+          id?: string
+          ip_address?: string | null
+          phone?: string | null
+          source?: string | null
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "consent_events_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      customers: {
+        Row: {
+          birthday_day: number | null
+          birthday_month: number | null
+          created_at: string
+          email: string | null
+          email_consent_ip: string | null
+          email_consent_timestamp: string | null
+          email_opt_in: boolean
+          first_name: string | null
+          id: string
+          last_name: string | null
+          last_sign_in_at: string | null
+          phone: string
+          phone_verified: boolean
+          pos_loyalty_linked: boolean
+          signup_source: string
+          sms_consent_ip: string | null
+          sms_consent_timestamp: string | null
+          sms_opt_in: boolean
+          unsubscribe_token: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          birthday_day?: number | null
+          birthday_month?: number | null
+          created_at?: string
+          email?: string | null
+          email_consent_ip?: string | null
+          email_consent_timestamp?: string | null
+          email_opt_in?: boolean
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          last_sign_in_at?: string | null
+          phone: string
+          phone_verified?: boolean
+          pos_loyalty_linked?: boolean
+          signup_source?: string
+          sms_consent_ip?: string | null
+          sms_consent_timestamp?: string | null
+          sms_opt_in?: boolean
+          unsubscribe_token?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          birthday_day?: number | null
+          birthday_month?: number | null
+          created_at?: string
+          email?: string | null
+          email_consent_ip?: string | null
+          email_consent_timestamp?: string | null
+          email_opt_in?: boolean
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          last_sign_in_at?: string | null
+          phone?: string
+          phone_verified?: boolean
+          pos_loyalty_linked?: boolean
+          signup_source?: string
+          sms_consent_ip?: string | null
+          sms_consent_timestamp?: string | null
+          sms_opt_in?: boolean
+          unsubscribe_token?: string
+          updated_at?: string
+          user_id?: string | null
         }
         Relationships: []
       }
@@ -179,15 +298,67 @@ export type Database = {
         }
         Relationships: []
       }
+      suppression_list: {
+        Row: {
+          channel: string
+          created_at: string
+          id: string
+          reason: string | null
+          value: string
+        }
+        Insert: {
+          channel: string
+          created_at?: string
+          id?: string
+          reason?: string | null
+          value: string
+        }
+        Update: {
+          channel?: string
+          created_at?: string
+          id?: string
+          reason?: string | null
+          value?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      normalize_phone: { Args: { _phone: string }; Returns: string }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "staff"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -314,6 +485,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "staff"],
+    },
   },
 } as const
