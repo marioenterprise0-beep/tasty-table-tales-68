@@ -306,6 +306,7 @@ function AuditPanel() {
   }
 
   const entries = data?.entries ?? [];
+  const signIns = data?.signIns ?? [];
   const blocked = data?.blockedAttempts ?? [];
 
   return (
@@ -339,6 +340,35 @@ function AuditPanel() {
             Revoke
           </button>
           {note && <p className="text-[12px] text-white/70">{note}</p>}
+        </div>
+      </div>
+
+      <div>
+        <h2 className="display mb-3 text-[13px] tracking-[0.14em] text-gold">Recent admin sign-ins</h2>
+        <div className="overflow-x-auto rounded-xl border border-gold/20">
+          <table className="w-full min-w-[640px] text-left text-[13px]">
+            <thead className="bg-white/[0.04] text-[11px] uppercase tracking-[0.14em] text-white/50">
+              <tr>
+                {["When", "Admin", "User ID", "IP"].map((h) => (
+                  <th key={h} className="px-4 py-3 font-normal">{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="text-white/85">
+              {isLoading && <tr><td colSpan={4} className="px-4 py-6 text-white/50">Loading…</td></tr>}
+              {!isLoading && signIns.length === 0 && (
+                <tr><td colSpan={4} className="px-4 py-6 text-white/50">No admin sign-ins recorded yet.</td></tr>
+              )}
+              {signIns.map((row) => (
+                <tr key={row.id} className="border-t border-white/10">
+                  <td className="px-4 py-3 whitespace-nowrap">{new Date(row.created_at).toLocaleString()}</td>
+                  <td className="px-4 py-3">{row.admin_label ?? "—"}</td>
+                  <td className="px-4 py-3 font-mono text-[11.5px] text-white/60">{row.target_id ?? "—"}</td>
+                  <td className="px-4 py-3">{row.ip_address ?? "—"}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
 
