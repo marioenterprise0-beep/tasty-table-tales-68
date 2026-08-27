@@ -44,7 +44,7 @@ export function BrandImage({
           src="/gotham-halal-logo.svg"
           alt=""
           aria-hidden="true"
-          className="h-1/2 max-h-24 w-auto opacity-15"
+          className="h-full w-full object-contain p-6 opacity-15"
           loading="lazy"
           decoding="async"
         />
