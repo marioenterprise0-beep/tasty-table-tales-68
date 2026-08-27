@@ -236,8 +236,49 @@ export const listAuditLog = createServerFn({ method: "POST" })
 
     return {
       entries: audit.data ?? [],
+      signIns: (audit.data ?? []).filter((e) => e.action === "admin_sign_in").slice(0, 25),
       blockedAttempts: limits.data ?? [],
     };
+  });
+
+/**
+ * Records an admin sign-in (time, IP, user id). Called right after a session is
+ * established; a no-op for non-admin customers, and de-duplicated within a
+ * 5-minute window so a page refresh doesn't spam the trail.
+ */
+export const recordAdminSignIn = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const ctx = context as unknown as AuthedContext;
+    const { data: isAdmin } = await ctx.supabase.rpc("has_role", {
+      _user_id: ctx.userId,
+      _role: "admin",
+    });
+    if (!isAdmin) return { logged: false as const };
+
+    const claims = ctx.claims as { email?: string; phone?: string };
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const since = new Date(Date.now() - 5 * 60 * 1000).toISOString();
+    const { data: recent } = await supabaseAdmin
+      .from("admin_audit_log")
+      .select("id")
+      .eq("admin_user_id", ctx.userId)
+      .eq("action", "admin_sign_in")
+      .gte("created_at", since)
+      .limit(1);
+    if (recent && recent.length > 0) return { logged: false as const };
+
+    const { recordAdminAction } = await import("./audit.server");
+    await recordAdminAction({
+      adminUserId: ctx.userId,
+      adminLabel: claims.email ?? claims.phone ?? ctx.userId,
+      action: "admin_sign_in",
+      targetType: "session",
+      targetId: ctx.userId,
+      ip: requestMeta().ip,
+      detail: { userAgent: getRequestHeader("user-agent") ?? null },
+    });
+    return { logged: true as const };
   });
 
 const roleChangeSchema = z.object({
