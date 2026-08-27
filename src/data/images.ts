@@ -7,6 +7,8 @@
  */
 import heatwave from "@/assets/heatwave.png.asset.json";
 import heatwaveCombo from "@/assets/heatwave-combo.png.asset.json";
+import singleSmash from "@/assets/single-smash.png.asset.json";
+import doubleSmash from "@/assets/double-smash.png.asset.json";
 export type ImageSlot = {
   /** Fallback source (jpg/png). Leave empty to render the branded placeholder. */
   src?: string;
@@ -46,6 +48,30 @@ export const MENU_IMAGES: Record<string, ImageSlot> = {
   "Heatwave + Fries": {
     src: heatwaveCombo.url,
     alt: "The Gotham Heatwave served with Gotham Regular Fries",
+  },
+  "The Gotham Single Smash": {
+    src: singleSmash.url,
+    alt: "The Gotham Single Smash burger with American cheese and Gotham Sauce",
+  },
+  "Single Smash Combo": {
+    src: singleSmash.url,
+    alt: "The Gotham Single Smash combo with Gotham Regular Fries and a Dirty Soda",
+  },
+  "Single Smash + Fries": {
+    src: singleSmash.url,
+    alt: "The Gotham Single Smash served with Gotham Regular Fries",
+  },
+  "The Gotham Double Smash": {
+    src: doubleSmash.url,
+    alt: "The Gotham Double Smash burger with American cheese and Gotham Sauce",
+  },
+  "Double Smash Combo": {
+    src: doubleSmash.url,
+    alt: "The Gotham Double Smash combo with Gotham Regular Fries and a Dirty Soda",
+  },
+  "Double Smash + Fries": {
+    src: doubleSmash.url,
+    alt: "The Gotham Double Smash served with Gotham Regular Fries",
   },
 };
 
