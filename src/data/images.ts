@@ -49,6 +49,30 @@ export const MENU_IMAGES: Record<string, ImageSlot> = {
     src: heatwaveCombo.url,
     alt: "The Gotham Heatwave served with Gotham Regular Fries",
   },
+  "The Gotham Single Smash": {
+    src: singleSmash.url,
+    alt: "The Gotham Single Smash burger with American cheese and Gotham Sauce",
+  },
+  "Single Smash Combo": {
+    src: singleSmash.url,
+    alt: "The Gotham Single Smash combo with Gotham Regular Fries and a Dirty Soda",
+  },
+  "Single Smash + Fries": {
+    src: singleSmash.url,
+    alt: "The Gotham Single Smash served with Gotham Regular Fries",
+  },
+  "The Gotham Double Smash": {
+    src: doubleSmash.url,
+    alt: "The Gotham Double Smash burger with American cheese and Gotham Sauce",
+  },
+  "Double Smash Combo": {
+    src: doubleSmash.url,
+    alt: "The Gotham Double Smash combo with Gotham Regular Fries and a Dirty Soda",
+  },
+  "Double Smash + Fries": {
+    src: doubleSmash.url,
+    alt: "The Gotham Double Smash served with Gotham Regular Fries",
+  },
 };
 
 export function menuImage(name: string): ImageSlot {
