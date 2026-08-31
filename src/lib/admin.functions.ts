@@ -10,14 +10,12 @@ export type AuthedContext = {
 };
 
 /**
- * Reads request metadata. The server-only header helper is imported lazily so
- * this module stays safe to import from client-side route files.
+ * Reads request metadata. The server-only helper lives in a .server module and
+ * is imported lazily so this file stays safe to import from client routes.
  */
-async function requestMeta() {
-  const { getRequestHeader } = await import("@tanstack/react-start/server");
-  const forwarded = getRequestHeader("x-forwarded-for") ?? "";
-  const ip = forwarded.split(",")[0]?.trim() || getRequestHeader("cf-connecting-ip") || null;
-  return { ip, userAgent: getRequestHeader("user-agent") ?? null };
+async function requestMeta(): Promise<{ ip: string | null; userAgent: string | null }> {
+  const { readRequestMeta } = await import("./request-meta.server");
+  return readRequestMeta();
 }
 
 
