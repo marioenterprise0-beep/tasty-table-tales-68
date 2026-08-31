@@ -328,6 +328,14 @@ function AuthPage() {
                   >
                     Forgot password? Email me a reset link
                   </button>
+                  <button
+                    type="button"
+                    onClick={sendMagicLink}
+                    disabled={busy}
+                    className="w-full text-center text-[11.5px] text-white/55 underline disabled:opacity-60"
+                  >
+                    Or email me a one-time sign-in link
+                  </button>
                 </form>
               ) : (
                 <button
