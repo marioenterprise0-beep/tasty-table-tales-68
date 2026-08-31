@@ -68,6 +68,29 @@ function AuthPage() {
     setResetNote(`If an account exists for ${target}, a reset link is on its way.`);
   }
 
+  async function sendMagicLink() {
+    const target = email.trim();
+    if (!target) {
+      setError("Enter your staff email first.");
+      return;
+    }
+    setBusy(true);
+    setError(null);
+    setResetNote(null);
+    const { error: otpError } = await supabase.auth.signInWithOtp({
+      email: target,
+      options: { emailRedirectTo: `${window.location.origin}/reset-password` },
+    });
+    setBusy(false);
+    if (otpError) {
+      setError(otpError.message);
+      return;
+    }
+    setResetNote(`Sign-in link sent to ${target}. Open it on this device.`);
+  }
+
+
+
 
   async function signInWithPassword(event: React.FormEvent) {
     event.preventDefault();
