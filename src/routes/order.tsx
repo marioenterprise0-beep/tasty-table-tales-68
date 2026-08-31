@@ -216,7 +216,11 @@ function OrderPage() {
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 {OPEN_LOCATIONS.map((loc) => {
                   const selected = locationSlug === loc.slug;
-                  const open = isOpenNow(loc);
+                  // Status renders only after hydration so it never disagrees
+                  // with the server render, then re-checks every minute.
+                  const open = now ? isOpenNow(loc, now) : null;
+                  const closedLabel = now ? nextOpeningLabel(loc, now) : null;
+                  const today = now ? hoursLabel(todayHours(loc, now)) : null;
                   return (
                     <button
                       key={loc.slug}
