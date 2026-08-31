@@ -33,14 +33,41 @@ function ResetPasswordPage() {
   const [done, setDone] = React.useState(false);
 
   React.useEffect(() => {
-    // A recovery link delivers the session either in the URL hash or via the
-    // PASSWORD_RECOVERY event once the client parses it.
+    // A recovery link can arrive in three shapes depending on the email flow:
+    // 1) ?code=...            (PKCE)
+    // 2) ?token_hash=&type=   (OTP verify)
+    // 3) #access_token=...    (implicit, parsed automatically by the client)
     const { data: sub } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === "PASSWORD_RECOVERY" || session) setReady(true);
     });
-    supabase.auth.getSession().then(({ data }) => {
-      if (data.session) setReady(true);
-    });
+
+    (async () => {
+      const url = new URL(window.location.href);
+      const code = url.searchParams.get("code");
+      const tokenHash = url.searchParams.get("token_hash");
+      const type = url.searchParams.get("type");
+      const urlError = url.searchParams.get("error_description");
+
+      if (code) {
+        const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
+        if (exchangeError) setError(exchangeError.message);
+      } else if (tokenHash) {
+        const { error: otpError } = await supabase.auth.verifyOtp({
+          token_hash: tokenHash,
+          type: (type as "recovery") ?? "recovery",
+        });
+        if (otpError) setError(otpError.message);
+      } else if (urlError) {
+        setError(urlError);
+      }
+
+      const { data } = await supabase.auth.getSession();
+      if (data.session) {
+        setReady(true);
+        window.history.replaceState({}, "", "/reset-password");
+      }
+    })();
+
     return () => sub.subscription.unsubscribe();
   }, []);
 
