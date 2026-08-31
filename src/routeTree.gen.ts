@@ -15,6 +15,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as RewardsRouteImport } from './routes/rewards'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as OurStoryRouteImport } from './routes/our-story'
+import { Route as OrderRouteImport } from './routes/order'
 import { Route as MenuRouteImport } from './routes/menu'
 import { Route as MediaRouteImport } from './routes/media'
 import { Route as LocationsRouteImport } from './routes/locations'
@@ -59,6 +60,11 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
 const OurStoryRoute = OurStoryRouteImport.update({
   id: '/our-story',
   path: '/our-story',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OrderRoute = OrderRouteImport.update({
+  id: '/order',
+  path: '/order',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MenuRoute = MenuRouteImport.update({
@@ -146,6 +152,7 @@ export interface FileRoutesByFullPath {
   '/locations': typeof LocationsRoute
   '/media': typeof MediaRoute
   '/menu': typeof MenuRoute
+  '/order': typeof OrderRoute
   '/our-story': typeof OurStoryRoute
   '/reset-password': typeof ResetPasswordRoute
   '/rewards': typeof RewardsRoute
@@ -168,6 +175,7 @@ export interface FileRoutesByTo {
   '/locations': typeof LocationsRoute
   '/media': typeof MediaRoute
   '/menu': typeof MenuRoute
+  '/order': typeof OrderRoute
   '/our-story': typeof OurStoryRoute
   '/reset-password': typeof ResetPasswordRoute
   '/rewards': typeof RewardsRoute
@@ -192,6 +200,7 @@ export interface FileRoutesById {
   '/locations': typeof LocationsRoute
   '/media': typeof MediaRoute
   '/menu': typeof MenuRoute
+  '/order': typeof OrderRoute
   '/our-story': typeof OurStoryRoute
   '/reset-password': typeof ResetPasswordRoute
   '/rewards': typeof RewardsRoute
@@ -216,6 +225,7 @@ export interface FileRouteTypes {
     | '/locations'
     | '/media'
     | '/menu'
+    | '/order'
     | '/our-story'
     | '/reset-password'
     | '/rewards'
@@ -238,6 +248,7 @@ export interface FileRouteTypes {
     | '/locations'
     | '/media'
     | '/menu'
+    | '/order'
     | '/our-story'
     | '/reset-password'
     | '/rewards'
@@ -261,6 +272,7 @@ export interface FileRouteTypes {
     | '/locations'
     | '/media'
     | '/menu'
+    | '/order'
     | '/our-story'
     | '/reset-password'
     | '/rewards'
@@ -285,6 +297,7 @@ export interface RootRouteChildren {
   LocationsRoute: typeof LocationsRoute
   MediaRoute: typeof MediaRoute
   MenuRoute: typeof MenuRoute
+  OrderRoute: typeof OrderRoute
   OurStoryRoute: typeof OurStoryRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   RewardsRoute: typeof RewardsRoute
@@ -338,6 +351,13 @@ declare module '@tanstack/react-router' {
       path: '/our-story'
       fullPath: '/our-story'
       preLoaderRoute: typeof OurStoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/order': {
+      id: '/order'
+      path: '/order'
+      fullPath: '/order'
+      preLoaderRoute: typeof OrderRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/menu': {
@@ -472,6 +492,7 @@ const rootRouteChildren: RootRouteChildren = {
   LocationsRoute: LocationsRoute,
   MediaRoute: MediaRoute,
   MenuRoute: MenuRoute,
+  OrderRoute: OrderRoute,
   OurStoryRoute: OurStoryRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   RewardsRoute: RewardsRoute,

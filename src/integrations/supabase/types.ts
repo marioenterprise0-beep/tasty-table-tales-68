@@ -349,6 +349,60 @@ export type Database = {
         }
         Relationships: []
       }
+      orders: {
+        Row: {
+          combo: boolean
+          created_at: string
+          customer_name: string
+          customer_phone: string
+          id: string
+          ip_address: string | null
+          item: string
+          location_slug: string
+          notes: string | null
+          order_number: string
+          quantity: number
+          status: string
+          total: number
+          unit_price: number
+          user_agent: string | null
+        }
+        Insert: {
+          combo?: boolean
+          created_at?: string
+          customer_name: string
+          customer_phone: string
+          id?: string
+          ip_address?: string | null
+          item: string
+          location_slug: string
+          notes?: string | null
+          order_number: string
+          quantity: number
+          status?: string
+          total: number
+          unit_price: number
+          user_agent?: string | null
+        }
+        Update: {
+          combo?: boolean
+          created_at?: string
+          customer_name?: string
+          customer_phone?: string
+          id?: string
+          ip_address?: string | null
+          item?: string
+          location_slug?: string
+          notes?: string | null
+          order_number?: string
+          quantity?: number
+          status?: string
+          total?: number
+          unit_price?: number
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       otp_lockouts: {
         Row: {
           created_at: string
