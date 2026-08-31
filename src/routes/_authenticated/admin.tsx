@@ -31,7 +31,7 @@ export const Route = createFileRoute("/_authenticated/admin")({
   component: AdminPage,
 });
 
-type Tab = "customers" | "catering_leads" | "job_applications" | "franchise_inquiries" | "audit";
+type Tab = "customers" | "catering_leads" | "job_applications" | "franchise_inquiries" | "audit" | "menu" | "ordering";
 
 const TABS: { id: Tab; label: string }[] = [
   { id: "customers", label: "Customers" },
@@ -39,6 +39,8 @@ const TABS: { id: Tab; label: string }[] = [
   { id: "job_applications", label: "Careers" },
   { id: "franchise_inquiries", label: "Franchise" },
   { id: "audit", label: "Audit Log" },
+  { id: "menu", label: "Menu" },
+  { id: "ordering", label: "Ordering" },
 ];
 
 /** Lead CSVs are built from rows the server already authorised and audited. */
@@ -102,7 +104,11 @@ function AdminPage() {
 
         {tab === "customers" && <CustomersPanel />}
         {tab === "audit" && <AuditPanel />}
-        {tab !== "customers" && tab !== "audit" && <LeadsPanel type={tab} />}
+        {tab === "menu" && <MenuPanel />}
+        {tab === "ordering" && <OrderingPanel />}
+        {(tab === "catering_leads" || tab === "job_applications" || tab === "franchise_inquiries") && (
+          <LeadsPanel type={tab} />
+        )}
       </div>
     </div>
   );
