@@ -30,9 +30,11 @@ export const IMAGES = {
     alt: "Gotham Halal mobile app shown on a phone",
   },
   cateringTrays: {
+    src: cateringBurgers.url,
     alt: "Gotham Halal catering trays of smash burgers and loaded fries",
   },
   cateringHero: {
+    src: cateringBurgers.url,
     alt: "Gotham Halal catering spread for an event",
   },
   ourStory: {
