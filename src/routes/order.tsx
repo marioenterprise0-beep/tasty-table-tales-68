@@ -3,7 +3,14 @@ import { useMemo, useState, type FormEvent } from "react";
 import { Minus, Plus, MapPin, CheckCircle2 } from "lucide-react";
 import { BrandImage } from "@/components/BrandImage";
 import { menuImage } from "@/data/images";
-import { OPEN_LOCATIONS, isOpenNow } from "@/data/locations";
+import {
+  OPEN_LOCATIONS,
+  isOpenNow,
+  todayHours,
+  hoursLabel,
+  nextOpeningLabel,
+} from "@/data/locations";
+import { useNow } from "@/components/LocationsBlock";
 import { formatPrice } from "@/lib/order";
 import { placeOrder } from "@/lib/orders.functions";
 import { COMBO_UPCHARGE, ORDER_ITEMS, unitPriceFor, type OrderItemKey } from "@/lib/orders.schemas";
@@ -48,6 +55,7 @@ function OrderPage() {
   const [phone, setPhone] = useState("");
   const [notes, setNotes] = useState("");
   const [pending, setPending] = useState(false);
+  const now = useNow();
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<OrderResult | null>(null);
 
