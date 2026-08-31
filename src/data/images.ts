@@ -11,6 +11,7 @@ import singleSmash from "@/assets/single-smash-v2.png.asset.json";
 import doubleSmash from "@/assets/double-smash-v2.png.asset.json";
 import heroBurgers from "@/assets/hero-burgers.webp.asset.json";
 import cateringBurgers from "@/assets/catering-burgers.png.asset.json";
+import appPhone from "@/assets/app-phone.jpg.asset.json";
 export type ImageSlot = {
   /** Fallback source (jpg/png). Leave empty to render the branded placeholder. */
   src?: string;
@@ -27,6 +28,7 @@ export const IMAGES = {
     alt: "Four Gotham Halal smash burgers and loaded fries piled together",
   },
   appPhone: {
+    src: appPhone.url,
     alt: "Gotham Halal mobile app shown on a phone",
   },
   cateringTrays: {
