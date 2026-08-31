@@ -353,7 +353,7 @@ function AuthPage() {
                   </button>
                   <button
                     type="button"
-                    onClick={sendMagicLink}
+                    onClick={sendStaffSignInLink}
                     disabled={busy}
                     className="w-full text-center text-[11.5px] text-white/55 underline disabled:opacity-60"
                   >
