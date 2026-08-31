@@ -68,7 +68,7 @@ function AuthPage() {
     setResetNote(`If an account exists for ${target}, a reset link is on its way.`);
   }
 
-  async function sendMagicLink() {
+  async function sendStaffSignInLink() {
     const target = email.trim();
     if (!target) {
       setError("Enter your staff email first.");
