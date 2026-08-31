@@ -9,17 +9,25 @@ export function slugify(value: string) {
 }
 
 /**
- * Build the ordering URL with campaign tracking.
+ * Build an ordering URL with campaign tracking.
  * `content` identifies the CTA, e.g. "nav", "hero", "menu_card_crime-scene".
+ * `base` is the location's ordering URL; `categorySlug` deep-links into a
+ * POS category (https://ordergothamhalal.com/order-now/[slug]).
  */
-export function orderUrl(content: string) {
+export function buildOrderUrl(opts: { content: string; base?: string; categorySlug?: string | null }) {
+  const base = (opts.base || ORDER_URL).replace(/\/+$/, "");
+  const path = opts.categorySlug ? `${base}/order-now/${opts.categorySlug}` : base;
   const params = new URLSearchParams({
     utm_source: "gothamhalal",
     utm_medium: "site",
     utm_campaign: "order",
-    utm_content: content,
+    utm_content: opts.content,
   });
-  return `${ORDER_URL}?${params.toString()}`;
+  return `${path}?${params.toString()}`;
+}
+
+export function orderUrl(content: string) {
+  return buildOrderUrl({ content });
 }
 
 /** Format a raw price string/number as $00.00 */

@@ -15,6 +15,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { OpeningSignupProvider } from "@/components/OpeningSignup";
+import { OrderFlowProvider } from "@/components/OrderFlow";
 import { initAnalytics, trackPageView } from "@/lib/analytics";
 import { ORDER_URL } from "@/lib/order";
 import { supabase } from "@/integrations/supabase/client";
@@ -181,14 +182,16 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <OpeningSignupProvider>
-        <div className="relative min-h-screen flex flex-col">
-          <SiteNav />
-          <main className="flex-1" style={{ paddingTop: "var(--header-h)" }}>
-            <Outlet />
-          </main>
+        <OrderFlowProvider>
+          <div className="relative min-h-screen flex flex-col">
+            <SiteNav />
+            <main className="flex-1" style={{ paddingTop: "var(--header-h)" }}>
+              <Outlet />
+            </main>
 
-          <SiteFooter />
-        </div>
+            <SiteFooter />
+          </div>
+        </OrderFlowProvider>
       </OpeningSignupProvider>
     </QueryClientProvider>
   );

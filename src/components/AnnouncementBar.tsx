@@ -28,7 +28,7 @@ export function AnnouncementBar() {
           onClick={open}
           className="display text-center text-[10px] leading-tight tracking-[0.14em] underline-offset-4 hover:underline sm:text-[11px]"
         >
-          Jefferson Road opening soon — get on the list
+          Jefferson Road opens September 18 — get on the list
         </button>
       </div>
       <button

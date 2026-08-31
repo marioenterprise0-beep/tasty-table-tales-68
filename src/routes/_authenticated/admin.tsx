@@ -1,7 +1,8 @@
 import * as React from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { PageHeader } from "@/components/PageHeader";
 import { selectClass } from "@/components/form-bits";
@@ -15,6 +16,14 @@ import {
   exportCustomersCsv,
   changeAdminRole,
 } from "@/lib/admin.functions";
+import {
+  getPublicMenu,
+  getLocationSettings,
+  updateMenuItem,
+  updateMenuCategory,
+  updateLocationSetting,
+} from "@/lib/content.functions";
+import type { LocationSettingRow, PublicMenuCategory, PublicMenuItem } from "@/lib/menu.types";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
@@ -31,7 +40,7 @@ export const Route = createFileRoute("/_authenticated/admin")({
   component: AdminPage,
 });
 
-type Tab = "customers" | "catering_leads" | "job_applications" | "franchise_inquiries" | "audit";
+type Tab = "customers" | "catering_leads" | "job_applications" | "franchise_inquiries" | "audit" | "menu" | "ordering";
 
 const TABS: { id: Tab; label: string }[] = [
   { id: "customers", label: "Customers" },
@@ -39,6 +48,8 @@ const TABS: { id: Tab; label: string }[] = [
   { id: "job_applications", label: "Careers" },
   { id: "franchise_inquiries", label: "Franchise" },
   { id: "audit", label: "Audit Log" },
+  { id: "menu", label: "Menu" },
+  { id: "ordering", label: "Ordering" },
 ];
 
 /** Lead CSVs are built from rows the server already authorised and audited. */
@@ -102,7 +113,11 @@ function AdminPage() {
 
         {tab === "customers" && <CustomersPanel />}
         {tab === "audit" && <AuditPanel />}
-        {tab !== "customers" && tab !== "audit" && <LeadsPanel type={tab} />}
+        {tab === "menu" && <MenuPanel />}
+        {tab === "ordering" && <OrderingPanel />}
+        {(tab === "catering_leads" || tab === "job_applications" || tab === "franchise_inquiries") && (
+          <LeadsPanel type={tab} />
+        )}
       </div>
     </div>
   );
@@ -431,6 +446,223 @@ function AuditPanel() {
           </table>
         </div>
       </div>
+    </div>
+  );
+}
+
+// ---------- Menu management ----------
+
+function MenuPanel() {
+  const queryClient = useQueryClient();
+  const saveItem = useServerFn(updateMenuItem);
+  const saveCategory = useServerFn(updateMenuCategory);
+
+  const { data: menu, isLoading } = useQuery({
+    queryKey: ["public-menu"],
+    queryFn: () => getPublicMenu(),
+  });
+  const [edits, setEdits] = React.useState<Record<string, Partial<PublicMenuItem>>>({});
+  const [saving, setSaving] = React.useState<string | null>(null);
+  const [catSlugEdits, setCatSlugEdits] = React.useState<Record<string, string>>({});
+
+  if (isLoading || !menu) return <p className="text-sm text-white/60">Loading menu…</p>;
+
+  const patch = (id: string, p: Partial<PublicMenuItem>) =>
+    setEdits((prev) => ({ ...prev, [id]: { ...prev[id], ...p } }));
+
+  const save = async (item: PublicMenuItem) => {
+    const e = edits[item.id];
+    if (!e) return;
+    setSaving(item.id);
+    try {
+      await saveItem({
+        data: {
+          id: item.id,
+          name: (e.name ?? item.name).trim(),
+          description: (e.description ?? item.description).trim(),
+          price: Number(e.price ?? item.price),
+          cardPrice: e.cardPrice === undefined ? (item.cardPrice === null ? null : Number(item.cardPrice)) : (e.cardPrice === "" || e.cardPrice === null ? null : Number(e.cardPrice)),
+          isVegetarian: e.isVegetarian ?? item.isVegetarian,
+          isFeatured: e.isFeatured ?? item.isFeatured,
+          isActive: e.isActive ?? item.isActive,
+          displayOrder: e.displayOrder ?? item.displayOrder,
+        },
+      });
+      setEdits((prev) => { const n = { ...prev }; delete n[item.id]; return n; });
+      await queryClient.invalidateQueries({ queryKey: ["public-menu"] });
+      toast.success("Item saved.");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Couldn't save.");
+    } finally {
+      setSaving(null);
+    }
+  };
+
+  const saveCat = async (cat: PublicMenuCategory) => {
+    const slug = (catSlugEdits[cat.id] ?? cat.orderCategorySlug ?? "").trim();
+    try {
+      await saveCategory({ data: { id: cat.id, orderCategorySlug: slug || null } });
+      await queryClient.invalidateQueries({ queryKey: ["public-menu"] });
+      toast.success("Category saved.");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Couldn't save.");
+    }
+  };
+
+  const fieldClass =
+    "w-full rounded-md border border-gold/25 bg-white/[0.04] px-2.5 py-1.5 text-sm text-cream placeholder:text-white/30 focus:border-gold focus:outline-none";
+
+  return (
+    <div className="space-y-10">
+      <div className="rounded-xl border border-gold/25 bg-white/[0.03] p-5">
+        <h2 className="display text-sm tracking-[0.14em] text-gold">POS CATEGORY LINKS</h2>
+        <p className="mt-1 text-xs text-white/55">
+          The ordering deep link is the POS category slug, e.g. <code className="text-gold/90">gotham-burgers</code>. Leave blank to send that section to the main ordering page.
+        </p>
+        <ul className="mt-4 space-y-3">
+          {menu.categories.map((c) => (
+            <li key={c.id} className="flex flex-wrap items-center gap-3">
+              <span className="display w-56 text-xs tracking-[0.08em] text-cream">{c.name}</span>
+              <input
+                value={catSlugEdits[c.id] ?? c.orderCategorySlug ?? ""}
+                onChange={(e) => setCatSlugEdits((p) => ({ ...p, [c.id]: e.target.value }))}
+                placeholder="category-slug"
+                className={`${fieldClass} max-w-xs`}
+              />
+              <button type="button" onClick={() => saveCat(c)} className="display rounded-full border border-gold/50 px-4 py-1.5 text-[10px] tracking-[0.14em] text-gold hover:bg-gold hover:text-ink">
+                Save
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {menu.categories.map((c) => (
+        <div key={c.id} className="rounded-xl border border-gold/25 bg-white/[0.03] p-5">
+          <h2 className="display text-sm tracking-[0.14em] text-gold">{c.name.toUpperCase()}</h2>
+          <div className="mt-4 space-y-4">
+            {menu.items.filter((i) => i.categoryId === c.id).map((i) => {
+              const e = edits[i.id] ?? {};
+              const dirty = edits[i.id] !== undefined;
+              return (
+                <div key={i.id} className="rounded-lg border border-white/10 p-4">
+                  <div className="grid gap-3 lg:grid-cols-[1fr_1.6fr]">
+                    <input value={e.name ?? i.name} onChange={(ev) => patch(i.id, { name: ev.target.value })} className={fieldClass} aria-label="Item name" />
+                    <input value={e.description ?? i.description} onChange={(ev) => patch(i.id, { description: ev.target.value })} className={fieldClass} aria-label="Description" />
+                  </div>
+                  <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
+                    <label className="flex items-center gap-2 text-white/70">
+                      Cash $
+                      <input type="number" step="0.01" min="0" value={e.price ?? i.price} onChange={(ev) => patch(i.id, { price: ev.target.value })} className={`${fieldClass} w-24`} />
+                    </label>
+                    <label className="flex items-center gap-2 text-white/70">
+                      Card $
+                      <input type="number" step="0.01" min="0" value={e.cardPrice ?? i.cardPrice ?? ""} onChange={(ev) => patch(i.id, { cardPrice: ev.target.value })} placeholder="—" className={`${fieldClass} w-24`} />
+                    </label>
+                    <label className="flex items-center gap-2 text-white/70">
+                      <input type="checkbox" checked={e.isVegetarian ?? i.isVegetarian} onChange={(ev) => patch(i.id, { isVegetarian: ev.target.checked })} />
+                      Vegetarian
+                    </label>
+                    <label className="flex items-center gap-2 text-white/70">
+                      <input type="checkbox" checked={e.isFeatured ?? i.isFeatured} onChange={(ev) => patch(i.id, { isFeatured: ev.target.checked })} />
+                      Featured
+                    </label>
+                    <label className="flex items-center gap-2 text-white/70">
+                      <input type="checkbox" checked={e.isActive ?? i.isActive} onChange={(ev) => patch(i.id, { isActive: ev.target.checked })} />
+                      Live on menu
+                    </label>
+                    <label className="flex items-center gap-2 text-white/70">
+                      Order
+                      <input type="number" step="1" min="0" value={e.displayOrder ?? i.displayOrder} onChange={(ev) => patch(i.id, { displayOrder: Number(ev.target.value) })} className={`${fieldClass} w-20`} />
+                    </label>
+                    <button
+                      type="button"
+                      disabled={!dirty || saving === i.id}
+                      onClick={() => save(i)}
+                      className="display rounded-full bg-gold px-5 py-1.5 text-[10px] tracking-[0.14em] text-ink disabled:opacity-40"
+                    >
+                      {saving === i.id ? "Saving…" : "Save"}
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ---------- Ordering / locations ----------
+
+function OrderingPanel() {
+  const queryClient = useQueryClient();
+  const save = useServerFn(updateLocationSetting);
+  const { data, isLoading } = useQuery({ queryKey: ["location-settings"], queryFn: () => getLocationSettings() });
+  const [edits, setEdits] = React.useState<Record<string, { orderUrl?: string; isOrderEnabled?: boolean }>>({});
+  const [saving, setSaving] = React.useState<string | null>(null);
+
+  if (isLoading || !data) return <p className="text-sm text-white/60">Loading locations…</p>;
+
+  const run = async (row: LocationSettingRow) => {
+    const e = edits[row.location_slug] ?? {};
+    setSaving(row.location_slug);
+    try {
+      await save({
+        data: {
+          locationSlug: row.location_slug,
+          orderUrl: (e.orderUrl ?? row.order_url).trim(),
+          isOrderEnabled: e.isOrderEnabled ?? row.is_order_enabled,
+        },
+      });
+      setEdits((prev) => { const n = { ...prev }; delete n[row.location_slug]; return n; });
+      await queryClient.invalidateQueries({ queryKey: ["location-settings"] });
+      toast.success("Location saved.");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Couldn't save.");
+    } finally {
+      setSaving(null);
+    }
+  };
+
+  return (
+    <div className="space-y-5">
+      <p className="text-xs text-white/55">
+        These drive the “Which location?” picker and every Order button. Turning off a location greys it out for customers.
+      </p>
+      {data.map((row) => {
+        const e = edits[row.location_slug] ?? {};
+        return (
+          <div key={row.location_slug} className="rounded-xl border border-gold/25 bg-white/[0.03] p-5">
+            <div className="flex flex-wrap items-center gap-4">
+              <span className="display w-40 text-sm tracking-[0.1em] text-gold">{row.location_slug.toUpperCase().replace(/-/g, " ")}</span>
+              <input
+                value={e.orderUrl ?? row.order_url}
+                onChange={(ev) => setEdits((p) => ({ ...p, [row.location_slug]: { ...p[row.location_slug], orderUrl: ev.target.value } }))}
+                className="min-w-0 flex-1 rounded-md border border-gold/25 bg-white/[0.04] px-3 py-2 text-sm text-cream focus:border-gold focus:outline-none"
+                aria-label="Ordering URL"
+              />
+              <label className="flex items-center gap-2 text-sm text-white/70">
+                <input
+                  type="checkbox"
+                  checked={e.isOrderEnabled ?? row.is_order_enabled}
+                  onChange={(ev) => setEdits((p) => ({ ...p, [row.location_slug]: { ...p[row.location_slug], isOrderEnabled: ev.target.checked } }))}
+                />
+                Ordering enabled
+              </label>
+              <button
+                type="button"
+                disabled={saving === row.location_slug}
+                onClick={() => run(row)}
+                className="display rounded-full bg-gold px-5 py-2 text-[10px] tracking-[0.14em] text-ink disabled:opacity-40"
+              >
+                {saving === row.location_slug ? "Saving…" : "Save"}
+              </button>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 }

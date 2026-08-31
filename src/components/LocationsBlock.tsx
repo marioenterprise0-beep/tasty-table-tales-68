@@ -130,7 +130,11 @@ export function LocationCard({ location, now }: { location: Location; now: Date 
           </>
         ) : (
           <>
-            <OrderLink content={`location_${location.slug}`} className="pill-gold px-6 py-2.5 text-[11px]">
+            <OrderLink
+              content={`location_${location.slug}`}
+              locationSlug={location.slug}
+              className="pill-gold px-6 py-2.5 text-[11px]"
+            >
               Order From Here
             </OrderLink>
             <a

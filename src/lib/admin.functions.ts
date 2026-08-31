@@ -4,7 +4,7 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { customerFiltersSchema } from "./customers.schemas";
 import { z } from "zod";
 
-type AuthedContext = {
+export type AuthedContext = {
   supabase: { rpc: (fn: string, args: Record<string, unknown>) => Promise<{ data: unknown; error: unknown }> };
   userId: string;
   claims: Record<string, unknown>;
@@ -21,7 +21,7 @@ function requestMeta() {
  * CALLER's own RLS-scoped client — never the service-role client. Hiding a
  * button in the UI is not access control.
  */
-async function assertAdmin(context: AuthedContext) {
+export async function assertAdmin(context: AuthedContext) {
   const { data, error } = await context.supabase.rpc("has_role", {
     _user_id: context.userId,
     _role: "admin",

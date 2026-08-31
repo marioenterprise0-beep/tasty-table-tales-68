@@ -316,6 +316,122 @@ export type Database = {
         }
         Relationships: []
       }
+      location_settings: {
+        Row: {
+          created_at: string
+          id: string
+          is_order_enabled: boolean
+          location_slug: string
+          order_url: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_order_enabled?: boolean
+          location_slug: string
+          order_url?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_order_enabled?: boolean
+          location_slug?: string
+          order_url?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      menu_categories: {
+        Row: {
+          created_at: string
+          display_order: number
+          id: string
+          is_active: boolean
+          name: string
+          order_category_slug: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          display_order?: number
+          id?: string
+          is_active?: boolean
+          name: string
+          order_category_slug?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          display_order?: number
+          id?: string
+          is_active?: boolean
+          name?: string
+          order_category_slug?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      menu_items: {
+        Row: {
+          add_ons: string[]
+          card_price: number | null
+          category_id: string
+          created_at: string
+          description: string
+          display_order: number
+          id: string
+          ingredients: string[]
+          is_active: boolean
+          is_featured: boolean
+          is_vegetarian: boolean
+          name: string
+          price: number
+          updated_at: string
+        }
+        Insert: {
+          add_ons?: string[]
+          card_price?: number | null
+          category_id: string
+          created_at?: string
+          description?: string
+          display_order?: number
+          id?: string
+          ingredients?: string[]
+          is_active?: boolean
+          is_featured?: boolean
+          is_vegetarian?: boolean
+          name: string
+          price: number
+          updated_at?: string
+        }
+        Update: {
+          add_ons?: string[]
+          card_price?: number | null
+          category_id?: string
+          created_at?: string
+          description?: string
+          display_order?: number
+          id?: string
+          ingredients?: string[]
+          is_active?: boolean
+          is_featured?: boolean
+          is_vegetarian?: boolean
+          name?: string
+          price?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "menu_items_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "menu_categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       opening_signups: {
         Row: {
           created_at: string
