@@ -117,8 +117,29 @@ export function formatTime(hhmm: string) {
   return m === 0 ? `${hour}${suffix}` : `${hour}:${String(m).padStart(2, "0")}${suffix}`;
 }
 
+/**
+ * Gotham Halal operates in Rochester, NY, so the schedule is always evaluated
+ * in America/New_York — never the server's or the visitor's local timezone.
+ */
+export const STORE_TIMEZONE = "America/New_York";
+
+/** Day-of-week (0=Sun) and minutes since midnight, in store time. */
+function storeClock(now: Date) {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: STORE_TIMEZONE,
+    weekday: "short",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  }).formatToParts(now);
+  const get = (type: string) => parts.find((p) => p.type === type)?.value ?? "";
+  const day = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].indexOf(get("weekday"));
+  const hour = Number(get("hour")) % 24; // "24" can appear for midnight
+  return { day, minutes: hour * 60 + Number(get("minute")) };
+}
+
 export function todayHours(l: Location, now = new Date()): DayHours {
-  return l.hours[now.getDay()];
+  return l.hours[storeClock(now).day];
 }
 
 export function hoursLabel(hours: DayHours) {
@@ -138,14 +159,14 @@ function closeMinutes(hours: NonNullable<DayHours>) {
 }
 
 export function isOpenNow(l: Location, now = new Date()) {
-  const minutes = now.getHours() * 60 + now.getMinutes();
+  const { day, minutes } = storeClock(now);
 
   // Today's shift.
-  const today = todayHours(l, now);
+  const today = l.hours[day];
   if (today && minutes >= toMinutes(today.open) && minutes < closeMinutes(today)) return true;
 
   // Yesterday's shift may still be running past midnight.
-  const yesterday = l.hours[(now.getDay() + 6) % 7];
+  const yesterday = l.hours[(day + 6) % 7];
   if (yesterday && closeMinutes(yesterday) > 1440 && minutes < closeMinutes(yesterday) - 1440) {
     return true;
   }
@@ -153,6 +174,24 @@ export function isOpenNow(l: Location, now = new Date()) {
   return false;
 }
 
+/**
+ * Human label for when a closed location next opens, e.g.
+ * "Opens today at 11AM" or "Opens Friday at 4PM". Null when open now.
+ */
+export function nextOpeningLabel(l: Location, now = new Date()): string | null {
+  if (isOpenNow(l, now)) return null;
+  const { day, minutes } = storeClock(now);
+  for (let ahead = 0; ahead < 7; ahead++) {
+    const d = l.hours[(day + ahead) % 7];
+    if (!d) continue;
+    // Same day only counts if the shift hasn't started yet.
+    if (ahead === 0 && minutes >= toMinutes(d.open)) continue;
+    const when =
+      ahead === 0 ? "today" : ahead === 1 ? "tomorrow" : DAY_LABELS[(day + ahead) % 7];
+    return `Opens ${when} at ${formatTime(d.open)}`;
+  }
+  return "Opening hours coming soon";
+}
 
 /** Whole days until the opening date, or null when no date is set. */
 export function daysUntilOpening(l: Location, now = new Date()): number | null {

@@ -3,7 +3,14 @@ import { useMemo, useState, type FormEvent } from "react";
 import { Minus, Plus, MapPin, CheckCircle2 } from "lucide-react";
 import { BrandImage } from "@/components/BrandImage";
 import { menuImage } from "@/data/images";
-import { OPEN_LOCATIONS, isOpenNow } from "@/data/locations";
+import {
+  OPEN_LOCATIONS,
+  isOpenNow,
+  todayHours,
+  hoursLabel,
+  nextOpeningLabel,
+} from "@/data/locations";
+import { useNow } from "@/components/LocationsBlock";
 import { formatPrice } from "@/lib/order";
 import { placeOrder } from "@/lib/orders.functions";
 import { COMBO_UPCHARGE, ORDER_ITEMS, unitPriceFor, type OrderItemKey } from "@/lib/orders.schemas";
@@ -48,6 +55,7 @@ function OrderPage() {
   const [phone, setPhone] = useState("");
   const [notes, setNotes] = useState("");
   const [pending, setPending] = useState(false);
+  const now = useNow();
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<OrderResult | null>(null);
 
@@ -208,7 +216,11 @@ function OrderPage() {
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 {OPEN_LOCATIONS.map((loc) => {
                   const selected = locationSlug === loc.slug;
-                  const open = isOpenNow(loc);
+                  // Status renders only after hydration so it never disagrees
+                  // with the server render, then re-checks every minute.
+                  const open = now ? isOpenNow(loc, now) : null;
+                  const closedLabel = now ? nextOpeningLabel(loc, now) : null;
+                  const today = now ? hoursLabel(todayHours(loc, now)) : null;
                   return (
                     <button
                       key={loc.slug}
@@ -227,9 +239,25 @@ function OrderPage() {
                         <span className="block text-[12.5px] text-white/70">
                           {loc.street}, {loc.city}
                         </span>
-                        <span className={`mt-0.5 block text-[11.5px] ${open ? "text-gold" : "text-white/60"}`}>
-                          {open ? "Open now" : "Currently closed — order for next opening"}
-                        </span>
+                        {today && (
+                          <span className="mt-0.5 block text-[11.5px] text-white/60">
+                            Today: {today}
+                          </span>
+                        )}
+                        {open !== null && (
+                          <span
+                            className={`mt-0.5 inline-flex items-center gap-1.5 text-[11.5px] ${
+                              open ? "text-gold" : "text-white/60"
+                            }`}
+                          >
+                            <span
+                              className={`inline-block size-1.5 rounded-full ${
+                                open ? "animate-pulse bg-gold" : "bg-white/40"
+                              }`}
+                            />
+                            {open ? "Open now" : closedLabel ?? "Closed"}
+                          </span>
+                        )}
                       </span>
                     </button>
                   );
