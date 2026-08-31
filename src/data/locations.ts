@@ -87,8 +87,7 @@ export const LOCATIONS: Location[] = [
     postalCode: "14623",
     phone: "(585) 946-8426",
     status: "opening_soon",
-    // TODO: set the confirmed opening date to switch on the countdown.
-    openingDate: null,
+    openingDate: "2026-09-18",
     lat: 43.088514,
     lng: -77.611357,
     findingNote:
