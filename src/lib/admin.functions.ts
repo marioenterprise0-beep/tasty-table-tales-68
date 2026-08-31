@@ -4,7 +4,7 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { customerFiltersSchema } from "./customers.schemas";
 import { z } from "zod";
 
-type AuthedContext = {
+export type AuthedContext = {
   supabase: { rpc: (fn: string, args: Record<string, unknown>) => Promise<{ data: unknown; error: unknown }> };
   userId: string;
   claims: Record<string, unknown>;
