@@ -77,7 +77,13 @@ function Home() {
               for you.
             </p>
             <div className="mt-7 flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-              <OrderLink content="hero" className="pill-ghost-dark px-8 py-2.5 text-[12px]" />
+              <Link
+                to="/order"
+                onClick={() => trackOrderClick("hero")}
+                className="pill-ghost-dark px-8 py-2.5 text-[12px]"
+              >
+                Order Now
+              </Link>
               <Link to="/menu" className="pill-ghost-dark px-8 py-2.5 text-[12px]">
                 View Menu
               </Link>
