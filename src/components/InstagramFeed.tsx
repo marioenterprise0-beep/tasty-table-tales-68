@@ -23,12 +23,22 @@ export function InstagramFeed() {
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`Behold feed failed: ${r.status}`))))
       .then((data: unknown) => {
         const raw = Array.isArray(data) ? data : ((data as { posts?: unknown[] })?.posts ?? []);
-        const mapped = (raw as Record<string, string>[]).slice(0, 6).map((p, i) => ({
-          id: p["id"] ?? String(i),
-          permalink: p["permalink"] ?? INSTAGRAM_URL,
-          mediaUrl: p["sizes"] ? "" : (p["mediaUrl"] ?? p["thumbnailUrl"] ?? ""),
-          caption: p["caption"],
-        }));
+        const mapped = (raw as Record<string, unknown>[]).slice(0, 6).map((p, i) => {
+          const sizes = p["sizes"] as Record<string, { mediaUrl?: string }> | undefined;
+          const mediaUrl =
+            (p["mediaUrl"] as string | undefined) ??
+            sizes?.["medium"]?.mediaUrl ??
+            sizes?.["large"]?.mediaUrl ??
+            sizes?.["small"]?.mediaUrl ??
+            (p["thumbnailUrl"] as string | undefined) ??
+            "";
+          return {
+            id: (p["id"] as string | undefined) ?? String(i),
+            permalink: (p["permalink"] as string | undefined) ?? INSTAGRAM_URL,
+            mediaUrl,
+            caption: p["caption"] as string | undefined,
+          };
+        });
         if (!cancelled) setPosts(mapped.filter((p) => p.mediaUrl));
       })
       .catch((err) => console.error(err));
