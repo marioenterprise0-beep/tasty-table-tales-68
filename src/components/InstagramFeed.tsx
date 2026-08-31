@@ -4,10 +4,12 @@ import { Instagram } from "lucide-react";
 export const INSTAGRAM_URL = "https://www.instagram.com/gothamhalal/?hl=en";
 
 /**
- * Behold.so feed JSON URL. Set VITE_BEHOLD_FEED_URL to switch the grid from
- * branded placeholders to live Instagram posts — no code change needed.
+ * Behold.so JSON feed for @gothamhalal. Falls back to branded placeholders
+ * if the feed is unreachable.
  */
-const FEED_URL = import.meta.env["VITE_BEHOLD_FEED_URL"] as string | undefined;
+const FEED_URL =
+  (import.meta.env["VITE_BEHOLD_FEED_URL"] as string | undefined) ??
+  "https://feeds.behold.so/VfVHJ9WOWp4vxLzhuiFn";
 
 type Post = { id: string; permalink: string; mediaUrl: string; caption?: string };
 
@@ -21,12 +23,22 @@ export function InstagramFeed() {
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`Behold feed failed: ${r.status}`))))
       .then((data: unknown) => {
         const raw = Array.isArray(data) ? data : ((data as { posts?: unknown[] })?.posts ?? []);
-        const mapped = (raw as Record<string, string>[]).slice(0, 6).map((p, i) => ({
-          id: p["id"] ?? String(i),
-          permalink: p["permalink"] ?? INSTAGRAM_URL,
-          mediaUrl: p["sizes"] ? "" : (p["mediaUrl"] ?? p["thumbnailUrl"] ?? ""),
-          caption: p["caption"],
-        }));
+        const mapped = (raw as Record<string, unknown>[]).slice(0, 6).map((p, i) => {
+          const sizes = p["sizes"] as Record<string, { mediaUrl?: string }> | undefined;
+          const mediaUrl =
+            (p["mediaUrl"] as string | undefined) ??
+            sizes?.["medium"]?.mediaUrl ??
+            sizes?.["large"]?.mediaUrl ??
+            sizes?.["small"]?.mediaUrl ??
+            (p["thumbnailUrl"] as string | undefined) ??
+            "";
+          return {
+            id: (p["id"] as string | undefined) ?? String(i),
+            permalink: (p["permalink"] as string | undefined) ?? INSTAGRAM_URL,
+            mediaUrl,
+            caption: p["caption"] as string | undefined,
+          };
+        });
         if (!cancelled) setPosts(mapped.filter((p) => p.mediaUrl));
       })
       .catch((err) => console.error(err));
