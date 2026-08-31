@@ -4,10 +4,12 @@ import { Instagram } from "lucide-react";
 export const INSTAGRAM_URL = "https://www.instagram.com/gothamhalal/?hl=en";
 
 /**
- * Behold.so feed JSON URL. Set VITE_BEHOLD_FEED_URL to switch the grid from
- * branded placeholders to live Instagram posts — no code change needed.
+ * Behold.so JSON feed for @gothamhalal. Falls back to branded placeholders
+ * if the feed is unreachable.
  */
-const FEED_URL = import.meta.env["VITE_BEHOLD_FEED_URL"] as string | undefined;
+const FEED_URL =
+  (import.meta.env["VITE_BEHOLD_FEED_URL"] as string | undefined) ??
+  "https://feeds.behold.so/VfVHJ9WOWp4vxLzhuiFn";
 
 type Post = { id: string; permalink: string; mediaUrl: string; caption?: string };
 
