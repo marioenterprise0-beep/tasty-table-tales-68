@@ -174,6 +174,24 @@ export function isOpenNow(l: Location, now = new Date()) {
   return false;
 }
 
+/**
+ * Human label for when a closed location next opens, e.g.
+ * "Opens today at 11AM" or "Opens Friday at 4PM". Null when open now.
+ */
+export function nextOpeningLabel(l: Location, now = new Date()): string | null {
+  if (isOpenNow(l, now)) return null;
+  const { day, minutes } = storeClock(now);
+  for (let ahead = 0; ahead < 7; ahead++) {
+    const d = l.hours[(day + ahead) % 7];
+    if (!d) continue;
+    // Same day only counts if the shift hasn't started yet.
+    if (ahead === 0 && minutes >= toMinutes(d.open)) continue;
+    const when =
+      ahead === 0 ? "today" : ahead === 1 ? "tomorrow" : DAY_LABELS[(day + ahead) % 7];
+    return `Opens ${when} at ${formatTime(d.open)}`;
+  }
+  return "Opening hours coming soon";
+}
 
 /** Whole days until the opening date, or null when no date is set. */
 export function daysUntilOpening(l: Location, now = new Date()): number | null {
