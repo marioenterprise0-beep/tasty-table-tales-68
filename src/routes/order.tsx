@@ -239,9 +239,25 @@ function OrderPage() {
                         <span className="block text-[12.5px] text-white/70">
                           {loc.street}, {loc.city}
                         </span>
-                        <span className={`mt-0.5 block text-[11.5px] ${open ? "text-gold" : "text-white/60"}`}>
-                          {open ? "Open now" : "Currently closed — order for next opening"}
-                        </span>
+                        {today && (
+                          <span className="mt-0.5 block text-[11.5px] text-white/60">
+                            Today: {today}
+                          </span>
+                        )}
+                        {open !== null && (
+                          <span
+                            className={`mt-0.5 inline-flex items-center gap-1.5 text-[11.5px] ${
+                              open ? "text-gold" : "text-white/60"
+                            }`}
+                          >
+                            <span
+                              className={`inline-block size-1.5 rounded-full ${
+                                open ? "animate-pulse bg-gold" : "bg-white/40"
+                              }`}
+                            />
+                            {open ? "Open now" : closedLabel ?? "Closed"}
+                          </span>
+                        )}
                       </span>
                     </button>
                   );
