@@ -13,6 +13,12 @@ const FEED_URL =
 
 type Post = { id: string; permalink: string; mediaUrl: string; caption?: string };
 
+function formatCaption(caption: string | undefined, max = 110) {
+  if (!caption) return "";
+  const trimmed = caption.trim();
+  return trimmed.length > max ? `${trimmed.slice(0, max).trim()}…` : trimmed;
+}
+
 export function InstagramFeed() {
   const [posts, setPosts] = React.useState<Post[] | null>(null);
 
@@ -51,43 +57,67 @@ export function InstagramFeed() {
 
   return (
     <section className="bg-ink" aria-labelledby="instagram-feed">
-      <div className="mx-auto max-w-[1500px] px-5 py-12 md:px-10">
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <h2 id="instagram-feed" className="display text-2xl tracking-[0.01em] text-gold md:text-[34px]">
-            Straight From The Grill
-          </h2>
+      <div className="mx-auto max-w-[1500px] px-5 py-14 md:px-10 md:py-20">
+        <div className="flex flex-wrap items-end justify-between gap-4 border-b border-gold/20 pb-5">
+          <div>
+            <p className="display text-[11px] tracking-[0.22em] text-gold/80 uppercase">
+              Follow The Flavor
+            </p>
+            <h2
+              id="instagram-feed"
+              className="display mt-1 text-2xl tracking-[0.01em] text-gold md:text-[34px]"
+            >
+              Straight From The Grill
+            </h2>
+          </div>
           <a
             href={INSTAGRAM_URL}
             target="_blank"
             rel="noreferrer"
-            className="display inline-flex items-center gap-2 text-[11px] tracking-[0.16em] text-white/70 transition hover:text-gold"
+            className="display inline-flex items-center gap-2 rounded-full border border-gold/30 bg-white/[0.03] px-4 py-2 text-[11px] tracking-[0.12em] text-white/90 transition hover:border-gold hover:bg-gold hover:text-gold-foreground"
           >
             <Instagram className="size-4" />
             @gothamhalal
           </a>
         </div>
 
-        <div className="mt-7 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
+        <div className="mt-8 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
           {tiles
-            ? tiles.map((p, i) => (
-                <a
-                  key={p.id}
-                  href={p.permalink}
-                  target="_blank"
-                  rel="noreferrer"
-                  className={`aspect-square overflow-hidden rounded-lg border border-gold/20 ${
-                    i >= 4 ? "hidden lg:block" : ""
-                  }`}
-                >
-                  <img
-                    src={p.mediaUrl}
-                    alt={p.caption?.slice(0, 120) || "Gotham Halal on Instagram"}
-                    loading="lazy"
-                    decoding="async"
-                    className="h-full w-full object-cover transition duration-300 hover:scale-105"
-                  />
-                </a>
-              ))
+            ? tiles.map((p, i) => {
+                const caption = formatCaption(p.caption);
+                return (
+                  <a
+                    key={p.id}
+                    href={p.permalink}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="View on Instagram"
+                    className={`group relative aspect-square overflow-hidden rounded-xl border border-gold/15 bg-ink transition hover:border-gold/50 ${
+                      i >= 4 ? "hidden lg:block" : ""
+                    }`}
+                  >
+                    <img
+                      src={p.mediaUrl}
+                      alt={p.caption?.slice(0, 120) || "Gotham Halal on Instagram"}
+                      loading="lazy"
+                      decoding="async"
+                      className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                    />
+                    <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 transition duration-300 group-hover:opacity-100" />
+                    <span className="absolute inset-x-0 bottom-0 flex translate-y-2 flex-col gap-1.5 p-4 opacity-0 transition duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+                      {caption && (
+                        <span className="line-clamp-3 text-[13px] leading-snug text-white/95">
+                          {caption}
+                        </span>
+                      )}
+                      <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold tracking-[0.12em] text-gold uppercase">
+                        <Instagram className="size-3.5" />
+                        View on Instagram
+                      </span>
+                    </span>
+                  </a>
+                );
+              })
             : Array.from({ length: 6 }).map((_, i) => (
                 <a
                   key={i}
@@ -95,18 +125,20 @@ export function InstagramFeed() {
                   target="_blank"
                   rel="noreferrer"
                   aria-label="Gotham Halal on Instagram"
-                  className={`aspect-square items-center justify-center rounded-lg border border-gold/20 bg-white/[0.03] transition hover:border-gold/50 ${
-                    i >= 4 ? "hidden lg:flex" : "flex"
+                  className={`group relative aspect-square overflow-hidden rounded-xl border border-gold/15 bg-white/[0.03] transition hover:border-gold/50 ${
+                    i >= 4 ? "hidden lg:block" : ""
                   }`}
                 >
-                  <img
-                    src="/gotham-halal-logo.svg"
-                    alt=""
-                    aria-hidden="true"
-                    className="h-1/2 w-auto opacity-15"
-                    loading="lazy"
-                    decoding="async"
-                  />
+                  <span className="flex h-full w-full items-center justify-center">
+                    <img
+                      src="/gotham-halal-logo.svg"
+                      alt=""
+                      aria-hidden="true"
+                      className="h-2/5 w-auto opacity-10 transition duration-300 group-hover:opacity-20"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </span>
                 </a>
               ))}
         </div>
@@ -114,3 +146,4 @@ export function InstagramFeed() {
     </section>
   );
 }
+
