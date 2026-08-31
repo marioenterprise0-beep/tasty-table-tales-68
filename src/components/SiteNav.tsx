@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { Instagram } from "lucide-react";
 import { OrderLink } from "@/components/OrderLink";
+import { useOrderFlow } from "@/components/OrderFlow";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
 import { INSTAGRAM_URL } from "@/components/InstagramFeed";
 import { AccountMenu } from "@/components/AccountMenu";
@@ -23,6 +24,7 @@ export function SiteNav() {
   const [open, setOpen] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const headerRef = useRef<HTMLElement | null>(null);
+  const { openPicker } = useOrderFlow();
 
   /**
    * Publishes the real rendered header height (announcement bar included) as
@@ -94,10 +96,19 @@ export function SiteNav() {
 
             <AccountMenu />
 
-            <OrderLink
-              content="nav"
-              className="pill-gold hidden sm:inline-flex whitespace-nowrap px-5 py-2.5 text-[11px] xl:px-7"
-            />
+            <span className="hidden sm:flex flex-col items-center gap-0.5">
+              <OrderLink
+                content="nav"
+                className="pill-gold whitespace-nowrap px-5 py-2.5 text-[11px] xl:px-7"
+              />
+              <button
+                type="button"
+                onClick={openPicker}
+                className="display hidden xl:block text-[8.5px] tracking-[0.18em] text-nav-foreground/50 underline-offset-2 hover:text-gold hover:underline"
+              >
+                Change location
+              </button>
+            </span>
 
 
             <button
