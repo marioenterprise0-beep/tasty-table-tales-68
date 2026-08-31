@@ -28,6 +28,7 @@ export const IMAGES = {
     alt: "Four Gotham Halal smash burgers and loaded fries piled together",
   },
   appPhone: {
+    src: appPhone.url,
     alt: "Gotham Halal mobile app shown on a phone",
   },
   cateringTrays: {
