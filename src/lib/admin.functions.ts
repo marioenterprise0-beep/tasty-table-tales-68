@@ -1,5 +1,4 @@
 import { createServerFn } from "@tanstack/react-start";
-import { getRequestHeader } from "@tanstack/react-start/server";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { customerFiltersSchema } from "./customers.schemas";
 import { z } from "zod";
@@ -10,11 +9,17 @@ export type AuthedContext = {
   claims: Record<string, unknown>;
 };
 
-function requestMeta() {
+/**
+ * Reads request metadata. The server-only header helper is imported lazily so
+ * this module stays safe to import from client-side route files.
+ */
+async function requestMeta() {
+  const { getRequestHeader } = await import("@tanstack/react-start/server");
   const forwarded = getRequestHeader("x-forwarded-for") ?? "";
   const ip = forwarded.split(",")[0]?.trim() || getRequestHeader("cf-connecting-ip") || null;
-  return { ip };
+  return { ip, userAgent: getRequestHeader("user-agent") ?? null };
 }
+
 
 /**
  * Every admin server function re-checks the role on every call, through the
