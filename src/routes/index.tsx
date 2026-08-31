@@ -10,6 +10,7 @@ import { FEATURED_DISHES } from "@/data/menu";
 import { assertMenuSource } from "@/data/menu.check";
 import { IMAGES, menuImage } from "@/data/images";
 import { slugify, formatPrice } from "@/lib/order";
+import { trackOrderClick } from "@/lib/analytics";
 import heroBg from "@/assets/gotham-hero-bg.png.asset.json";
 import footerBand from "@/assets/gotham-footer-band.png.asset.json";
 
