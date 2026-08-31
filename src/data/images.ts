@@ -10,6 +10,7 @@ import heatwaveCombo from "@/assets/heatwave-combo.png.asset.json";
 import singleSmash from "@/assets/single-smash-v2.png.asset.json";
 import doubleSmash from "@/assets/double-smash-v2.png.asset.json";
 import heroBurgers from "@/assets/hero-burgers.webp.asset.json";
+import cateringBurgers from "@/assets/catering-burgers.png.asset.json";
 export type ImageSlot = {
   /** Fallback source (jpg/png). Leave empty to render the branded placeholder. */
   src?: string;
@@ -29,9 +30,11 @@ export const IMAGES = {
     alt: "Gotham Halal mobile app shown on a phone",
   },
   cateringTrays: {
+    src: cateringBurgers.url,
     alt: "Gotham Halal catering trays of smash burgers and loaded fries",
   },
   cateringHero: {
+    src: cateringBurgers.url,
     alt: "Gotham Halal catering spread for an event",
   },
   ourStory: {
