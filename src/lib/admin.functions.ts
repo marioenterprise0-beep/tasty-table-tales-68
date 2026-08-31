@@ -36,7 +36,7 @@ export async function assertAdmin(context: AuthedContext) {
   return {
     adminUserId: context.userId,
     adminLabel: claims.email ?? claims.phone ?? context.userId,
-    ip: requestMeta().ip,
+    ip: (await requestMeta()).ip,
   };
 }
 
@@ -89,6 +89,7 @@ export const listCustomers = createServerFn({ method: "POST" })
     const rows = (await queryCustomers(data)).slice(0, 2000);
 
     const { recordAdminAction } = await import("./audit.server");
+    const meta = await requestMeta();
     await recordAdminAction({
       adminUserId: admin.adminUserId,
       adminLabel: admin.adminLabel,
@@ -120,6 +121,7 @@ export const exportCustomersCsv = createServerFn({ method: "POST" })
     const admin = await assertAdmin(context as unknown as AuthedContext);
     const { checkExportAllowed, logRateLimitEvent } = await import("./rate-limit.server");
     const { recordAdminAction } = await import("./audit.server");
+    const meta = await requestMeta();
 
     const gate = await checkExportAllowed(admin.adminUserId);
     if (!gate.ok) {
@@ -207,6 +209,7 @@ export const listLeads = createServerFn({ method: "POST" })
     }
 
     const { recordAdminAction } = await import("./audit.server");
+    const meta = await requestMeta();
     await recordAdminAction({
       adminUserId: admin.adminUserId,
       adminLabel: admin.adminLabel,
@@ -274,14 +277,15 @@ export const recordAdminSignIn = createServerFn({ method: "POST" })
     if (recent && recent.length > 0) return { logged: false as const };
 
     const { recordAdminAction } = await import("./audit.server");
+    const meta = await requestMeta();
     await recordAdminAction({
       adminUserId: ctx.userId,
       adminLabel: claims.email ?? claims.phone ?? ctx.userId,
       action: "admin_sign_in",
       targetType: "session",
       targetId: ctx.userId,
-      ip: requestMeta().ip,
-      detail: { userAgent: getRequestHeader("user-agent") ?? null },
+      ip: meta.ip,
+      detail: { userAgent: meta.userAgent },
     });
     return { logged: true as const };
   });
@@ -299,6 +303,7 @@ export const changeAdminRole = createServerFn({ method: "POST" })
     const admin = await assertAdmin(context as unknown as AuthedContext);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { recordAdminAction } = await import("./audit.server");
+    const meta = await requestMeta();
 
     const { data: users, error: listError } = await supabaseAdmin.auth.admin.listUsers({
       page: 1,
