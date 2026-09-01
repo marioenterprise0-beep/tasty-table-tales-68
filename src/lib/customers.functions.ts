@@ -64,7 +64,7 @@ export const updateMyProfile = createServerFn({ method: "POST" })
 
     const { data: current } = await supabaseAdmin
       .from("customers")
-      .select("id, email, email_verified")
+      .select("id, email, email_verified, phone")
       .eq("user_id", context.userId)
       .maybeSingle();
     if (!current) throw new Error("We couldn't find your account.");
