@@ -42,6 +42,17 @@ export const getMyAccount = createServerFn({ method: "POST" })
       phone: claims.phone ?? null,
       email: claims.email ?? null,
     });
+
+    if (record) {
+      void syncToGhl({
+        firstName: record.first_name,
+        lastName: record.last_name,
+        email: record.email,
+        phone: record.phone,
+        source: "account",
+      });
+    }
+
     return record;
   });
 
