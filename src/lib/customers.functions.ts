@@ -1,12 +1,35 @@
 import { createServerFn } from "@tanstack/react-start";
-import { getRequestHeader } from "@tanstack/react-start/server";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { profileSchema, preferencesSchema } from "./customers.schemas";
 
-function requestMeta() {
+async function requestMeta() {
+  const { getRequestHeader } = await import("@tanstack/react-start/server");
   const forwarded = getRequestHeader("x-forwarded-for") ?? "";
   const ip = forwarded.split(",")[0]?.trim() || getRequestHeader("cf-connecting-ip") || null;
   return { ip, userAgent: getRequestHeader("user-agent") ?? null };
+}
+
+async function syncToGhl(input: {
+  firstName?: string | null;
+  lastName?: string | null;
+  email?: string | null;
+  phone?: string | null;
+  source: string;
+  tags?: string[];
+}) {
+  try {
+    const { upsertGhlContact } = await import("./ghl.server");
+    await upsertGhlContact({
+      firstName: input.firstName,
+      lastName: input.lastName,
+      email: input.email,
+      phone: input.phone,
+      source: input.source,
+      tags: ["Customer Account", ...(input.tags ?? [])],
+    });
+  } catch (error) {
+    console.error("[ghl] account sync failed", error);
+  }
 }
 
 export const getMyAccount = createServerFn({ method: "POST" })
