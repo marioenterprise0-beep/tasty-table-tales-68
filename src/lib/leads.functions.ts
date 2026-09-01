@@ -327,6 +327,23 @@ export const submitFranchiseInquiry = createServerFn({ method: "POST" })
       throw new Error("We couldn't send your inquiry. Please try again.");
     }
 
+    void syncToGhl({
+      fullName: data.fullName,
+      email: data.email,
+      phone: data.phone,
+      source: "franchise",
+      tags: ["Franchise"],
+      customFields: {
+        market: data.market,
+        capital: data.capital,
+        ownership_experience: data.hasOwnershipExperience ? "Yes" : "No",
+        experience_details: data.hasOwnershipExperience ? data.experienceDetails || null : null,
+        locations_interest: data.locationsInterest,
+        timeline: data.timeline,
+        notes: data.notes || null,
+      },
+    });
+
     const { notifyLead } = await import("./notify.server");
     await notifyLead("New franchise inquiry", [
       `Name: ${data.fullName}`,
