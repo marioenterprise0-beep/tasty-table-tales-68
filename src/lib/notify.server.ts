@@ -1,12 +1,16 @@
-/** Where website leads are emailed. */
+/** Default where website leads are emailed. */
 export const LEAD_EMAIL = "hello@gothamhalal.com";
+
+/** Dedicated inboxes for specific lead types. */
+export const CATERING_EMAIL = "catering@gothamhalal.com";
+export const FRANCHISING_EMAIL = "Franchising@gothamhalal.com";
 
 /**
  * Emails a lead notification via Resend when RESEND_API_KEY is configured.
  * Leads are always stored in the database first, so a missing key or a
  * provider outage never loses a submission.
  */
-export async function notifyLead(subject: string, lines: string[]) {
+export async function notifyLead(subject: string, lines: string[], to = LEAD_EMAIL) {
   const apiKey = process.env["RESEND_API_KEY"];
   if (!apiKey) {
     console.warn(`[lead] ${subject} stored; email skipped (RESEND_API_KEY not set)`);
@@ -24,7 +28,7 @@ export async function notifyLead(subject: string, lines: string[]) {
       },
       body: JSON.stringify({
         from,
-        to: [LEAD_EMAIL],
+        to: [to],
         subject: `${subject} — gothamhalal.com`,
         text: lines.join("\n"),
       }),
