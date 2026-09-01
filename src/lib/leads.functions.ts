@@ -190,6 +190,22 @@ export const submitCateringLead = createServerFn({ method: "POST" })
       });
     }
 
+    void syncToGhl({
+      fullName: data.fullName,
+      email: data.email,
+      phone: data.phone,
+      source: "catering",
+      tags: ["Catering Lead", ...(data.smsOptIn ? ["Text Club"] : [])],
+      customFields: {
+        event_date: data.eventDate,
+        headcount: data.headcount,
+        event_type: data.eventType,
+        event_location: data.eventLocation || null,
+        notes: data.notes || null,
+        sms_opt_in: data.smsOptIn ? "Yes" : "No",
+      },
+    });
+
     const { notifyLead } = await import("./notify.server");
     await notifyLead("New catering request", [
       `Name: ${data.fullName}`,
