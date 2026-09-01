@@ -270,6 +270,24 @@ export const submitJobApplication = createServerFn({ method: "POST" })
       });
     }
 
+    void syncToGhl({
+      fullName: data.fullName,
+      email: data.email,
+      phone: data.phone,
+      source: "careers",
+      tags: ["Careers", ...(data.smsOptIn ? ["Text Club"] : [])],
+      customFields: {
+        position: data.position,
+        preferred_location: data.preferredLocation,
+        availability: data.availability.join(", ") || null,
+        has_experience: data.hasExperience ? "Yes" : "No",
+        experience_details: data.hasExperience ? data.experienceDetails || null : null,
+        is_adult: data.isAdult ? "Yes" : "No",
+        notes: data.notes || null,
+        sms_opt_in: data.smsOptIn ? "Yes" : "No",
+      },
+    });
+
     const { notifyLead } = await import("./notify.server");
     await notifyLead("New job application", [
       `Name: ${data.fullName}`,
