@@ -73,6 +73,18 @@ export const submitOpeningSignup = createServerFn({ method: "POST" })
       userAgent: meta.userAgent,
     });
 
+    void syncToGhl({
+      firstName: data.firstName,
+      email: data.email || null,
+      phone: data.phone,
+      source: "opening_day",
+      tags: ["Opening Day", ...(data.smsOptIn ? ["Text Club"] : [])],
+      customFields: {
+        location: data.locationSlug,
+        sms_opt_in: data.smsOptIn ? "Yes" : "No",
+      },
+    });
+
     const { notifyLead } = await import("./notify.server");
     await notifyLead("New opening day signup", [
       `Name: ${data.firstName}`,
