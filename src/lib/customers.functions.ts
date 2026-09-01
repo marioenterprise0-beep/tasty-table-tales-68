@@ -104,6 +104,15 @@ export const updateMyProfile = createServerFn({ method: "POST" })
       console.error("profile update failed", error.message);
       throw new Error("We couldn't save your details. Please try again.");
     }
+
+    void syncToGhl({
+      firstName: data.firstName,
+      lastName: data.lastName || null,
+      email: nextEmail,
+      phone: current.phone,
+      source: "account",
+    });
+
     return { ok: true as const, emailNeedsVerification: emailChanged && Boolean(nextEmail) };
   });
 
