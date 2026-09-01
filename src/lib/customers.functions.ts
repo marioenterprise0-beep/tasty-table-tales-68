@@ -102,7 +102,7 @@ export const updateMyPreferences = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { recordConsent, suppress, unsuppress } = await import("./customers.server");
-    const { ip, userAgent } = requestMeta();
+    const { ip, userAgent } = await requestMeta();
     const now = new Date().toISOString();
 
     const { data: current, error: readError } = await supabaseAdmin
