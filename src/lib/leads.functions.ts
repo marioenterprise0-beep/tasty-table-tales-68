@@ -206,18 +206,22 @@ export const submitCateringLead = createServerFn({ method: "POST" })
       },
     });
 
-    const { notifyLead } = await import("./notify.server");
-    await notifyLead("New catering request", [
-      `Name: ${data.fullName}`,
-      `Phone: ${data.phone}`,
-      `Email: ${data.email}`,
-      `Event date: ${data.eventDate}`,
-      `Headcount: ${data.headcount}`,
-      `Event type: ${data.eventType}`,
-      `Location: ${data.eventLocation || "—"}`,
-      `Notes: ${data.notes || "—"}`,
-      `Text club opt-in: ${data.smsOptIn ? "Yes" : "No"}`,
-    ]);
+    const { notifyLead, CATERING_EMAIL } = await import("./notify.server");
+    await notifyLead(
+      "New catering request",
+      [
+        `Name: ${data.fullName}`,
+        `Phone: ${data.phone}`,
+        `Email: ${data.email}`,
+        `Event date: ${data.eventDate}`,
+        `Headcount: ${data.headcount}`,
+        `Event type: ${data.eventType}`,
+        `Location: ${data.eventLocation || "—"}`,
+        `Notes: ${data.notes || "—"}`,
+        `Text club opt-in: ${data.smsOptIn ? "Yes" : "No"}`,
+      ],
+      CATERING_EMAIL,
+    );
 
     return { ok: true as const };
   });
@@ -344,19 +348,23 @@ export const submitFranchiseInquiry = createServerFn({ method: "POST" })
       },
     });
 
-    const { notifyLead } = await import("./notify.server");
-    await notifyLead("New franchise inquiry", [
-      `Name: ${data.fullName}`,
-      `Phone: ${data.phone}`,
-      `Email: ${data.email}`,
-      `Market: ${data.market}`,
-      `Capital: ${data.capital}`,
-      `Ownership experience: ${data.hasOwnershipExperience ? "Yes" : "No"}`,
-      `Details: ${data.hasOwnershipExperience ? data.experienceDetails || "—" : "—"}`,
-      `Locations of interest: ${data.locationsInterest}`,
-      `Timeline: ${data.timeline}`,
-      `Notes: ${data.notes || "—"}`,
-    ]);
+    const { notifyLead, FRANCHISING_EMAIL } = await import("./notify.server");
+    await notifyLead(
+      "New franchise inquiry",
+      [
+        `Name: ${data.fullName}`,
+        `Phone: ${data.phone}`,
+        `Email: ${data.email}`,
+        `Market: ${data.market}`,
+        `Capital: ${data.capital}`,
+        `Ownership experience: ${data.hasOwnershipExperience ? "Yes" : "No"}`,
+        `Details: ${data.hasOwnershipExperience ? data.experienceDetails || "—" : "—"}`,
+        `Locations of interest: ${data.locationsInterest}`,
+        `Timeline: ${data.timeline}`,
+        `Notes: ${data.notes || "—"}`,
+      ],
+      FRANCHISING_EMAIL,
+    );
 
     return { ok: true as const };
   });
