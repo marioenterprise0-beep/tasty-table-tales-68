@@ -124,6 +124,17 @@ export const submitTextClub = createServerFn({ method: "POST" })
       userAgent: meta.userAgent,
     });
 
+    void syncToGhl({
+      firstName: data.firstName,
+      phone: data.phone,
+      source: data.source,
+      tags: ["Text Club"],
+      customFields: {
+        signup_source: data.source,
+        sms_opt_in: "Yes",
+      },
+    });
+
     const { notifyLead } = await import("./notify.server");
     await notifyLead("New text club signup", [
       `Name: ${data.firstName}`,
