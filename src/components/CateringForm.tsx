@@ -16,7 +16,7 @@ function todayIso() {
 
 const EVENT_TYPES = ["Office Lunch", "Party", "Wedding", "Corporate Event", "Other"] as const;
 
-export const CATERING_EMAIL = "hello@gothamhalal.com";
+export const CATERING_EMAIL = "catering@gothamhalal.com";
 
 export function CateringForm() {
   const submit = useServerFn(submitCateringLead);
