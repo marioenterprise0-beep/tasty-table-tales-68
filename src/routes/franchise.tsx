@@ -77,7 +77,10 @@ function FranchisePage() {
             Franchise Inquiry
           </h2>
           <p className="mt-2 text-sm text-white/75">
-            The more detail you give us, the faster we can tell you if there&apos;s a fit.
+            The more detail you give us, the faster we can tell you if there&apos;s a fit. Prefer email?{" "}
+            <a href="mailto:Franchising@gothamhalal.com" className="text-gold hover:underline">
+              Franchising@gothamhalal.com
+            </a>
           </p>
           <div className="mt-7">
             <FranchiseForm />
