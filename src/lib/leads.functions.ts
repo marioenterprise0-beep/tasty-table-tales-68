@@ -1,5 +1,4 @@
 import { createServerFn } from "@tanstack/react-start";
-import { getRequestHeader } from "@tanstack/react-start/server";
 import {
   cateringLeadSchema,
   franchiseInquirySchema,
@@ -8,12 +7,41 @@ import {
   textClubSchema,
 } from "./leads.schemas";
 
-function requestMeta() {
+async function requestMeta() {
+  const { getRequestHeader } = await import("@tanstack/react-start/server");
   const forwarded = getRequestHeader("x-forwarded-for") ?? "";
   return {
     ip: forwarded.split(",")[0]?.trim() || getRequestHeader("cf-connecting-ip") || null,
     userAgent: getRequestHeader("user-agent") ?? null,
   };
+}
+
+async function syncToGhl(input: {
+  firstName?: string | null;
+  lastName?: string | null;
+  fullName?: string | null;
+  email?: string | null;
+  phone: string;
+  source: string;
+  tags: string[];
+  customFields?: Record<string, string | number | boolean | null>;
+}) {
+  try {
+    const { upsertGhlContact } = await import("./ghl.server");
+    const first = input.firstName ?? input.fullName?.split(" ")[0] ?? null;
+    const last = input.lastName ?? input.fullName?.split(" ").slice(1).join(" ") || null;
+    await upsertGhlContact({
+      firstName: first,
+      lastName: last,
+      email: input.email,
+      phone: input.phone,
+      source: input.source,
+      tags: input.tags,
+      customFields: input.customFields,
+    });
+  } catch (error) {
+    console.error("[ghl] sync failed", error);
+  }
 }
 
 export const submitOpeningSignup = createServerFn({ method: "POST" })
