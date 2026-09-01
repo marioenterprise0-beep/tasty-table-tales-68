@@ -1,5 +1,4 @@
 import { createServerFn } from "@tanstack/react-start";
-import { getRequestHeader } from "@tanstack/react-start/server";
 import {
   cateringLeadSchema,
   franchiseInquirySchema,
@@ -8,12 +7,41 @@ import {
   textClubSchema,
 } from "./leads.schemas";
 
-function requestMeta() {
+async function requestMeta() {
+  const { getRequestHeader } = await import("@tanstack/react-start/server");
   const forwarded = getRequestHeader("x-forwarded-for") ?? "";
   return {
     ip: forwarded.split(",")[0]?.trim() || getRequestHeader("cf-connecting-ip") || null,
     userAgent: getRequestHeader("user-agent") ?? null,
   };
+}
+
+async function syncToGhl(input: {
+  firstName?: string | null;
+  lastName?: string | null;
+  fullName?: string | null;
+  email?: string | null;
+  phone: string;
+  source: string;
+  tags: string[];
+  customFields?: Record<string, string | number | boolean | null>;
+}) {
+  try {
+    const { upsertGhlContact } = await import("./ghl.server");
+    const first = (input.firstName ?? input.fullName?.split(" ")[0]) || null;
+    const last = (input.lastName ?? input.fullName?.split(" ").slice(1).join(" ")) || null;
+    await upsertGhlContact({
+      firstName: first,
+      lastName: last,
+      email: input.email,
+      phone: input.phone,
+      source: input.source,
+      tags: input.tags,
+      customFields: input.customFields,
+    });
+  } catch (error) {
+    console.error("[ghl] sync failed", error);
+  }
 }
 
 export const submitOpeningSignup = createServerFn({ method: "POST" })
@@ -34,7 +62,7 @@ export const submitOpeningSignup = createServerFn({ method: "POST" })
     }
 
     const { upsertCustomerFromSignup } = await import("./customers.server");
-    const meta = requestMeta();
+    const meta = await requestMeta();
     await upsertCustomerFromSignup({
       phone: data.phone,
       firstName: data.firstName,
@@ -43,6 +71,18 @@ export const submitOpeningSignup = createServerFn({ method: "POST" })
       source: "opening_day",
       ip: meta.ip,
       userAgent: meta.userAgent,
+    });
+
+    void syncToGhl({
+      firstName: data.firstName,
+      email: data.email || null,
+      phone: data.phone,
+      source: "opening_day",
+      tags: ["Opening Day", ...(data.smsOptIn ? ["Text Club"] : [])],
+      customFields: {
+        location: data.locationSlug,
+        sms_opt_in: data.smsOptIn ? "Yes" : "No",
+      },
     });
 
     const { notifyLead } = await import("./notify.server");
@@ -74,7 +114,7 @@ export const submitTextClub = createServerFn({ method: "POST" })
     }
 
     const { upsertCustomerFromSignup } = await import("./customers.server");
-    const meta = requestMeta();
+    const meta = await requestMeta();
     await upsertCustomerFromSignup({
       phone: data.phone,
       firstName: data.firstName,
@@ -82,6 +122,17 @@ export const submitTextClub = createServerFn({ method: "POST" })
       source: data.source,
       ip: meta.ip,
       userAgent: meta.userAgent,
+    });
+
+    void syncToGhl({
+      firstName: data.firstName,
+      phone: data.phone,
+      source: data.source,
+      tags: ["Text Club"],
+      customFields: {
+        signup_source: data.source,
+        sms_opt_in: "Yes",
+      },
     });
 
     const { notifyLead } = await import("./notify.server");
@@ -127,7 +178,7 @@ export const submitCateringLead = createServerFn({ method: "POST" })
 
     {
       const { upsertCustomerFromSignup } = await import("./customers.server");
-      const meta = requestMeta();
+      const meta = await requestMeta();
       await upsertCustomerFromSignup({
         phone: data.phone,
         firstName: data.fullName.split(" ")[0] ?? data.fullName,
@@ -138,6 +189,22 @@ export const submitCateringLead = createServerFn({ method: "POST" })
         userAgent: meta.userAgent,
       });
     }
+
+    void syncToGhl({
+      fullName: data.fullName,
+      email: data.email,
+      phone: data.phone,
+      source: "catering",
+      tags: ["Catering Lead", ...(data.smsOptIn ? ["Text Club"] : [])],
+      customFields: {
+        event_date: data.eventDate,
+        headcount: data.headcount,
+        event_type: data.eventType,
+        event_location: data.eventLocation || null,
+        notes: data.notes || null,
+        sms_opt_in: data.smsOptIn ? "Yes" : "No",
+      },
+    });
 
     const { notifyLead } = await import("./notify.server");
     await notifyLead("New catering request", [
@@ -191,7 +258,7 @@ export const submitJobApplication = createServerFn({ method: "POST" })
 
     {
       const { upsertCustomerFromSignup } = await import("./customers.server");
-      const meta = requestMeta();
+      const meta = await requestMeta();
       await upsertCustomerFromSignup({
         phone: data.phone,
         firstName: data.fullName.split(" ")[0] ?? data.fullName,
@@ -202,6 +269,24 @@ export const submitJobApplication = createServerFn({ method: "POST" })
         userAgent: meta.userAgent,
       });
     }
+
+    void syncToGhl({
+      fullName: data.fullName,
+      email: data.email,
+      phone: data.phone,
+      source: "careers",
+      tags: ["Careers", ...(data.smsOptIn ? ["Text Club"] : [])],
+      customFields: {
+        position: data.position,
+        preferred_location: data.preferredLocation,
+        availability: data.availability.join(", ") || null,
+        has_experience: data.hasExperience ? "Yes" : "No",
+        experience_details: data.hasExperience ? data.experienceDetails || null : null,
+        is_adult: data.isAdult ? "Yes" : "No",
+        notes: data.notes || null,
+        sms_opt_in: data.smsOptIn ? "Yes" : "No",
+      },
+    });
 
     const { notifyLead } = await import("./notify.server");
     await notifyLead("New job application", [
@@ -241,6 +326,23 @@ export const submitFranchiseInquiry = createServerFn({ method: "POST" })
       console.error("franchise inquiry insert failed", error.message);
       throw new Error("We couldn't send your inquiry. Please try again.");
     }
+
+    void syncToGhl({
+      fullName: data.fullName,
+      email: data.email,
+      phone: data.phone,
+      source: "franchise",
+      tags: ["Franchise"],
+      customFields: {
+        market: data.market,
+        capital: data.capital,
+        ownership_experience: data.hasOwnershipExperience ? "Yes" : "No",
+        experience_details: data.hasOwnershipExperience ? data.experienceDetails || null : null,
+        locations_interest: data.locationsInterest,
+        timeline: data.timeline,
+        notes: data.notes || null,
+      },
+    });
 
     const { notifyLead } = await import("./notify.server");
     await notifyLead("New franchise inquiry", [

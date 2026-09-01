@@ -1,12 +1,35 @@
 import { createServerFn } from "@tanstack/react-start";
-import { getRequestHeader } from "@tanstack/react-start/server";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { profileSchema, preferencesSchema } from "./customers.schemas";
 
-function requestMeta() {
+async function requestMeta() {
+  const { getRequestHeader } = await import("@tanstack/react-start/server");
   const forwarded = getRequestHeader("x-forwarded-for") ?? "";
   const ip = forwarded.split(",")[0]?.trim() || getRequestHeader("cf-connecting-ip") || null;
   return { ip, userAgent: getRequestHeader("user-agent") ?? null };
+}
+
+async function syncToGhl(input: {
+  firstName?: string | null;
+  lastName?: string | null;
+  email?: string | null;
+  phone?: string | null;
+  source: string;
+  tags?: string[];
+}) {
+  try {
+    const { upsertGhlContact } = await import("./ghl.server");
+    await upsertGhlContact({
+      firstName: input.firstName,
+      lastName: input.lastName,
+      email: input.email,
+      phone: input.phone,
+      source: input.source,
+      tags: ["Customer Account", ...(input.tags ?? [])],
+    });
+  } catch (error) {
+    console.error("[ghl] account sync failed", error);
+  }
 }
 
 export const getMyAccount = createServerFn({ method: "POST" })
@@ -19,6 +42,17 @@ export const getMyAccount = createServerFn({ method: "POST" })
       phone: claims.phone ?? null,
       email: claims.email ?? null,
     });
+
+    if (record) {
+      void syncToGhl({
+        firstName: record.first_name,
+        lastName: record.last_name,
+        email: record.email,
+        phone: record.phone,
+        source: "account",
+      });
+    }
+
     return record;
   });
 
@@ -30,7 +64,7 @@ export const updateMyProfile = createServerFn({ method: "POST" })
 
     const { data: current } = await supabaseAdmin
       .from("customers")
-      .select("id, email, email_verified")
+      .select("id, email, email_verified, phone")
       .eq("user_id", context.userId)
       .maybeSingle();
     if (!current) throw new Error("We couldn't find your account.");
@@ -70,6 +104,15 @@ export const updateMyProfile = createServerFn({ method: "POST" })
       console.error("profile update failed", error.message);
       throw new Error("We couldn't save your details. Please try again.");
     }
+
+    void syncToGhl({
+      firstName: data.firstName,
+      lastName: data.lastName || null,
+      email: nextEmail,
+      phone: current.phone,
+      source: "account",
+    });
+
     return { ok: true as const, emailNeedsVerification: emailChanged && Boolean(nextEmail) };
   });
 
@@ -79,12 +122,12 @@ export const updateMyPreferences = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { recordConsent, suppress, unsuppress } = await import("./customers.server");
-    const { ip, userAgent } = requestMeta();
+    const { ip, userAgent } = await requestMeta();
     const now = new Date().toISOString();
 
     const { data: current, error: readError } = await supabaseAdmin
       .from("customers")
-      .select("id, phone, email, sms_opt_in, email_opt_in")
+      .select("id, phone, email, first_name, last_name, sms_opt_in, email_opt_in")
       .eq("user_id", context.userId)
       .maybeSingle();
     if (readError || !current) throw new Error("We couldn't find your account.");
@@ -140,6 +183,18 @@ export const updateMyPreferences = createServerFn({ method: "POST" })
       if (data.emailOptIn) await unsuppress("email", current.email.toLowerCase());
       else await suppress("email", current.email.toLowerCase(), "account_page");
     }
+
+    void syncToGhl({
+      firstName: current.first_name,
+      lastName: current.last_name,
+      email: current.email,
+      phone: current.phone,
+      source: "account",
+      tags: [
+        ...(data.smsOptIn ? ["SMS Opted In"] : []),
+        ...(data.emailOptIn ? ["Email Opted In"] : []),
+      ],
+    });
 
     return { ok: true as const };
   });
