@@ -28,8 +28,8 @@ async function syncToGhl(input: {
 }) {
   try {
     const { upsertGhlContact } = await import("./ghl.server");
-    const first = input.firstName ?? input.fullName?.split(" ")[0] ?? null;
-    const last = input.lastName ?? input.fullName?.split(" ").slice(1).join(" ") || null;
+    const first = (input.firstName ?? input.fullName?.split(" ")[0]) || null;
+    const last = (input.lastName ?? input.fullName?.split(" ").slice(1).join(" ")) || null;
     await upsertGhlContact({
       firstName: first,
       lastName: last,
