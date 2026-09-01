@@ -62,7 +62,7 @@ export const submitOpeningSignup = createServerFn({ method: "POST" })
     }
 
     const { upsertCustomerFromSignup } = await import("./customers.server");
-    const meta = requestMeta();
+    const meta = await requestMeta();
     await upsertCustomerFromSignup({
       phone: data.phone,
       firstName: data.firstName,
@@ -102,7 +102,7 @@ export const submitTextClub = createServerFn({ method: "POST" })
     }
 
     const { upsertCustomerFromSignup } = await import("./customers.server");
-    const meta = requestMeta();
+    const meta = await requestMeta();
     await upsertCustomerFromSignup({
       phone: data.phone,
       firstName: data.firstName,
@@ -155,7 +155,7 @@ export const submitCateringLead = createServerFn({ method: "POST" })
 
     {
       const { upsertCustomerFromSignup } = await import("./customers.server");
-      const meta = requestMeta();
+      const meta = await requestMeta();
       await upsertCustomerFromSignup({
         phone: data.phone,
         firstName: data.fullName.split(" ")[0] ?? data.fullName,
@@ -219,7 +219,7 @@ export const submitJobApplication = createServerFn({ method: "POST" })
 
     {
       const { upsertCustomerFromSignup } = await import("./customers.server");
-      const meta = requestMeta();
+      const meta = await requestMeta();
       await upsertCustomerFromSignup({
         phone: data.phone,
         firstName: data.fullName.split(" ")[0] ?? data.fullName,
