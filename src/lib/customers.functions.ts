@@ -184,6 +184,18 @@ export const updateMyPreferences = createServerFn({ method: "POST" })
       else await suppress("email", current.email.toLowerCase(), "account_page");
     }
 
+    void syncToGhl({
+      firstName: current.first_name,
+      lastName: current.last_name,
+      email: current.email,
+      phone: current.phone,
+      source: "account",
+      tags: [
+        ...(data.smsOptIn ? ["SMS Opted In"] : []),
+        ...(data.emailOptIn ? ["Email Opted In"] : []),
+      ],
+    });
+
     return { ok: true as const };
   });
 
