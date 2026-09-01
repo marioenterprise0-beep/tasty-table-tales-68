@@ -127,7 +127,7 @@ export const updateMyPreferences = createServerFn({ method: "POST" })
 
     const { data: current, error: readError } = await supabaseAdmin
       .from("customers")
-      .select("id, phone, email, sms_opt_in, email_opt_in")
+      .select("id, phone, email, first_name, last_name, sms_opt_in, email_opt_in")
       .eq("user_id", context.userId)
       .maybeSingle();
     if (readError || !current) throw new Error("We couldn't find your account.");
