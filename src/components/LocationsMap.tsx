@@ -57,12 +57,18 @@ function loadMaps(): Promise<void> {
 
   mapsLoader = new Promise<void>((resolve, reject) => {
     (window as any).__gothamMapsReady = () => resolve();
+    // Google calls this (instead of failing the script) when the key is
+    // invalid or the HTTP referrer isn't allowed — e.g. a custom domain.
+    (window as any).gm_authFailure = () => reject(new Error("Google Maps auth failure"));
     const s = document.createElement("script");
     const channel = MAPS_CHANNEL ? `&channel=${MAPS_CHANNEL}` : "";
     s.src = `https://maps.googleapis.com/maps/api/js?key=${MAPS_KEY}&loading=async&callback=__gothamMapsReady${channel}`;
     s.async = true;
     s.onerror = () => reject(new Error("Google Maps failed to load"));
     document.head.appendChild(s);
+  });
+  mapsLoader.catch(() => {
+    mapsLoader = null;
   });
   return mapsLoader;
 }
@@ -134,19 +140,28 @@ export function LocationsMap() {
 
   if (!MAPS_KEY || failed) {
     return (
-      <div className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-gold/25 bg-white/[0.03] p-10 text-center">
-        <p className="text-sm text-white/70">Map unavailable right now.</p>
-        <div className="flex flex-wrap justify-center gap-3">
+      <div className="flex h-[380px] w-full flex-col items-center justify-center gap-6 rounded-2xl border border-gold/25 bg-white/[0.03] p-10 text-center md:h-[460px]">
+        <p className="text-[11px] font-extrabold uppercase tracking-[0.28em] text-gold">
+          Find Us On The Map
+        </p>
+        <div className="flex flex-col items-center gap-5 md:flex-row md:gap-12">
           {LOCATIONS.map((l) => (
-            <a
-              key={l.slug}
-              href={l.directionsUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="pill-outline px-5 py-2 text-[11px]"
-            >
-              {l.shortName} Directions
-            </a>
+            <div key={l.slug} className="flex flex-col items-center gap-2">
+              <p className="text-sm font-extrabold uppercase tracking-[0.14em] text-cream">
+                {l.shortName}
+              </p>
+              <p className="max-w-[240px] text-xs leading-relaxed text-white/60">
+                {fullAddress(l)}
+              </p>
+              <a
+                href={l.directionsUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="pill-outline mt-1 px-5 py-2 text-[11px]"
+              >
+                Get Directions
+              </a>
+            </div>
           ))}
         </div>
       </div>
