@@ -21,6 +21,8 @@ const entries: SitemapEntry[] = [
   { path: "/franchise", changefreq: "monthly", priority: "0.6" },
   { path: "/careers", changefreq: "monthly", priority: "0.5" },
   { path: "/contact", changefreq: "monthly", priority: "0.5" },
+  { path: "/privacy", changefreq: "yearly", priority: "0.2" },
+  { path: "/terms", changefreq: "yearly", priority: "0.2" },
   { path: "/media", changefreq: "monthly", priority: "0.4" },
   { path: "/blog", changefreq: "weekly", priority: "0.7" },
   ...BLOG_POSTS.map((p) => ({
