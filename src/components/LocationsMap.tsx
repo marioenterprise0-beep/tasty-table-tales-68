@@ -57,12 +57,18 @@ function loadMaps(): Promise<void> {
 
   mapsLoader = new Promise<void>((resolve, reject) => {
     (window as any).__gothamMapsReady = () => resolve();
+    // Google calls this (instead of failing the script) when the key is
+    // invalid or the HTTP referrer isn't allowed — e.g. a custom domain.
+    (window as any).gm_authFailure = () => reject(new Error("Google Maps auth failure"));
     const s = document.createElement("script");
     const channel = MAPS_CHANNEL ? `&channel=${MAPS_CHANNEL}` : "";
     s.src = `https://maps.googleapis.com/maps/api/js?key=${MAPS_KEY}&loading=async&callback=__gothamMapsReady${channel}`;
     s.async = true;
     s.onerror = () => reject(new Error("Google Maps failed to load"));
     document.head.appendChild(s);
+  });
+  mapsLoader.catch(() => {
+    mapsLoader = null;
   });
   return mapsLoader;
 }
