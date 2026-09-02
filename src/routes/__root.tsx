@@ -90,6 +90,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     scripts: [
       {
+        src: "https://widgets.leadconnectorhq.com/loader.js",
+        "data-resources-url": "https://widgets.leadconnectorhq.com/chat-widget/loader.js",
+        "data-widget-id": "6a98361d0d86c69c86c32fe6",
+        defer: true,
+      },
+      {
         type: "application/ld+json",
         children: JSON.stringify({
           "@context": "https://schema.org",

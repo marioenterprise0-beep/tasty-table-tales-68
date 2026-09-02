@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Instagram, Phone } from "lucide-react";
+import { Instagram, Mail, Phone } from "lucide-react";
 import { INSTAGRAM_URL } from "@/components/InstagramFeed";
 import { LOCATIONS, fullAddress } from "@/data/locations";
 
@@ -35,6 +35,13 @@ export function SiteFooter() {
           >
             <Phone className="size-4 text-gold" />
             {PHONE}
+          </a>
+          <a
+            href="mailto:hello@gothamhalal.com"
+            className="inline-flex items-center gap-2 text-sm text-white/80 transition hover:text-gold"
+          >
+            <Mail className="size-4 text-gold" />
+            hello@gothamhalal.com
           </a>
         </div>
 
@@ -89,6 +96,14 @@ export function SiteFooter() {
       <div className="border-t border-gold/15">
         <div className="mx-auto flex max-w-[1500px] flex-col justify-between gap-2 px-5 py-5 text-[11px] uppercase tracking-[0.2em] text-white/45 sm:flex-row md:px-8">
           <span>© {new Date().getFullYear()} Gotham Halal</span>
+          <span className="flex gap-5">
+            <Link to="/privacy" className="transition hover:text-gold">
+              Privacy Policy
+            </Link>
+            <Link to="/terms" className="transition hover:text-gold">
+              Terms of Service
+            </Link>
+          </span>
           <span>100% Halal · Est. 2024</span>
         </div>
       </div>
