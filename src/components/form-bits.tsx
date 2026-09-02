@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link } from "@tanstack/react-router";
 import { Label } from "@/components/ui/label";
 import { SMS_DISCLAIMER } from "@/data/forms";
 
@@ -29,7 +30,19 @@ export function Field({
 
 /** Small print required under every phone field. */
 export function PhoneDisclaimer() {
-  return <p className="text-[11.5px] leading-snug text-white/45">{SMS_DISCLAIMER}</p>;
+  return (
+    <p className="text-[11.5px] leading-snug text-white/45">
+      {SMS_DISCLAIMER} See our{" "}
+      <Link to="/privacy" className="underline underline-offset-2 hover:text-gold">
+        Privacy Policy
+      </Link>{" "}
+      and{" "}
+      <Link to="/terms" className="underline underline-offset-2 hover:text-gold">
+        Terms
+      </Link>
+      .
+    </p>
+  );
 }
 
 export function YesNo({

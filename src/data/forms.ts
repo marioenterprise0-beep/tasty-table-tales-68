@@ -34,7 +34,7 @@ export const LOCATION_COUNTS = ["1", "2–3", "4+", "Not sure yet"] as const;
 export const TIMELINES = ["Ready now", "3–6 months", "6–12 months", "Just exploring"] as const;
 
 /** Required small print under every phone field. */
-export const SMS_DISCLAIMER = "Message and data rates may apply. Reply STOP to opt out.";
+export const SMS_DISCLAIMER = "By submitting, you agree to receive marketing text messages from GOTHAM HALAL LLC. Msg frequency varies. Msg & data rates may apply. Consent is not a condition of purchase. Reply STOP to unsubscribe, HELP for help.";
 
 /** Copy shown after a successful text club signup. */
 export const TEXT_CLUB_CONFIRMATION = "You're in. Keep an eye on your phone.";
