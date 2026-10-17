@@ -15,6 +15,7 @@ export const Route = createFileRoute("/privacy")({
         content: "How Gotham Halal collects, uses, and protects your information.",
       },
       { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
     links: [{ rel: "canonical", href: "/privacy" }],
   }),

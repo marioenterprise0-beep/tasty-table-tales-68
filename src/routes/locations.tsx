@@ -7,9 +7,9 @@ export const Route = createFileRoute("/locations")({
   head: () => ({
     meta: [
       { title: "Locations — Gotham Halal Rochester, NY" },
-      { name: "description", content: "Gotham Halal locations in Rochester, NY — West Ridge Road now open and Jefferson Road opening soon. Hours, directions and ordering." },
+      { name: "description", content: "Both Gotham Halal locations are open in Rochester, NY: West Ridge Road and Jefferson Road behind Taco Bell. Hours, directions and ordering." },
       { property: "og:title", content: "Locations — Gotham Halal" },
-      { property: "og:description", content: "West Ridge Road is open and Jefferson Road is opening soon in Rochester, NY." },
+      { property: "og:description", content: "Visit West Ridge Road or Jefferson Road behind Taco Bell — both Gotham Halal locations are open." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { property: "og:url", content: "/locations" },
