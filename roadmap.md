@@ -3,5 +3,6 @@
 - [x] Show Jefferson Road as open and identify it as behind Taco Bell.
 - [x] Match site accents and background artwork to the logo gold.
 - [x] Verify ordering redirects, location state, phone layout, and website health.
-- [ ] Test catering, franchise, and careers submissions and confirm saved requests and delivery status.
+- [x] Test catering, franchise, and careers submissions; confirm saved requests and correct GoHighLevel contacts/tags.
+- [ ] Enable and verify form email notifications — blocked by missing email service credentials; requests still save and reach GoHighLevel.
 - [ ] Verify a complete POS purchase and notification — blocked by the POS website's country restriction on the testing connection.
