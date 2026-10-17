@@ -190,7 +190,7 @@ export const submitCateringLead = createServerFn({ method: "POST" })
       });
     }
 
-    void syncToGhl({
+    await syncToGhl({
       fullName: data.fullName,
       email: data.email,
       phone: data.phone,
@@ -274,7 +274,7 @@ export const submitJobApplication = createServerFn({ method: "POST" })
       });
     }
 
-    void syncToGhl({
+    await syncToGhl({
       fullName: data.fullName,
       email: data.email,
       phone: data.phone,
@@ -331,7 +331,7 @@ export const submitFranchiseInquiry = createServerFn({ method: "POST" })
       throw new Error("We couldn't send your inquiry. Please try again.");
     }
 
-    void syncToGhl({
+    await syncToGhl({
       fullName: data.fullName,
       email: data.email,
       phone: data.phone,

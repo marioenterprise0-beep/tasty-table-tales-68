@@ -52,7 +52,7 @@ async function findContactByEmail(email: string) {
   const creds = getCredentials();
   if (!creds) return null;
 
-  const query = new URLSearchParams({ location_id: creds.locationId, email: email.toLowerCase() });
+  const query = new URLSearchParams({ locationId: creds.locationId, query: email.toLowerCase() });
   const data = (await ghlFetch(`/contacts/?${query.toString()}`, { method: "GET" })) as
     | { contacts: Array<{ id: string; email?: string; phone?: string }> }
     | undefined;
@@ -66,7 +66,7 @@ async function findContactByPhone(phone: string) {
   const normalized = normalizePhone(phone);
   if (!normalized) return null;
 
-  const query = new URLSearchParams({ location_id: creds.locationId, phone: normalized });
+  const query = new URLSearchParams({ locationId: creds.locationId, query: normalized });
   const data = (await ghlFetch(`/contacts/?${query.toString()}`, { method: "GET" })) as
     | { contacts: Array<{ id: string; email?: string; phone?: string }> }
     | undefined;
