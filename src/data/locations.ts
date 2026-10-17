@@ -40,16 +40,8 @@ const WEST_RIDGE_HOURS: WeekHours = [
   { open: "11:00", close: "24:00" }, // Sat
 ];
 
-/** Jefferson Road opening hours: 4PM–12AM every day. */
-const JEFFERSON_HOURS: WeekHours = [
-  { open: "16:00", close: "24:00" },
-  { open: "16:00", close: "24:00" },
-  { open: "16:00", close: "24:00" },
-  { open: "16:00", close: "24:00" },
-  { open: "16:00", close: "24:00" },
-  { open: "16:00", close: "24:00" },
-  { open: "16:00", close: "24:00" },
-];
+/** Jefferson Road follows the same weekly schedule as Greece (West Ridge). */
+const JEFFERSON_HOURS: WeekHours = WEST_RIDGE_HOURS;
 
 
 /** Coordinate-based directions: address strings strand people at the road. */
