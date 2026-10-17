@@ -56,7 +56,7 @@ async function findContactByEmail(email: string) {
   const data = (await ghlFetch(`/contacts/?${query.toString()}`, { method: "GET" })) as
     | { contacts: Array<{ id: string; email?: string; phone?: string }> }
     | undefined;
-  return data?.contacts?.[0] ?? null;
+  return data?.contacts?.find((contact) => contact.email?.toLowerCase() === email.toLowerCase()) ?? null;
 }
 
 async function findContactByPhone(phone: string) {
@@ -70,7 +70,7 @@ async function findContactByPhone(phone: string) {
   const data = (await ghlFetch(`/contacts/?${query.toString()}`, { method: "GET" })) as
     | { contacts: Array<{ id: string; email?: string; phone?: string }> }
     | undefined;
-  return data?.contacts?.[0] ?? null;
+  return data?.contacts?.find((contact) => normalizePhone(contact.phone) === normalized) ?? null;
 }
 
 export type GhlContactInput = {

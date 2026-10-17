@@ -15,7 +15,7 @@ test("GHL lookup uses its supported parameters and updates the matching contact"
       expect(url.searchParams.get("locationId")).toBe("test-location");
       expect(url.searchParams.get("query")).toBe("form-test@example.com");
       expect(url.searchParams.has("location_id")).toBe(false);
-      return Response.json({ contacts: [{ id: "test-contact" }] });
+      return Response.json({ contacts: [{ id: "test-contact", email: "form-test@example.com" }] });
     }
     return Response.json({ contact: { id: "test-contact", tags: [] } });
   };
