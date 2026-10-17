@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { MENU_DISHES, MENU_SPECIALS, BURGER_ADD_ONS, menuJsonLd, type MenuDish } from "@/data/menu";
 import { assertMenuSource } from "@/data/menu.check";
-import menuBanner from "@/assets/gotham-menu-banner.png.asset.json";
+import menuBanner from "@/assets/gotham-menu-logo-gold.webp.asset.json";
 import { Input } from "@/components/ui/input";
 import {
   Dialog,
