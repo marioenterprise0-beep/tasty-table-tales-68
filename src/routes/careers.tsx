@@ -20,7 +20,7 @@ export const Route = createFileRoute("/careers")({
 const CULTURE = [
   { title: "Flexible shifts", copy: "Built around school and life." },
   { title: "Real training", copy: "No experience needed. We teach the line." },
-  { title: "Grow with us", copy: "Second location opening. More coming." },
+  { title: "Grow with us", copy: "Two locations open. More coming." },
 ];
 
 function CareersPage() {
@@ -34,7 +34,7 @@ function CareersPage() {
             <span className="block text-gold">Crew</span>
           </h1>
           <p className="mt-5 max-w-xl text-[16px] leading-snug text-white/85">
-            Gotham Halal is a growing Rochester halal brand opening a second location. We&apos;re
+            Gotham Halal is a growing Rochester halal brand with two open locations. We&apos;re
             adding people to the grill, the counter and the trailer — apply below.
           </p>
         </div>

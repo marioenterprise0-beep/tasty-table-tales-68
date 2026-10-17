@@ -15,6 +15,7 @@ export const Route = createFileRoute("/terms")({
         content: "Terms of service for using the Gotham Halal website and services.",
       },
       { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
     links: [{ rel: "canonical", href: "/terms" }],
   }),

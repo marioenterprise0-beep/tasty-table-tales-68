@@ -90,7 +90,7 @@ export function OrderFlowProvider({ children }: { children: React.ReactNode }) {
   const orderAt = React.useCallback(
     (slug: string, content: string, categorySlug?: string | null) => {
       const loc = locations.find((l) => l.slug === slug);
-      if (loc) go(loc, { content, categorySlug: categorySlug ?? null });
+      if (loc?.enabled) go(loc, { content, categorySlug: categorySlug ?? null });
     },
     [locations, go],
   );
@@ -108,7 +108,8 @@ export function OrderFlowProvider({ children }: { children: React.ReactNode }) {
         orderAt(saved, content, categorySlug);
         return;
       }
-      if (enabled.length <= 1) {
+      // A shared POS website handles the location selection itself.
+      if (enabled.length <= 1 || enabled.every((loc) => loc.orderUrl === enabled[0]?.orderUrl)) {
         if (enabled[0]) go(enabled[0], { content, categorySlug: categorySlug ?? null });
         return;
       }

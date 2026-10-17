@@ -10,9 +10,8 @@ import { FEATURED_DISHES } from "@/data/menu";
 import { assertMenuSource } from "@/data/menu.check";
 import { IMAGES, menuImage } from "@/data/images";
 import { slugify, formatPrice } from "@/lib/order";
-import { trackOrderClick } from "@/lib/analytics";
-import heroBg from "@/assets/gotham-hero-bg.png.asset.json";
-import footerBand from "@/assets/gotham-footer-band.png.asset.json";
+import heroBg from "@/assets/gotham-hero-logo-gold.webp.asset.json";
+import footerBand from "@/assets/gotham-footer-logo-gold.webp.asset.json";
 
 
 assertMenuSource();
@@ -66,6 +65,7 @@ function Home() {
       >
 
 
+        <div aria-hidden="true" className="absolute inset-0 bg-ink/70 md:hidden" />
         <div className="relative z-20 mx-auto grid w-full max-w-[1500px] items-center gap-8 px-5 pb-14 pt-10 md:px-10 lg:grid-cols-[minmax(0,40%)_minmax(0,60%)] lg:gap-4 lg:pb-16 lg:pt-12">
           <div className="max-w-xl">
             <h1 className="display text-[3.25rem] leading-[0.86] tracking-[-0.035em] text-white sm:text-[4rem] lg:text-[4.25rem] xl:text-[5rem]">
@@ -78,14 +78,13 @@ function Home() {
               for you.
             </p>
             <div className="mt-7 flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-              <Link
-                to="/order"
-                onClick={() => trackOrderClick("hero")}
-                className="pill-ghost-dark px-8 py-2.5 text-[12px]"
+              <OrderLink
+                content="hero"
+                className="pill-gold inline-flex h-11 min-w-36 px-8 text-[12px]"
               >
                 Order Now
-              </Link>
-              <Link to="/menu" className="pill-ghost-dark px-8 py-2.5 text-[12px]">
+              </OrderLink>
+              <Link to="/menu" className="pill-ghost-dark inline-flex h-11 min-w-36 px-8 text-[12px]">
                 View Menu
               </Link>
             </div>
