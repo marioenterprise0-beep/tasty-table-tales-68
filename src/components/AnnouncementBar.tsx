@@ -1,13 +1,12 @@
 import * as React from "react";
 import { X } from "lucide-react";
-import { useOpeningSignup } from "./OpeningSignup";
+import { Link } from "@tanstack/react-router";
 
-const KEY = "gh-announcement-dismissed";
+const KEY = "gh-jefferson-open-announcement-dismissed";
 
 export function AnnouncementBar() {
   const [hidden, setHidden] = React.useState(false);
   const [mounted, setMounted] = React.useState(false);
-  const { open } = useOpeningSignup();
 
   React.useEffect(() => {
     setMounted(true);
@@ -23,13 +22,12 @@ export function AnnouncementBar() {
   return (
     <div className="relative z-[60] bg-ink text-gold">
       <div className="mx-auto flex max-w-[1600px] items-center justify-center gap-3 px-10 py-2 md:px-12">
-        <button
-          type="button"
-          onClick={open}
+        <Link
+          to="/locations"
           className="display text-center text-[10px] leading-tight tracking-[0.14em] underline-offset-4 hover:underline sm:text-[11px]"
         >
-          Jefferson Road opens September 18 — get on the list
-        </button>
+          Jefferson Road is now open — 900 Jefferson Rd, behind Taco Bell
+        </Link>
       </div>
       <button
         type="button"
