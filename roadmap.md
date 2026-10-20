@@ -1,4 +1,5 @@
 # Website corrections
+- [ ] Add and verify AI dietary recommendations on the menu.
 - [x] Correct sitemap URLs and crawler discovery; verify SEO fixes.
 - [x] Redirect all ordering to the existing POS website and retire standalone ordering.
 - [x] Show Jefferson Road as open and identify it as behind Taco Bell.
