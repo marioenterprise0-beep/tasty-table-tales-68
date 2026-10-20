@@ -24,6 +24,7 @@ import { OrderLink } from "@/components/OrderLink";
 import { slugify, formatPrice } from "@/lib/order";
 import { getPublicMenu } from "@/lib/content.functions";
 import type { PublicMenu } from "@/lib/menu.types";
+import { DietaryRecommendations } from "@/components/DietaryRecommendations";
 
 
 assertMenuSource();
@@ -230,6 +231,10 @@ function MenuPage() {
           </p>
 
           {/* Filters */}
+          <DietaryRecommendations dishes={dishes} onSelect={(id) => {
+            const dish = dishes.find((item) => item.id === id);
+            if (dish) setSelected(dish);
+          }} />
           <div className="flex flex-col gap-4 border-b border-gold/20 pb-6 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
             <Input
               type="search"

@@ -13,3 +13,4 @@
 - Keep restaurant availability and finding notes in the shared locations data, with ordering availability synchronized to location settings; all location surfaces must agree.
 - Use the shared gold token for brand accents and recolor existing artwork when the brand palette changes; preserve uploaded artwork composition.
 - Await GoHighLevel delivery for catering, careers, and franchise requests after saving the lead; fire-and-forget work can be lost when the server request ends.
+- Dietary recommendations use server-only Lovable AI calls and the active public menu; never certify allergy safety or invent menu items.
