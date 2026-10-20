@@ -69,20 +69,18 @@ export function CateringForm() {
   return (
     <form onSubmit={onSubmit} className="request-form border-t-2 border-gold bg-card p-5 sm:p-8">
       <FormSection number="01" title="Your contact details">
-        <Field id="c-name" label="Full name">
-          <Input id="c-name" name="fullName" required maxLength={120} autoComplete="name" />
-        </Field>
-        <div className="space-y-1.5">
-          <Label htmlFor="c-phone" className="text-foreground/85">
-            Phone
-          </Label>
-          <Input id="c-phone" name="phone" type="tel" required maxLength={30} autoComplete="tel" />
-          <PhoneDisclaimer />
+        <div className="sm:col-span-2">
+          <Field id="c-name" label="Full name">
+            <Input id="c-name" name="fullName" required maxLength={120} autoComplete="name" />
+          </Field>
         </div>
-
         <Field id="c-email" label="Email">
           <Input id="c-email" name="email" type="email" required maxLength={255} autoComplete="email" />
         </Field>
+        <Field id="c-phone" label="Phone">
+          <Input id="c-phone" name="phone" type="tel" required maxLength={30} autoComplete="tel" />
+        </Field>
+        <div className="sm:col-span-2"><PhoneDisclaimer /></div>
       </FormSection>
       <FormSection number="02" title="Your event">
         <Field id="c-date" label="Event date">
@@ -95,9 +93,6 @@ export function CateringForm() {
             min={todayIso()}
             placeholder="Select a date"
           />
-        </Field>
-        <Field id="c-count" label="Headcount">
-          <Input id="c-count" name="headcount" type="number" min={1} max={100000} required />
         </Field>
         <Field id="c-type" label="Event type">
           <select
@@ -114,7 +109,10 @@ export function CateringForm() {
             ))}
           </select>
         </Field>
-        <div className="sm:col-span-2">
+        <Field id="c-count" label="Headcount">
+          <Input id="c-count" name="headcount" type="number" min={1} max={100000} required />
+        </Field>
+        <div>
           <Field id="c-loc" label="Delivery location (optional)">
             <Input id="c-loc" name="eventLocation" maxLength={300} />
           </Field>

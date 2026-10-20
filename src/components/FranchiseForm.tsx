@@ -1,7 +1,6 @@
 import * as React from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Field, FormSection, FormSuccess, PhoneDisclaimer, YesNo, selectClass } from "@/components/form-bits";
 import { CAPITAL_RANGES, LOCATION_COUNTS, TIMELINES } from "@/data/forms";
@@ -60,19 +59,18 @@ export function FranchiseForm() {
   return (
     <form onSubmit={onSubmit} className="request-form border-t-2 border-gold bg-card p-5 sm:p-8">
       <FormSection number="01" title="Your contact details">
-        <Field id="f-name" label="Full name">
-          <Input id="f-name" name="fullName" required maxLength={120} autoComplete="name" />
-        </Field>
-        <div className="space-y-1.5">
-          <Label htmlFor="f-phone" className="text-foreground/85">
-            Phone
-          </Label>
-          <Input id="f-phone" name="phone" type="tel" required maxLength={30} autoComplete="tel" />
-          <PhoneDisclaimer />
+        <div className="sm:col-span-2">
+          <Field id="f-name" label="Full name">
+            <Input id="f-name" name="fullName" required maxLength={120} autoComplete="name" />
+          </Field>
         </div>
         <Field id="f-email" label="Email">
           <Input id="f-email" name="email" type="email" required maxLength={255} autoComplete="email" />
         </Field>
+        <Field id="f-phone" label="Phone">
+          <Input id="f-phone" name="phone" type="tel" required maxLength={30} autoComplete="tel" />
+        </Field>
+        <div className="sm:col-span-2"><PhoneDisclaimer /></div>
       </FormSection>
       <FormSection number="02" title="Your opportunity">
         <Field id="f-market" label="City / market of interest">
