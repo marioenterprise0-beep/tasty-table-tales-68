@@ -4,7 +4,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
-import { PhoneDisclaimer } from "@/components/form-bits";
+import { Field, FormSection, PhoneDisclaimer } from "@/components/form-bits";
+import { Button } from "@/components/ui/button";
+import { ArrowRight, Check } from "lucide-react";
 import { submitCateringLead } from "@/lib/leads.functions";
 
 /** Today in YYYY-MM-DD, local time — used to block past dates. */
@@ -51,9 +53,9 @@ export function CateringForm() {
 
   if (status === "done") {
     return (
-      <div className="rounded-2xl border border-gold/30 bg-white/[0.03] p-8 text-center">
-        <h3 className="display text-xl text-gold">Request Received</h3>
-        <p className="mt-3 text-sm text-white/80">
+      <div className="rounded-lg border border-gold/30 bg-card p-8 text-center">
+        <Check className="mx-auto mb-4 size-8 text-gold" /><h3 className="display text-xl text-gold">Request Received</h3>
+        <p className="mt-3 text-sm text-foreground/85">
           Thanks — we&apos;ll get back to you within one business day. Need it sooner? Email{" "}
           <a href={`mailto:${CATERING_EMAIL}`} className="text-gold hover:underline">
             {CATERING_EMAIL}
@@ -65,13 +67,13 @@ export function CateringForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="rounded-2xl border border-gold/25 bg-white/[0.03] p-6 md:p-8">
-      <div className="grid gap-5 sm:grid-cols-2">
+    <form onSubmit={onSubmit} className="request-form border-t-2 border-gold bg-card p-5 sm:p-8">
+      <FormSection number="01" title="Your contact details">
         <Field id="c-name" label="Full name">
           <Input id="c-name" name="fullName" required maxLength={120} autoComplete="name" />
         </Field>
         <div className="space-y-1.5">
-          <Label htmlFor="c-phone" className="text-white/80">
+          <Label htmlFor="c-phone" className="text-foreground/85">
             Phone
           </Label>
           <Input id="c-phone" name="phone" type="tel" required maxLength={30} autoComplete="tel" />
@@ -81,6 +83,8 @@ export function CateringForm() {
         <Field id="c-email" label="Email">
           <Input id="c-email" name="email" type="email" required maxLength={255} autoComplete="email" />
         </Field>
+      </FormSection>
+      <FormSection number="02" title="Your event">
         <Field id="c-date" label="Event date">
           <Input
             id="c-date"
@@ -120,9 +124,11 @@ export function CateringForm() {
             <Textarea id="c-notes" name="notes" rows={4} maxLength={2000} />
           </Field>
         </div>
-        <div className="flex items-center gap-3 sm:col-span-2">
+      </FormSection>
+      <div className="mt-6 border-t border-border pt-6">
+        <div className="flex items-center gap-3">
           <Checkbox id="c-sms" name="smsOptIn" />
-          <Label htmlFor="c-sms" className="text-sm font-normal text-white/80">
+          <Label htmlFor="c-sms" className="text-sm font-normal text-foreground/85">
             Text me Gotham Halal deals and updates
           </Label>
         </div>
@@ -131,10 +137,11 @@ export function CateringForm() {
       {error && <p className="mt-4 text-sm text-destructive">{error}</p>}
 
       <div className="mt-6 flex flex-wrap items-center gap-4">
-        <button type="submit" disabled={status === "sending"} className="pill-gold px-8 py-3 text-[12px] disabled:opacity-60">
+        <Button type="submit" disabled={status === "sending"} className="h-12 w-full rounded-full px-7 sm:w-auto">
           {status === "sending" ? "Sending…" : "Request Catering"}
-        </button>
-        <a href={`mailto:${CATERING_EMAIL}`} className="text-sm text-white/70 hover:text-gold">
+          <ArrowRight />
+        </Button>
+        <a href={`mailto:${CATERING_EMAIL}`} className="text-sm text-muted-foreground hover:text-gold">
           or email {CATERING_EMAIL}
         </a>
       </div>
@@ -142,13 +149,3 @@ export function CateringForm() {
   );
 }
 
-function Field({ id, label, children }: { id: string; label: string; children: React.ReactNode }) {
-  return (
-    <div className="space-y-1.5">
-      <Label htmlFor={id} className="text-white/80">
-        {label}
-      </Label>
-      {children}
-    </div>
-  );
-}

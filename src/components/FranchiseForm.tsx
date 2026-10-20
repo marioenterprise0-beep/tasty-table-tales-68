@@ -3,8 +3,10 @@ import { useServerFn } from "@tanstack/react-start";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Field, FormSuccess, PhoneDisclaimer, YesNo, selectClass } from "@/components/form-bits";
+import { Field, FormSection, FormSuccess, PhoneDisclaimer, YesNo, selectClass } from "@/components/form-bits";
 import { CAPITAL_RANGES, LOCATION_COUNTS, TIMELINES } from "@/data/forms";
+import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
 import { submitFranchiseInquiry } from "@/lib/leads.functions";
 
 export function FranchiseForm() {
@@ -56,13 +58,13 @@ export function FranchiseForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="rounded-2xl border border-gold/25 bg-white/[0.03] p-6 md:p-8">
-      <div className="grid gap-5 sm:grid-cols-2">
+    <form onSubmit={onSubmit} className="request-form border-t-2 border-gold bg-card p-5 sm:p-8">
+      <FormSection number="01" title="Your contact details">
         <Field id="f-name" label="Full name">
           <Input id="f-name" name="fullName" required maxLength={120} autoComplete="name" />
         </Field>
         <div className="space-y-1.5">
-          <Label htmlFor="f-phone" className="text-white/80">
+          <Label htmlFor="f-phone" className="text-foreground/85">
             Phone
           </Label>
           <Input id="f-phone" name="phone" type="tel" required maxLength={30} autoComplete="tel" />
@@ -71,6 +73,8 @@ export function FranchiseForm() {
         <Field id="f-email" label="Email">
           <Input id="f-email" name="email" type="email" required maxLength={255} autoComplete="email" />
         </Field>
+      </FormSection>
+      <FormSection number="02" title="Your opportunity">
         <Field id="f-market" label="City / market of interest">
           <Input id="f-market" name="market" required maxLength={160} />
         </Field>
@@ -108,6 +112,8 @@ export function FranchiseForm() {
           </select>
         </Field>
 
+      </FormSection>
+      <FormSection number="03" title="Your experience">
         <div className="sm:col-span-2">
           <YesNo
             name="hasOwnershipExperience"
@@ -130,17 +136,18 @@ export function FranchiseForm() {
             <Textarea id="f-notes" name="notes" rows={4} maxLength={2000} />
           </Field>
         </div>
-      </div>
+      </FormSection>
 
       {error && <p className="mt-4 text-sm text-destructive">{error}</p>}
 
-      <button
+      <Button
         type="submit"
         disabled={status === "sending"}
-        className="pill-gold mt-6 px-8 py-3 text-[12px] disabled:opacity-60"
+        className="mt-7 h-12 w-full rounded-full px-7 sm:w-auto"
       >
         {status === "sending" ? "Sending…" : "Submit Inquiry"}
-      </button>
+        <ArrowRight />
+      </Button>
     </form>
   );
 }
