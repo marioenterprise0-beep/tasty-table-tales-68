@@ -1,6 +1,9 @@
 /** Single source of truth for online ordering. */
 export const ORDER_URL = "https://ordergothamhalal.com";
 
+/** Inbox customers and staff use for order questions. */
+export const ORDER_EMAIL = "order@gothamhalal.com";
+
 export function slugify(value: string) {
   return value
     .toLowerCase()

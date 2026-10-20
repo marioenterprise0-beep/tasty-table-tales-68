@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { LocationCard, useNow } from "@/components/LocationsBlock";
 import { LocationsMap } from "@/components/LocationsMap";
 import { DAY_LABELS, LOCATIONS, hoursLabel } from "@/data/locations";
+import { ORDER_EMAIL } from "@/lib/order";
 
 export const Route = createFileRoute("/locations")({
   head: () => ({
@@ -66,6 +67,14 @@ function LocationsPage() {
             <LocationCard key={l.slug} location={l} now={now} />
           ))}
         </div>
+
+        <p className="mt-6 text-[13.5px] text-white/70">
+          Questions about an order? Email{" "}
+          <a href={`mailto:${ORDER_EMAIL}`} className="text-gold underline-offset-4 hover:underline">
+            {ORDER_EMAIL}
+          </a>
+          .
+        </p>
 
         <div className="mt-12">
           <h2 className="display text-[15px] tracking-[0.03em] text-gold">Find Us On The Map</h2>
