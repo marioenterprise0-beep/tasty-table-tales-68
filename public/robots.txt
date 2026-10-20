@@ -4,3 +4,4 @@ Disallow: /account
 Disallow: /admin
 Disallow: /auth
 Disallow: /unsubscribe
+Sitemap: https://gothamhalal.com/sitemap.xml
