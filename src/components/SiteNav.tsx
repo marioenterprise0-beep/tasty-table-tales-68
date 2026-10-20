@@ -1,7 +1,8 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 
-import { Instagram } from "lucide-react";
+import { Instagram, MapPin } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { OrderLink } from "@/components/OrderLink";
 import { useOrderFlow } from "@/components/OrderFlow";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
@@ -96,18 +97,20 @@ export function SiteNav() {
 
             <AccountMenu />
 
-            <span className="hidden sm:flex flex-col items-center gap-0.5">
+            <span className="hidden sm:flex items-center gap-2">
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                onClick={openPicker}
+                title="Change location"
+                aria-label="Change location"
+                className="hidden xl:inline-flex h-10 w-10 rounded-full border border-gold/40 text-gold hover:bg-gold/10 hover:text-gold"
+              ><MapPin /></Button>
               <OrderLink
                 content="nav"
-                className="pill-gold whitespace-nowrap px-5 py-2.5 text-[11px] xl:px-7"
+                className="pill-gold h-10 whitespace-nowrap px-5 text-[11px] xl:px-7"
               />
-              <button
-                type="button"
-                onClick={openPicker}
-                className="display hidden xl:block text-[8.5px] tracking-[0.18em] text-nav-foreground/50 underline-offset-2 hover:text-gold hover:underline"
-              >
-                Change location
-              </button>
             </span>
 
 
