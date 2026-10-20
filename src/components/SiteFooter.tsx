@@ -30,27 +30,29 @@ export function SiteFooter() {
           <p className="max-w-xs text-sm text-white/60">
             Halal smash burgers and loaded fries made fresh daily. Born in Rochester, NY.
           </p>
-          <a
-            href={`tel:${PHONE.replace(/[^\d+]/g, "")}`}
-            className="inline-flex items-center gap-2 text-sm text-white/80 transition hover:text-gold"
-          >
-            <Phone className="size-4 text-gold" />
-            {PHONE}
-          </a>
-          <a
-            href="mailto:hello@gothamhalal.com"
-            className="inline-flex items-center gap-2 text-sm text-white/80 transition hover:text-gold"
-          >
-            <Mail className="size-4 text-gold" />
-            hello@gothamhalal.com
-          </a>
-          <a
-            href={`mailto:${ORDER_EMAIL}`}
-            className="inline-flex items-center gap-2 text-sm text-white/80 transition hover:text-gold"
-          >
-            <Mail className="size-4 text-gold" />
-            Orders: {ORDER_EMAIL}
-          </a>
+          <div className="flex flex-col items-start gap-2.5">
+            <a
+              href={`tel:${PHONE.replace(/[^\d+]/g, "")}`}
+              className="inline-flex items-center gap-2 text-sm text-white/80 transition hover:text-gold"
+            >
+              <Phone className="size-4 text-gold" />
+              {PHONE}
+            </a>
+            <a
+              href="mailto:hello@gothamhalal.com"
+              className="inline-flex items-center gap-2 text-sm text-white/80 transition hover:text-gold"
+            >
+              <Mail className="size-4 text-gold" />
+              hello@gothamhalal.com
+            </a>
+            <a
+              href={`mailto:${ORDER_EMAIL}`}
+              className="inline-flex items-center gap-2 text-sm text-white/80 transition hover:text-gold"
+            >
+              <Mail className="size-4 text-gold" />
+              Orders: {ORDER_EMAIL}
+            </a>
+          </div>
         </div>
 
         <div>
