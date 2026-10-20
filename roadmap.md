@@ -1,5 +1,5 @@
 # Website corrections
-- [ ] Correct sitemap URLs and crawler discovery; verify SEO fixes.
+- [x] Correct sitemap URLs and crawler discovery; verify SEO fixes.
 - [x] Redirect all ordering to the existing POS website and retire standalone ordering.
 - [x] Show Jefferson Road as open and identify it as behind Taco Bell.
 - [x] Match site accents and background artwork to the logo gold.
