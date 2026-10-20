@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { ORDER_URL, buildOrderUrl } from "./order";
+import { ORDER_EMAIL, ORDER_URL, buildOrderUrl } from "./order";
 import { LOCATIONS, OPEN_LOCATIONS } from "../data/locations";
 
 describe("POS ordering requirements", () => {

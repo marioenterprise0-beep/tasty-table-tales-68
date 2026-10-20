@@ -1,9 +1,12 @@
+import { ORDER_EMAIL } from "./order";
+
 /** Default where website leads are emailed. */
 export const LEAD_EMAIL = "hello@gothamhalal.com";
 
 /** Dedicated inboxes for specific lead types. */
 export const CATERING_EMAIL = "catering@gothamhalal.com";
 export const FRANCHISING_EMAIL = "Franchising@gothamhalal.com";
+export { ORDER_EMAIL };
 
 /**
  * Emails a lead notification via Resend when RESEND_API_KEY is configured.
