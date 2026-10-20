@@ -1,4 +1,5 @@
 # Website corrections
+- [ ] Polish dietary suggestions, catering and franchise forms, desktop hero, and header ordering controls; verify desktop/mobile.
 - [x] Publish dietary recommendations and walk the menu with vegetarian and gluten-free requests.
 - [x] Add and verify AI dietary recommendations on the menu.
 - [x] Correct sitemap URLs and crawler discovery; verify SEO fixes.
