@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { Leaf, LoaderCircle, ArrowRight, AlertTriangle } from "lucide-react";
+import { Leaf, LoaderCircle, ArrowRight, AlertTriangle, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { getDietaryRecommendations } from "@/lib/dietary.functions";
@@ -15,12 +15,12 @@ export function DietaryRecommendations({ dishes, onSelect }: { dishes: Item[]; o
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<DietaryOutput | null>(null);
   return (
-    <section aria-labelledby="dietary-title" className="mb-8 border-y border-gold/25 py-6">
-      <div className="grid gap-5 md:grid-cols-[1fr_2fr]">
-        <div>
-          <h2 id="dietary-title" className="display flex items-center gap-2 text-lg text-gold"><Leaf className="size-5" /> YOUR DIET, YOUR MENU</h2>
-          <p className="mt-2 text-sm text-muted-foreground">Dietary needs &amp; preferences</p>
-          <p className="mt-3 text-xs text-muted-foreground">AI-powered suggestions · Not medical advice</p>
+    <section aria-labelledby="dietary-title" className="mb-10 border-y border-gold/30 py-8 sm:py-10">
+      <div className="grid gap-7 lg:grid-cols-[0.85fr_1.4fr] lg:gap-14">
+        <div className="min-w-0">
+          <p className="mb-4 flex items-center gap-2 text-xs font-medium text-gold"><Sparkles className="size-4" /> AI-powered menu suggestions</p>
+          <h2 id="dietary-title" className="display text-2xl leading-tight text-foreground sm:text-3xl">YOUR DIET.<br /><span className="text-gold">YOUR MENU.</span></h2>
+          <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted-foreground">Dietary needs, flavor preferences, and a meal that sounds like you.</p>
         </div>
         <form onSubmit={async (event) => {
           event.preventDefault();
@@ -31,34 +31,43 @@ export function DietaryRecommendations({ dishes, onSelect }: { dishes: Item[]; o
             setResult(response.result); setError(response.error);
           } catch { setError("Recommendations are unavailable right now. Please ask our team."); }
           finally { setLoading(false); }
-        }} className="space-y-3">
-          <label htmlFor="dietary-needs" className="text-sm text-foreground">What would you like us to consider?</label>
+        }} className="min-w-0 space-y-3">
+          <label htmlFor="dietary-needs" className="block text-sm font-medium text-foreground">What are you in the mood for?</label>
           <Textarea id="dietary-needs" value={needs} onChange={(event) => setNeeds(event.target.value)} maxLength={600} required minLength={3}
-            placeholder="e.g. I'm vegetarian and prefer something not spicy" className="min-h-24 border-gold/30 bg-background text-foreground" />
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <span className="text-xs text-muted-foreground">{needs.length}/600</span>
-            <Button type="submit" disabled={loading || needs.trim().length < 3} className="bg-gold text-ink hover:bg-gold/90">
-              {loading ? <LoaderCircle className="animate-spin" /> : <Leaf />}{loading ? "Checking the menu…" : "Find menu matches"}
+            placeholder="I'm vegetarian and prefer something not spicy…" className="min-h-28 resize-y rounded-md border-input bg-card p-4 text-foreground placeholder:text-muted-foreground focus-visible:ring-gold" />
+          <div className="flex flex-wrap gap-2">
+            {[
+              { label: "Vegetarian", value: "I'm vegetarian." },
+              { label: "Gluten-free", value: "I need gluten-free options." },
+              { label: "Mild flavors", value: "I prefer mild flavors, nothing spicy." },
+            ].map((option) => <Button key={option.label} type="button" variant="outline" size="sm" disabled={loading} onClick={() => { setNeeds(option.value); setResult(null); setError(null); }} className="rounded-full border-border bg-transparent px-4 text-muted-foreground hover:border-gold hover:bg-gold/10 hover:text-foreground">{option.label}</Button>)}
+          </div>
+          <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
+            <span className="text-xs text-muted-foreground">{needs.length} / 600</span>
+            <Button type="submit" disabled={loading || needs.trim().length < 3} className="h-11 rounded-full px-6">
+              {loading ? <LoaderCircle className="animate-spin" /> : <Leaf />}{loading ? "Checking the menu…" : "Find my matches"}<ArrowRight />
             </Button>
           </div>
         </form>
       </div>
-      <p className="mt-5 flex items-start gap-2 text-xs leading-relaxed text-muted-foreground"><AlertTriangle className="mt-0.5 size-4 shrink-0 text-gold" />
-        Ingredients and kitchen cross-contact are not fully verified. For allergies or celiac disease, speak with our team before ordering.</p>
+      <p className="mt-6 flex max-w-3xl items-start gap-2 text-xs leading-relaxed text-muted-foreground"><AlertTriangle className="mt-0.5 size-4 shrink-0 text-gold" />
+        Ingredients and kitchen cross-contact are not fully verified. For allergies or celiac disease, speak with our team before ordering. Suggestions are not medical advice.</p>
       <div aria-live="polite" aria-busy={loading}>
         {error && <p role="alert" className="mt-4 text-sm text-destructive">{error}</p>}
-        {result && <div className="mt-5">
-          <p className="text-sm text-foreground">{result.summary}</p>
-          <ul className="mt-3 grid gap-4 md:grid-cols-3">
+        {result && <div className="mt-7 border-t border-border pt-7">
+          <p className="text-sm leading-relaxed text-foreground">{result.summary}</p>
+          <ul className="mt-5 grid gap-4 md:grid-cols-3">
             {result.matches.map((match) => {
               const dish = dishes.find((item) => item.id === match.itemId);
               if (!dish) return null;
-              return <li key={dish.id} className="flex flex-col border-l-2 border-gold pl-4">
-                <h3 className="display text-sm text-foreground">{dish.name}</h3>
-                <span className="mt-1 text-sm text-gold">{formatPrice(dish.price)}</span>
-                <p className="mt-2 text-sm text-muted-foreground">{match.reason}</p>
-                <p className="mt-2 text-xs text-muted-foreground">Confirm with our team: {match.checks}</p>
-                <Button type="button" variant="link" className="mt-auto justify-start px-0 text-gold" onClick={() => onSelect(dish.id)}>View item <ArrowRight /></Button>
+              return <li key={dish.id} className="flex min-w-0 flex-col rounded-lg border border-border bg-card p-5">
+                <div className="flex items-start justify-between gap-3">
+                  <h3 className="display text-sm leading-relaxed text-foreground">{dish.name}</h3>
+                  <span className="shrink-0 text-sm font-semibold text-gold">{formatPrice(dish.price)}</span>
+                </div>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{match.reason}</p>
+                <p className="mb-4 mt-4 border-t border-border pt-3 text-xs leading-relaxed text-muted-foreground">Confirm with our team: {match.checks}</p>
+                <Button type="button" variant="link" className="mt-auto justify-between px-0 text-gold" onClick={() => onSelect(dish.id)}>View item <ArrowRight /></Button>
               </li>;
             })}
           </ul>

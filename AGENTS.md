@@ -14,3 +14,4 @@
 - Use the shared gold token for brand accents and recolor existing artwork when the brand palette changes; preserve uploaded artwork composition.
 - Await GoHighLevel delivery for catering, careers, and franchise requests after saving the lead; fire-and-forget work can be lost when the server request ends.
 - Dietary recommendations use server-only Lovable AI calls and the active public menu; never certify allergy safety or invent menu items.
+- Request-form presentation uses shared FormSection groupings and scoped request-form styles; keep submission contracts and compliance disclosures unchanged when restyling.
