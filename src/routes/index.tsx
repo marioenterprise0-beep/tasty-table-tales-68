@@ -68,12 +68,12 @@ function Home() {
         <div aria-hidden="true" className="absolute inset-0 bg-ink/70 md:hidden" />
         <div className="relative z-20 mx-auto grid w-full max-w-[1500px] items-center gap-8 px-5 pb-14 pt-10 md:px-10 lg:grid-cols-[minmax(0,40%)_minmax(0,60%)] lg:gap-4 lg:pb-16 lg:pt-12">
           <div className="max-w-xl">
-            <h1 className="display text-[3.25rem] leading-[0.86] tracking-[-0.035em] text-white sm:text-[4rem] lg:text-[4.25rem] xl:text-[5rem]">
+            <h1 className="display text-[3.25rem] leading-[0.86] text-foreground sm:text-[4rem] lg:text-[4.25rem] xl:text-[5rem]">
               <span className="block">Bold.</span>
               <span className="block text-gold">Halal.</span>
               <span className="block">Gotham.</span>
             </h1>
-            <p className="mt-6 max-w-sm text-[17px] leading-snug text-white/90">
+            <p className="mt-6 max-w-sm text-[17px] leading-snug text-foreground/90">
               Halal smash burgers and loaded fries made fresh daily. Built for flavor. Made
               for you.
             </p>
@@ -89,8 +89,9 @@ function Home() {
               </Link>
             </div>
           </div>
-
-
+          <div className="hidden min-w-0 lg:block">
+            <img src={IMAGES.heroBurgers.src} alt={IMAGES.heroBurgers.alt} className="hero-food" fetchPriority="high" />
+          </div>
         </div>
       </section>
 

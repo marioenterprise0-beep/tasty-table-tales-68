@@ -2,6 +2,17 @@ import * as React from "react";
 import { Link } from "@tanstack/react-router";
 import { Label } from "@/components/ui/label";
 import { SMS_DISCLAIMER } from "@/data/forms";
+import { Check } from "lucide-react";
+
+export function FormSection({ number, title, children }: { number: string; title: string; children: React.ReactNode }) {
+  return <fieldset className="request-section min-w-0">
+    <legend className="mb-5 flex items-center gap-3 text-base font-semibold text-foreground">
+      <span className="flex size-7 items-center justify-center rounded-full border border-gold/40 text-xs text-gold">{number}</span>
+      {title}
+    </legend>
+    <div className="grid items-start gap-x-6 gap-y-5 sm:grid-cols-2">{children}</div>
+  </fieldset>;
+}
 
 export const selectClass =
   "h-10 w-full rounded-md border border-input bg-background px-3 text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring";
@@ -19,11 +30,11 @@ export function Field({
 }) {
   return (
     <div className="space-y-1.5">
-      <Label htmlFor={id} className="text-white/80">
+      <Label htmlFor={id} className="text-foreground/85">
         {label}
       </Label>
       {children}
-      {hint ? <p className="text-[11.5px] leading-snug text-white/45">{hint}</p> : null}
+      {hint ? <p className="text-xs leading-relaxed text-muted-foreground">{hint}</p> : null}
     </div>
   );
 }
@@ -31,7 +42,7 @@ export function Field({
 /** Small print required under every phone field. */
 export function PhoneDisclaimer() {
   return (
-    <p className="text-[11.5px] leading-snug text-white/45">
+    <p className="text-xs leading-relaxed text-muted-foreground">
       {SMS_DISCLAIMER} See our{" "}
       <Link to="/privacy" className="underline underline-offset-2 hover:text-gold">
         Privacy Policy
@@ -58,7 +69,7 @@ export function YesNo({
 }) {
   return (
     <fieldset className="space-y-2">
-      <legend className="text-sm text-white/80">{legend}</legend>
+      <legend className="text-sm text-foreground/85">{legend}</legend>
       <div className="flex gap-3">
         {[true, false].map((option) => (
           <label
@@ -86,9 +97,10 @@ export function YesNo({
 
 export function FormSuccess({ title, message }: { title: string; message: string }) {
   return (
-    <div className="rounded-2xl border border-gold/30 bg-white/[0.03] p-8 text-center">
+    <div className="rounded-lg border border-gold/30 bg-card p-8 text-center">
+      <Check className="mx-auto mb-4 size-8 text-gold" />
       <h3 className="display text-xl text-gold">{title}</h3>
-      <p className="mt-3 text-sm text-white/80">{message}</p>
+      <p className="mt-3 text-sm text-muted-foreground">{message}</p>
     </div>
   );
 }
