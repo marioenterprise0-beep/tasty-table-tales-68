@@ -1,5 +1,5 @@
 # Website corrections
-- [ ] Publish dietary recommendations and walk the menu with vegetarian and gluten-free requests.
+- [x] Publish dietary recommendations and walk the menu with vegetarian and gluten-free requests.
 - [x] Add and verify AI dietary recommendations on the menu.
 - [x] Correct sitemap URLs and crawler discovery; verify SEO fixes.
 - [x] Redirect all ordering to the existing POS website and retire standalone ordering.
