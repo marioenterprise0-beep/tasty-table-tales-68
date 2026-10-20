@@ -8,6 +8,13 @@
       "when": 1792458098864,
       "tag": "0000_disable_retired_website_order_inserts",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1792458233868,
+      "tag": "0001_scope_public_menu_and_location_reads",
+      "breakpoints": true
     }
   ]
 }
