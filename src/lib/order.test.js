@@ -16,4 +16,8 @@ describe("POS ordering requirements", () => {
     expect(OPEN_LOCATIONS.some((loc) => loc.slug === "jefferson-road")).toBe(true);
     expect(location?.orderUrl).toBe("https://ordergothamhalal.com");
   });
+
+  test("order questions go to the order inbox", () => {
+    expect(ORDER_EMAIL).toBe("order@gothamhalal.com");
+  });
 });
